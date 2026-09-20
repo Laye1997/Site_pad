@@ -3,7 +3,7 @@ x-app: &app
   build: .
   environment: &app-env
     DJANGO_SETTINGS_MODULE: config.settings.prod
-    DATABASE_URL: postgres://pad:pad@db:5432/pad
+    DATABASE_URL: postgres://pad:${POSTGRES_PASSWORD:-pad}@db:5432/pad
     DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:?Définir DJANGO_SECRET_KEY}
     DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1}
     WAGTAILADMIN_BASE_URL: ${WAGTAILADMIN_BASE_URL:-http://localhost:8000}
