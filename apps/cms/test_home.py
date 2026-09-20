@@ -79,7 +79,8 @@ def test_default_layout_order_and_removed_sections(home):
     assert html.index('id="hm-pres-title"') < html.index('id="hm-dg-title"')
     assert html.index('id="hm-dg-title"') < html.index('id="hm-news-title"')
     assert html.index('id="hm-news-title"') < html.index('id="hm-services-title"')
-    assert "Mouvement des navires" not in html
+    assert "Mouvement des navires" in html
+    assert "Heures de marées" in html
     for removed in ("hm-hub-title", "hm-pro-title", "hm-notices-title"):
         assert f'id="{removed}"' not in html
     assert "Faire des affaires au port" not in html
@@ -147,7 +148,8 @@ def test_optional_sections_show_live_ships_and_tender(home):
 
     html = _html(home)
 
-    assert "MV Aster" in html
+    assert "<strong>1</strong>" in html.split("hm-live")[1].split("</p>")[0]
+    assert "Attendus" in html
     assert "Acquisition de deux ascenseurs" in html
     assert 'href="/fr/nos-services/marchandises/"' in html
 

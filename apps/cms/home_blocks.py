@@ -543,7 +543,7 @@ def default_home_sections(page):
                         library_image_id(MARCHANDISES_FILE, MARCHANDISES_TITLE),
                     ),
                 ],
-                "show_movement": False,
+                "show_movement": True,
                 "movement_title": _("Mouvement des navires"),
             },
         ),

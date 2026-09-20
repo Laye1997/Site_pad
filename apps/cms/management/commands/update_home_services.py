@@ -57,6 +57,9 @@ class Command(BaseCommand):
             for section in raw:
                 if section["type"] != "service_band":
                     continue
+                if not section["value"].get("show_movement"):
+                    section["value"]["show_movement"] = True
+                    changed = True
                 services = section["value"]["services"]
                 for pos, label, path, _file, _title in TILES:
                     if pos >= len(services):

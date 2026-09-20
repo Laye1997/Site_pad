@@ -670,3 +670,21 @@ html:not(.js) .hm-pres-quote::before { width: 6rem; }
 .editorial-layout > article.prose { max-width: none; }
 .prose a[href*="/documents/"] { font-weight: 700; }
 @media (max-width: 900px) { .editorial-layout { grid-template-columns: 1fr; gap: 1.5rem; } .section-sidebar { position: static; } }
+
+/* Mouvement des navires : cases icônes sur fond bleu marine */
+.hm-icon-grid-5 { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+.hm-icon-grid-dark { background: rgba(255, 255, 255, .25); }
+.hm-icon-grid-dark a { background: var(--pad-navy); color: #fff; }
+.hm-icon-grid-dark a:hover, .hm-icon-grid-dark a:focus-visible { background: #0a3a86; box-shadow: inset 0 0 0 3px var(--pad-sea); }
+.hm-icon-grid-dark .icon { color: var(--pad-sea); }
+.hm-live { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; margin: 1rem 0 0; font-size: .9rem; }
+.hm-live strong { color: var(--pad-sea); font-family: var(--font-head); font-size: 1.1rem; }
+.hm-live-date { margin-left: auto; opacity: .85; }
+
+/* Offre de service et mouvement : grilles sans case vide */
+.hm-icon-grid-4 { grid-template-columns: repeat(2, 1fr); }
+.hm-icon-grid-5 { grid-template-columns: repeat(6, 1fr); }
+.hm-icon-grid-5 > li:nth-child(-n+3) { grid-column: span 2; }
+.hm-icon-grid-5 > li:nth-child(n+4) { grid-column: span 3; }
+.hm-icon-grid-5 a { min-height: 8.5rem; }
+@media (max-width: 480px) { .hm-icon-grid-5 { grid-template-columns: repeat(2, 1fr); } .hm-icon-grid-5 > li:nth-child(n) { grid-column: span 1; } .hm-icon-grid-5 > li:last-child { grid-column: span 2; } }
