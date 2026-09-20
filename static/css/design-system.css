@@ -580,3 +580,18 @@ figcaption { color: var(--ink-2); font-size: .85rem; }
 .hm-pres-quote figcaption { font-size: .9rem; }
 @media (max-width: 900px) { .hm-pres-top { grid-template-columns: 1fr; gap: 1.5rem; } }
 .hm-pres-quote p, .hm-pres h2 { text-wrap: balance; }
+
+/* Vision du Président — version fond neutre */
+.hm-pres { background: var(--surface); color: var(--ink); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.hm-pres .eyebrow { color: var(--pad-sea-strong); }
+.hm-pres h2 { color: var(--pad-navy); }
+.hm-pres-intro p { color: var(--ink-2); }
+.hm-pres-intro b { color: var(--pad-navy); }
+.hm-pres-photo img { box-shadow: 0 12px 30px rgba(5, 38, 96, .16); }
+.hm-pillar { background: var(--ground); border: 1px solid var(--line); border-top: 3px solid var(--pad-sea-strong); }
+.hm-pillar-number { background: var(--pad-navy); color: #fff; }
+.hm-pillar h3 { color: var(--pad-navy); }
+.hm-pillar p { color: var(--ink-2); }
+.hm-pres-quote { border-top: 1px solid var(--line); }
+.hm-pres-quote p { color: var(--pad-navy); }
+.hm-pres-quote figcaption { color: var(--pad-sea-strong); }
