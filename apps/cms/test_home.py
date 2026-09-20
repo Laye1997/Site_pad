@@ -350,3 +350,20 @@ def test_marchandises_section_is_developed_with_subnav_and_storage_tables(home):
     assert "20 jours" in html
     assert "Sea Invest" in manut
     assert "Manitowoc Grove GMK 5200" in manut
+
+
+@pytest.mark.django_db
+def test_update_home_services_adds_missing_section_after_news(home):
+    _compose(
+        home,
+        ("hero", {"eyebrow": "", "title": "Titre", "intro": ""}),
+        NEWS,
+        ("join", {"title": "Rejoignez", "items": []}),
+    )
+
+    call_command("update_home_services")
+    home.refresh_from_db()
+    kinds = [block.block_type for block in home.sections]
+
+    assert kinds == ["hero", "news", "service_band", "join"]
+    assert "Mouvement des navires" in _html(home)

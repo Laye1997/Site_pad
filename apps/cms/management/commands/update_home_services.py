@@ -16,6 +16,7 @@ from apps.cms.home_blocks import (
     MARCHANDISES_FILE,
     MARCHANDISES_TITLE,
     HomeSectionsBlock,
+    default_home_sections,
     library_image_id,
 )
 from apps.cms.models import HomePage
@@ -54,6 +55,17 @@ class Command(BaseCommand):
                 for b in home.sections
             ]
             changed = False
+            if raw and not any(section["type"] == "service_band" for section in raw):
+                # Page créée avant cette section : on l'ajoute juste après les actualités.
+                kind, value = next(
+                    (k, v) for k, v in default_home_sections(home) if k == "service_band"
+                )
+                built = HomeSectionsBlock().to_python([{"type": kind, "value": value}])
+                new = {"type": kind, "value": built[0].block.get_prep_value(built[0].value)}
+                types = [section["type"] for section in raw]
+                raw.insert(types.index("news") + 1 if "news" in types else len(raw), new)
+                changed = True
+                self.stdout.write(f"{home.title} : section « Offre de service » ajoutée.")
             for section in raw:
                 if section["type"] != "service_band":
                     continue
