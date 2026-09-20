@@ -1,6 +1,7 @@
 # Développement / recette. Renseigner DJANGO_SECRET_KEY (ex. dans un fichier .env non versionné).
 x-app: &app
   build: .
+  restart: unless-stopped
   environment: &app-env
     DJANGO_SETTINGS_MODULE: config.settings.prod
     DATABASE_URL: postgres://pad:${POSTGRES_PASSWORD:-pad}@db:5432/pad
@@ -22,6 +23,7 @@ x-app: &app
 services:
   db:
     image: postgres:16-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_DB: pad
       POSTGRES_USER: pad
@@ -35,6 +37,7 @@ services:
 
   redis:
     image: redis:7-alpine
+    restart: unless-stopped
 
   web:
     <<: *app
@@ -50,6 +53,7 @@ services:
 
   nginx:
     image: nginx:1.27-alpine
+    restart: unless-stopped
     volumes:
       - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - media:/app/media:ro
