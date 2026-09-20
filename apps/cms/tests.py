@@ -47,7 +47,7 @@ def test_homepage_exposes_seo_metadata():
     assert expected_canonical in content
     assert '<meta property="og:type" content="website">' in content
     assert '<meta name="twitter:card" content="summary_large_image">' in content
-    assert "/static/img/og-pad.svg" in content
+    assert "/static/img/og-pad.jpg" in content
 
 
 @pytest.mark.django_db
