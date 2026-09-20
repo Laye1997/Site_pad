@@ -48,7 +48,7 @@ docker compose exec -T web python manage.py setup_site --host "${IP}" --port "${
 
 # 4. Contenu de départ (sans écraser ce qui existe)
 for cmd in seed_site_structure seed_legal_pages seed_home_sections seed_partners \
-           seed_certifications seed_passation_article seed_old_articles seed_ndayane_article; do
+           seed_certifications seed_trafic_passagers seed_marchandises seed_agrements seed_passation_article seed_old_articles seed_ndayane_article; do
   echo ">> ${cmd}"
   docker compose exec -T web python manage.py "${cmd}" || echo "   (ignoré : ${cmd} a échoué)"
 done

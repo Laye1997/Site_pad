@@ -290,6 +290,12 @@ class Command(BaseCommand):
                     service.body = body
                     service.save(update_fields=["summary", "body"])
                     service.save_revision().publish()
+                    # Les photos de l'ancien site sont réinsérées après chaque mise à jour du texte.
+                    from apps.cms.management.commands.update_service_nautique import (
+                        apply_nautique_images,
+                    )
+
+                    apply_nautique_images(service)
                 continue
             service = ServicePage(
                 title=title,

@@ -8,7 +8,7 @@ from django.test import Client, override_settings
 from wagtail.models import Page, Site
 
 from apps.cms.home_blocks import HomeSectionsBlock
-from apps.cms.models import HomePage
+from apps.cms.models import HomePage, StandardPage
 from apps.marches.models import AppelOffre
 from apps.media.models import ArticlePage, MediaIndexPage
 from apps.navires.models import Escale
@@ -78,7 +78,9 @@ def test_default_layout_order_and_removed_sections(home):
     assert html.index('id="joj-title"') < html.index('id="hm-pres-title"')
     assert html.index('id="hm-pres-title"') < html.index('id="hm-dg-title"')
     assert html.index('id="hm-dg-title"') < html.index('id="hm-news-title"')
-    for removed in ("hm-services-title", "hm-hub-title", "hm-pro-title", "hm-notices-title"):
+    assert html.index('id="hm-news-title"') < html.index('id="hm-services-title"')
+    assert "Mouvement des navires" not in html
+    for removed in ("hm-hub-title", "hm-pro-title", "hm-notices-title"):
         assert f'id="{removed}"' not in html
     assert "Faire des affaires au port" not in html
     assert "Rejoignez le port" not in html
@@ -185,8 +187,14 @@ def test_seed_home_sections_makes_default_layout_editable_and_is_idempotent(home
     home.refresh_from_db()
     kinds = [block.block_type for block in home.sections]
 
-    assert kinds[:5] == ["hero", "sponsoring", "president_vision", "director_word", "news"]
-    assert "service_band" not in kinds
+    assert kinds[:6] == [
+        "hero",
+        "sponsoring",
+        "president_vision",
+        "director_word",
+        "news",
+        "service_band",
+    ]
     _compose(home, ("hero", {"eyebrow": "", "title": "Perso", "intro": ""}))
     call_command("seed_home_sections")
     home.refresh_from_db()
@@ -238,3 +246,105 @@ def test_setup_site_moves_pages_under_home_and_removes_default_welcome_page():
     assert home.get_children().filter(slug="nous-decouvrir").exists()
     assert Page.objects.filter(depth=2).count() == 1
     assert root.pk
+
+
+@pytest.mark.django_db
+def test_update_home_services_puts_photo_on_first_tile_and_is_idempotent(home):
+    call_command("seed_home_sections")
+    call_command("update_home_services")
+    call_command("update_home_services")
+
+    html = _html(home)
+    tiles = html.split('id="hm-services-title"')[1].split("</ul>")[0]
+
+    assert "Accès nautique et balisage" in tiles
+    assert "Accueil navires" not in tiles
+    assert 'class="has-photo"' in tiles
+    assert tiles.count('class="has-photo"') == 4
+    assert "Trafic passagers" in tiles
+    assert 'href="/fr/nos-services/acces-nautique-et-balisage/"' in tiles
+
+
+@pytest.mark.django_db
+def test_nautique_page_gets_both_photos_once_and_after_reseed(home):
+    from apps.services.models import ServicePage
+
+    call_command("seed_site_structure")
+    call_command("update_service_nautique")
+    call_command("update_service_nautique")
+    call_command("seed_site_structure")
+
+    page = ServicePage.objects.get(slug="acces-nautique-et-balisage")
+    images = [b for b in page.body if b.block_type == "image"]
+    html = Client().get(page.url).content.decode()
+
+    assert len(images) == 2
+    assert "Samba Laobé Fall" in html
+    assert "bouée rouge" in html
+    assert html.index("Samba Laobé Fall") < html.index("bouée rouge")
+
+
+@pytest.mark.django_db
+def test_trafic_passagers_section_has_subnav_tables_and_is_idempotent(home):
+    call_command("seed_site_structure")
+    call_command("seed_trafic_passagers")
+    call_command("seed_trafic_passagers")
+    from apps.services.models import ServicePage
+
+    goree = ServicePage.objects.get(slug="dakar-goree")
+    html = Client().get(goree.url).content.decode()
+    index_html = Client().get(goree.get_parent().url).content.decode()
+
+    assert 'class="service-subnav"' in html
+    for title in ("Gare maritime", "Dakar-Ziguinchor", "Dakar-Gorée", "Politique Sûreté GMID"):
+        assert title in html
+    assert 'aria-current="page">Dakar-Gorée' in html
+    assert '<th scope="col">Départ de Dakar</th>' in html
+    assert "23h30 le vendredi" in html
+    assert "1 500 F CFA" in html
+    assert "800 801 802" in index_html
+    assert html.count("<h1") == 1
+
+
+@pytest.mark.django_db
+def test_agrements_pages_offer_pdf_downloads_and_home_tile_points_to_them(home):
+    call_command("seed_site_structure")
+    call_command("seed_agrements")
+    call_command("seed_agrements")
+    call_command("seed_home_sections", "--force")
+
+    page = StandardPage.objects.get(slug="obtenir-un-agrement")
+    html = Client().get(page.url).content.decode()
+    renew = Client().get(StandardPage.objects.get(slug="renouveler-son-agrement").url)
+    forms = StandardPage.objects.get(slug="formulaires-declaration-chiffres-affaires")
+    forms_html = Client().get(forms.url).content.decode()
+    home_html = _html(home)
+
+    assert "Profession de transitaire" in html
+    assert html.count("/documents/") >= 7
+    assert "Liste des pièces à fournir" in html
+    assert "https://atlantis.portdakar.sn" in html
+    assert renew.status_code == 200
+    assert forms_html.count("/documents/") >= 5
+    assert "/opportunites-affaires/procedures-agrements/obtenir-un-agrement/" in home_html
+
+
+@pytest.mark.django_db
+def test_marchandises_section_is_developed_with_subnav_and_storage_tables(home):
+    from apps.services.models import ServicePage
+
+    call_command("seed_site_structure")
+    call_command("seed_marchandises")
+    call_command("seed_marchandises")
+
+    stock = ServicePage.objects.get(slug="stockage-entreposage")
+    html = Client().get(stock.url).content.decode()
+    manut = Client().get(ServicePage.objects.get(slug="manutention").url).content.decode()
+
+    assert 'class="service-subnav"' in html
+    for title in ("Manutention", "Stockage", "Enlèvement de marchandises"):
+        assert title in html
+    assert "98 351 m²" in html
+    assert "20 jours" in html
+    assert "Sea Invest" in manut
+    assert "Manitowoc Grove GMK 5200" in manut

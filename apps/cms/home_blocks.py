@@ -39,6 +39,11 @@ class LinkItemBlock(blocks.StructBlock):
         label="Chemin de la page (si aucune page choisie)",
         help_text="Ex. nos-services/marchandises, ou une adresse complète (https://…).",
     )
+    image = ImageChooserBlock(
+        required=False,
+        label="Photo (remplace l'icône)",
+        help_text="Optionnel. Le libellé sert de texte alternatif : la photo est décorative.",
+    )
 
     class Meta:
         icon = "link"
@@ -419,8 +424,39 @@ DG_WORD_HTML = (
 )
 
 
-def _link(label, icon, url_path):
-    return {"label": label, "icon": icon, "page": None, "url_path": url_path}
+def _link(label, icon, url_path, image=None):
+    return {"label": label, "icon": icon, "page": None, "url_path": url_path, "image": image}
+
+
+def library_image_id(static_name: str, title: str):
+    """Identifiant d'une image de la médiathèque Wagtail, créée depuis static/img si absente."""
+    from pathlib import Path
+
+    from django.conf import settings
+    from django.core.files import File
+    from wagtail.images.models import Image
+
+    existing = Image.objects.filter(title=title).first()
+    if existing:
+        return existing.pk
+    path = Path(settings.BASE_DIR) / "static" / "img" / static_name
+    if not path.exists():
+        return None
+    with path.open("rb") as handle:
+        image = Image(title=title)
+        image.file.save(path.name, File(handle), save=False)
+        image.save()
+    return image.pk
+
+
+BALISEUR_TITLE = "Baliseur Samba Laobé Fall"
+BALISEUR_FILE = "baliseur-samba-laobe-fall.jpg"
+GOREE_TITLE = "Vue aérienne de l'île de Gorée"
+GOREE_FILE = "origine/dakargoree_0.jpg"
+AGREMENT_TITLE = "Signature de dossiers d'agrément"
+AGREMENT_FILE = "agrement-dossier.jpg"
+MARCHANDISES_TITLE = "Chargement de marchandises au port"
+MARCHANDISES_FILE = "marchandises-chargement.jpg"
 
 
 def default_home_sections(page):
@@ -476,6 +512,40 @@ def default_home_sections(page):
         (
             "news",
             {"title": _("Actualités"), "count": 4, "all_link_label": _("Toutes les actualités")},
+        ),
+        (
+            "service_band",
+            {
+                "services_title": _("Offre de service"),
+                "services": [
+                    _link(
+                        _("Accès nautique et balisage"),
+                        "ship",
+                        "nos-services/acces-nautique-et-balisage",
+                        library_image_id(BALISEUR_FILE, BALISEUR_TITLE),
+                    ),
+                    _link(
+                        _("Trafic passagers"),
+                        "user",
+                        "nos-services/trafic-passagers",
+                        library_image_id(GOREE_FILE, GOREE_TITLE),
+                    ),
+                    _link(
+                        _("Obtenir un agrément"),
+                        "check",
+                        "opportunites-affaires/procedures-agrements/obtenir-un-agrement",
+                        library_image_id(AGREMENT_FILE, AGREMENT_TITLE),
+                    ),
+                    _link(
+                        _("Marchandises"),
+                        "doc",
+                        "nos-services/marchandises",
+                        library_image_id(MARCHANDISES_FILE, MARCHANDISES_TITLE),
+                    ),
+                ],
+                "show_movement": False,
+                "movement_title": _("Mouvement des navires"),
+            },
         ),
     ]
     figures = [

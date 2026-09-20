@@ -18,6 +18,7 @@ media/
 img site origine/
 portdakar-documents-pdf/
 *.pdf
+!data/documents/**/*.pdf
 *.mov
 jo.png
 diomaye.*

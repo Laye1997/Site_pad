@@ -84,6 +84,20 @@ class ServicePage(SocialMetadataMixin, Page):
         verbose_name = "Page de service"
         verbose_name_plural = "Pages de service"
 
+    def get_context(self, request, *args, **kwargs):
+        """Fil d'Ariane et menu latéral : la rubrique (ou la page elle-même) et ses sous-pages."""
+        context = super().get_context(request, *args, **kwargs)
+        parent = self.get_parent().specific
+        section = parent if isinstance(parent, ServicePage) else self
+        context["section"] = section
+        context["subnav"] = list(section.get_children().live().public().specific())
+        context["breadcrumbs"] = [
+            page
+            for page in self.get_ancestors().live().specific()
+            if page.depth > 2  # sans la racine et l'accueil
+        ]
+        return context
+
     def clean(self):
         super().clean()
         if self.illustration and not self.illustration_alt.strip():
