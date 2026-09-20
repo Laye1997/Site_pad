@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Connexion espace pro" %}{% endblock %}
+
+{% block content %}
+  <section class="hero" aria-labelledby="pro-login-title">
+    <p class="eyebrow">{% translate "Services en ligne" %}</p>
+    <h1 id="pro-login-title">{% translate "Espace professionnel" %}</h1>
+    <p class="hero-intro">{% translate "Accédez à vos services et démarches portuaires." %}</p>
+  </section>
+  <form class="application-form prose" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="form-field">{{ form.username.label_tag }}{{ form.username }}{{ form.username.errors }}</div>
+    <div class="form-field">{{ form.password.label_tag }}{{ form.password }}{{ form.password.errors }}</div>
+    <input type="hidden" name="next" value="{{ next }}">
+    <button class="btn" type="submit">{% translate "Se connecter" %}</button>
+  </form>
+{% endblock %}

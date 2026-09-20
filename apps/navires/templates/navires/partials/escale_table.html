@@ -1,0 +1,36 @@
+{% load i18n %}
+<div class="table-wrap" aria-live="polite">
+  <table>
+    <caption class="sr-only">{% translate "Liste des escales" %}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{% translate "Navire" %}</th>
+        <th scope="col">{% translate "Type" %}</th>
+        <th scope="col">{% translate "Pavillon" %}</th>
+        <th scope="col">{% translate "Provenance / destination" %}</th>
+        <th scope="col">{% translate "Quai" %}</th>
+        <th scope="col">{% translate "Arrivée" %}</th>
+        <th scope="col">{% translate "Départ" %}</th>
+        <th scope="col">{% translate "Statut" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for escale in escales %}
+        <tr>
+          <td>{{ escale.navire }}</td>
+          <td>{{ escale.get_type_navire_display }}</td>
+          <td>{{ escale.pavillon }}</td>
+          <td>{{ escale.provenance }} / {{ escale.destination }}</td>
+          <td>{{ escale.quai|default:"—" }}</td>
+          <td>{{ escale.date_arrivee|date:"d/m/Y" }}</td>
+          <td>{{ escale.date_depart|date:"d/m/Y"|default:"—" }}</td>
+          <td><span class="status-badge status-{{ escale.statut }}">{{ escale.get_statut_display }}</span></td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="8">{% translate "Aucune escale pour ce filtre." %}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Mouvement des navires" %}{% endblock %}
+
+{% block content %}
+  <section class="hero" aria-labelledby="navires-title">
+    <p class="eyebrow">{% translate "Trafic maritime" %}</p>
+    <h1 id="navires-title">{% translate "Mouvement des navires" %}</h1>
+    <p class="hero-intro">{% translate "Suivez les arrivées, les escales à quai et les départs du port de Dakar." %}</p>
+  </section>
+
+  <section aria-labelledby="filtre-title" class="prose">
+    <h2 id="filtre-title">{% translate "Filtrer par activité" %}</h2>
+    <nav class="filter-list" aria-label="{% translate 'Filtrer les escales' %}">
+      {% for key, config in filtres.items %}
+        <a
+          href="?filtre={{ key }}"
+          class="btn btn-secondary"
+          {% if key == filtre_actif %}aria-current="page"{% endif %}
+          hx-get="{% url 'navires:liste' %}?filtre={{ key }}"
+          hx-target="#escale-table-container"
+          hx-push-url="true"
+        >{{ config.label }}</a>
+      {% endfor %}
+    </nav>
+  </section>
+
+  <section aria-labelledby="tableau-title" class="prose">
+    <h2 id="tableau-title">{% translate "Évolution du trafic" %}</h2>
+    <div id="escale-table-container" aria-live="polite">
+      {% include "navires/partials/escale_table.html" %}
+    </div>
+  </section>
+{% endblock %}

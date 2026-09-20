@@ -1,0 +1,43 @@
+{% load i18n core_tags %}
+<section class="hm-service-band{% if not movement %} hm-service-band-single{% endif %}" aria-labelledby="hm-services-title">
+  <div class="hm-panel hm-panel-light">
+    <h2 id="hm-services-title" class="hm-title">{{ value.services_title }}</h2>
+    <ul class="hm-icon-grid hm-icon-grid-4">
+      {% for item in value.services %}
+        <li><a href="{% link_url item %}"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-{{ item.icon }}"></use></svg><span>{{ item.label }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% if movement %}
+    <div class="hm-panel hm-panel-dark">
+      <h2 class="hm-title">{{ value.movement_title }}</h2>
+      <dl class="hm-counters">
+        <div><dt>{% translate "Attendus" %}</dt><dd>{{ movement.attendus }}</dd></div>
+        <div><dt>{% translate "À quai" %}</dt><dd>{{ movement.a_quai }}</dd></div>
+        <div><dt>{% translate "Partis" %}</dt><dd>{{ movement.partis }}</dd></div>
+      </dl>
+      {% if movement.prochaines %}
+        <ul class="hm-next">
+          {% for escale in movement.prochaines %}
+            <li>
+              <span>{{ escale.navire }}</span>
+              <time datetime="{{ escale.date_arrivee|date:'Y-m-d' }}">{{ escale.date_arrivee|date:"d/m/Y" }}</time>
+              <span class="status-badge status-{{ escale.statut }}">{{ escale.get_statut_display }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      <ul class="hm-links">
+        <li><a href="{% url 'navires:liste' %}?filtre=arrivees">{% translate "Arrivées" %}</a></li>
+        <li><a href="{% url 'navires:liste' %}?filtre=a_quai">{% translate "Navires à quai" %}</a></li>
+        <li><a href="{% url 'navires:liste' %}?filtre=departs">{% translate "Départs" %}</a></li>
+        <li><a href="{% slug_url 'infos-pratiques/heures-de-marees' %}">{% translate "Heures de marées" %}</a></li>
+        <li><a href="{% slug_url 'infos-pratiques/croisieres' %}">{% translate "Croisières" %}</a></li>
+      </ul>
+      <p class="hm-foot">
+        <a class="text-link" href="{% url 'navires:liste' %}">{% translate "Consulter les escales" %} <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></a>
+        {% if movement.updated_at %}<span>{% translate "Mis à jour le" %} <time datetime="{{ movement.updated_at|date:'c' }}">{{ movement.updated_at|date:"d/m/Y H:i" }}</time></span>{% endif %}
+      </p>
+    </div>
+  {% endif %}
+</section>

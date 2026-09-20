@@ -1,0 +1,734 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pad-site\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/base.html
+msgid ""
+"Port Autonome de Dakar — hub logistique et maritime d'Afrique de l'Ouest."
+msgstr "Port of Dakar — West Africa's logistics and maritime hub."
+
+#: templates/base.html
+msgid "Aller au contenu principal"
+msgstr "Skip to main content"
+
+#: templates/base.html
+msgid "Ouvrir le menu principal"
+msgstr "Open the main menu"
+
+#: templates/base.html
+msgid "Accueil"
+msgstr "Home"
+
+#: templates/base.html
+msgid "Le Port"
+msgstr "The Port"
+
+#: templates/base.html
+msgid "Opérations portuaires"
+msgstr "Port operations"
+
+#: templates/base.html
+msgid "Navires"
+msgstr "Vessels"
+
+#: templates/base.html
+msgid "Opportunités"
+msgstr "Opportunities"
+
+#: apps/marches/templates/marches/marche_list.html templates/base.html
+msgid "Marchés publics"
+msgstr "Public tenders"
+
+#: templates/base.html
+msgid "Média"
+msgstr "Media"
+
+#: apps/espace_pro/templates/espace_pro/dashboard.html
+#: apps/espace_pro/templates/espace_pro/login.html templates/base.html
+msgid "Services en ligne"
+msgstr "Online services"
+
+#: apps/cms/home_blocks.py templates/base.html
+msgid "Espace Pro"
+msgstr "Professional area"
+
+#: templates/base.html
+msgid "Recrutement"
+msgstr "Careers"
+
+#: templates/base.html
+msgid "Votre connexion au monde"
+msgstr "Your connection to the world"
+
+#: templates/base.html
+msgid "Informations"
+msgstr "Information"
+
+#: templates/base.html
+msgid "Contacts"
+msgstr "Contact"
+
+#: templates/base.html
+msgid "Gérer mes cookies"
+msgstr "Manage my cookies"
+
+#: templates/base.html
+msgid "Numéro vert"
+msgstr "Toll-free number"
+
+#: templates/base.html
+msgid "Suivez-nous"
+msgstr "Follow us"
+
+#: templates/base.html
+msgid "nouvelle fenêtre"
+msgstr "new window"
+
+#: templates/base.html
+msgid "Vos données, votre choix"
+msgstr "Your data, your choice"
+
+#: templates/base.html
+msgid ""
+"Ce site n'utilise que les cookies nécessaires à son fonctionnement. Avec "
+"votre accord, nous mesurons aussi l'audience de façon anonyme pour améliorer"
+" nos services. Aucun traceur n'est déposé avant votre choix."
+msgstr ""
+"This site only uses the cookies required for it to work. With your consent, "
+"we also measure audience anonymously to improve our services. No tracker is "
+"set before you choose."
+
+#: templates/base.html
+msgid "Accepter"
+msgstr "Accept"
+
+#: templates/base.html
+msgid "Refuser"
+msgstr "Refuse"
+
+#: templates/base.html
+msgid "Accueil du Port Autonome de Dakar"
+msgstr "Port of Dakar home page"
+
+#: templates/base.html
+msgid "Fermer le menu principal"
+msgstr "Close the main menu"
+
+#: templates/base.html
+msgid "Navigation principale"
+msgstr "Main navigation"
+
+#: templates/base.html
+msgid "Choix de la langue"
+msgstr "Language selection"
+
+#: templates/base.html templates/search.html
+msgid "Rechercher sur le site"
+msgstr "Search the site"
+
+#: templates/base.html
+msgid "Appeler le numéro vert 800 801 802"
+msgstr "Call the toll-free number 800 801 802"
+
+#: templates/base.html
+msgid "Voir les contacts et la localisation"
+msgstr "View contact details and location"
+
+#: templates/base.html
+msgid "Informations légales"
+msgstr "Legal information"
+
+#: templates/search.html
+msgid "Recherche"
+msgstr "Search"
+
+#: templates/search.html
+msgid "Rechercher"
+msgstr "Search"
+
+#: templates/search.html
+msgid "résultat(s) pour"
+msgstr "result(s) for"
+
+#: templates/search.html
+msgid "Aucun résultat. Essayez d'autres mots-clés."
+msgstr "No results. Try other keywords."
+
+#: apps/media/templates/media/partials/article_grid.html templates/search.html
+msgid "Précédent"
+msgstr "Previous"
+
+#: apps/media/templates/media/partials/article_grid.html templates/search.html
+msgid "Suivant"
+msgstr "Next"
+
+#: templates/search.html
+msgid "Pagination des résultats"
+msgstr "Results pagination"
+
+#: apps/cms/templates/cms/home/business.html
+#: apps/marches/templates/marches/partials/marche_table.html
+msgid "Date limite"
+msgstr "Deadline"
+
+#: apps/cms/templates/cms/home/business.html
+msgid "Aucun appel d'offres ouvert actuellement."
+msgstr "No call for tenders is currently open."
+
+#: apps/cms/templates/cms/home/business.html
+msgid "Appels d'offres"
+msgstr "Calls for tenders"
+
+#: apps/cms/templates/cms/home/business.html
+msgid "Avis d'attribution"
+msgstr "Award notices"
+
+#: apps/cms/templates/cms/home/business.html
+msgid "Plan de passation"
+msgstr "Procurement plan"
+
+#: apps/cms/templates/cms/home/director_word.html
+msgid "Le Directeur Général du Port Autonome de Dakar"
+msgstr "The Director General of the Port of Dakar"
+
+#: apps/cms/templates/cms/home/explore.html
+msgid "Rubrique du site"
+msgstr "Site section"
+
+#: apps/cms/templates/cms/home/explore.html
+msgid "Découvrir"
+msgstr "Discover"
+
+#: apps/cms/templates/cms/home/hero.html
+msgid "Mettre la vidéo en pause"
+msgstr "Pause the video"
+
+#: apps/cms/templates/cms/home/hero.html
+msgid "Lire la vidéo"
+msgstr "Play the video"
+
+#: apps/cms/templates/cms/home/hub.html
+msgid "Portique de quai du Port Autonome de Dakar"
+msgstr "Quay crane at the Port of Dakar"
+
+#: apps/cms/templates/cms/home/news.html
+msgid "Lire plus"
+msgstr "Read more"
+
+#: apps/cms/templates/cms/home/news.html
+msgid "Aucune actualité publiée pour le moment."
+msgstr "No news published yet."
+
+#: apps/cms/templates/cms/home/notices.html
+msgid "Aucune note aux usagers en cours."
+msgstr "No current notice to port users."
+
+#: apps/cms/templates/cms/home/notices.html
+msgid "Chiffres clés et répartition du trafic du Port Autonome de Dakar"
+msgstr "Key figures and traffic breakdown of the Port of Dakar"
+
+#: apps/cms/templates/cms/home/partners_certs.html
+msgid "Qualité, sécurité, environnement"
+msgstr "Quality, safety, environment"
+
+#: apps/cms/templates/cms/home/partners_certs.html
+msgid "Certificat valide"
+msgstr "Valid certificate"
+
+#: apps/cms/templates/cms/home/partners_certs.html
+#: apps/qualite/templates/qualite/page_qse.html
+msgid "Organisme"
+msgstr "Certification body"
+
+#: apps/cms/templates/cms/home/partners_certs.html
+#: apps/qualite/templates/qualite/page_qse.html
+msgid "Valide jusqu'au"
+msgstr "Valid until"
+
+#: apps/cms/templates/cms/home/partners_certs.html
+#: apps/qualite/templates/qualite/page_qse.html
+msgid "Télécharger le certificat"
+msgstr "Download the certificate"
+
+#: apps/cms/templates/cms/home/partners_certs.html
+#: apps/qualite/templates/qualite/page_qse.html
+msgid "Les certifications seront bientôt publiées."
+msgstr "Certifications will be published soon."
+
+#: apps/cms/templates/cms/home/partners_certs.html
+msgid "Écosystème portuaire"
+msgstr "Port ecosystem"
+
+#: apps/cms/templates/cms/home/partners_certs.html
+msgid "Les partenaires du port seront bientôt présentés ici."
+msgstr "The port's partners will soon be presented here."
+
+#: apps/cms/templates/cms/home/service_band.html
+msgid "Attendus"
+msgstr "Expected"
+
+#: apps/cms/templates/cms/home/service_band.html
+msgid "À quai"
+msgstr "Alongside"
+
+#: apps/cms/templates/cms/home/service_band.html
+msgid "Partis"
+msgstr "Departed"
+
+#: apps/cms/templates/cms/home/service_band.html
+msgid "Arrivées"
+msgstr "Arrivals"
+
+#: apps/cms/templates/cms/home/service_band.html
+msgid "Navires à quai"
+msgstr "Vessels alongside"
+
+#: apps/cms/templates/cms/home/service_band.html
+msgid "Départs"
+msgstr "Departures"
+
+#: apps/cms/templates/cms/home/service_band.html
+msgid "Heures de marées"
+msgstr "Tide times"
+
+#: apps/cms/templates/cms/home/service_band.html
+msgid "Croisières"
+msgstr "Cruises"
+
+#: apps/cms/templates/cms/home/service_band.html
+msgid "Consulter les escales"
+msgstr "View port calls"
+
+#: apps/cms/templates/cms/home/service_band.html
+msgid "Mis à jour le"
+msgstr "Updated on"
+
+#: apps/cms/templates/cms/home/sponsoring.html
+msgid "Mettre la vidéo des JOJ en pause"
+msgstr "Pause the YOG video"
+
+#: apps/cms/templates/cms/home/sponsoring.html
+msgid "Vidéo du Port Autonome de Dakar partenaire officiel des JOJ Dakar 2026"
+msgstr ""
+"Video: the Port of Dakar, official partner of the Dakar 2026 Youth Olympic "
+"Games"
+
+#: apps/cms/templates/cms/home/sponsoring.html
+msgid "Lire la vidéo des JOJ"
+msgstr "Play the YOG video"
+
+#: apps/espace_pro/templates/espace_pro/dashboard.html
+msgid "Tableau de bord professionnel"
+msgstr "Professional dashboard"
+
+#: apps/espace_pro/templates/espace_pro/dashboard.html
+msgid "Bonjour"
+msgstr "Hello"
+
+#: apps/espace_pro/templates/espace_pro/dashboard.html
+msgid ""
+"Votre espace professionnel est prêt à accueillir les prochaines démarches "
+"portuaires."
+msgstr "Your professional area is ready for upcoming port procedures."
+
+#: apps/espace_pro/templates/espace_pro/dashboard.html
+msgid "Vos services"
+msgstr "Your services"
+
+#: apps/espace_pro/templates/espace_pro/dashboard.html
+msgid "À venir"
+msgstr "Coming soon"
+
+#: apps/espace_pro/templates/espace_pro/dashboard.html
+msgid "Démarches portuaires"
+msgstr "Port procedures"
+
+#: apps/espace_pro/templates/espace_pro/dashboard.html
+msgid ""
+"Le raccordement au portail de services sera disponible dans cette rubrique."
+msgstr ""
+"The connection to the service portal will be available in this section."
+
+#: apps/espace_pro/templates/espace_pro/dashboard.html
+msgid "Compte"
+msgstr "Account"
+
+#: apps/espace_pro/templates/espace_pro/dashboard.html
+msgid "Votre profil"
+msgstr "Your profile"
+
+#: apps/espace_pro/templates/espace_pro/dashboard.html
+msgid "Se déconnecter"
+msgstr "Log out"
+
+#: apps/espace_pro/templates/espace_pro/login.html
+msgid "Connexion espace pro"
+msgstr "Professional area login"
+
+#: apps/espace_pro/templates/espace_pro/login.html
+msgid "Espace professionnel"
+msgstr "Professional area"
+
+#: apps/espace_pro/templates/espace_pro/login.html
+msgid "Accédez à vos services et démarches portuaires."
+msgstr "Access your services and port procedures."
+
+#: apps/espace_pro/templates/espace_pro/login.html
+msgid "Se connecter"
+msgstr "Log in"
+
+#: apps/marches/templates/marches/marche_list.html
+msgid "Transparence et commande publique"
+msgstr "Transparency and public procurement"
+
+#: apps/marches/templates/marches/marche_list.html
+msgid ""
+"Consultez les appels d'offres, avis d'attribution et plans de passation du "
+"Port Autonome de Dakar."
+msgstr ""
+"Browse the calls for tenders, award notices and procurement plans of the "
+"Port of Dakar."
+
+#: apps/marches/templates/marches/marche_list.html
+msgid "Filtrer les publications"
+msgstr "Filter publications"
+
+#: apps/marches/templates/marches/marche_list.html
+msgid "Publications"
+msgstr "Publications"
+
+#: apps/marches/templates/marches/marche_list.html
+msgid "Filtrer les marchés publics"
+msgstr "Filter public tenders"
+
+#: apps/marches/templates/marches/partials/marche_table.html
+msgid "Liste des marchés publics"
+msgstr "List of public tenders"
+
+#: apps/marches/templates/marches/partials/marche_table.html
+msgid "Référence"
+msgstr "Reference"
+
+#: apps/marches/templates/marches/partials/marche_table.html
+msgid "Objet"
+msgstr "Subject"
+
+#: apps/marches/templates/marches/partials/marche_table.html
+#: apps/navires/templates/navires/partials/escale_table.html
+msgid "Type"
+msgstr "Type"
+
+#: apps/marches/templates/marches/partials/marche_table.html
+msgid "Publication"
+msgstr "Published"
+
+#: apps/marches/templates/marches/partials/marche_table.html
+#: apps/navires/templates/navires/partials/escale_table.html
+msgid "Statut"
+msgstr "Status"
+
+#: apps/marches/templates/marches/partials/marche_table.html
+msgid "Documents"
+msgstr "Documents"
+
+#: apps/marches/templates/marches/partials/marche_table.html
+msgid "Aucun marché ne correspond à ce filtre."
+msgstr "No tender matches this filter."
+
+#: apps/media/templates/media/media_index_page.html
+msgid "Actualités et vie du port"
+msgstr "News and port life"
+
+#: apps/media/templates/media/media_index_page.html
+msgid "Filtrer l'espace média"
+msgstr "Filter the media area"
+
+#: apps/media/templates/media/media_index_page.html
+msgid "Catégories média"
+msgstr "Media categories"
+
+#: apps/media/templates/media/partials/article_grid.html
+msgid "Lire l'article"
+msgstr "Read the article"
+
+#: apps/media/templates/media/partials/article_grid.html
+msgid "Aucun contenu média ne correspond à ce filtre."
+msgstr "No media content matches this filter."
+
+#: apps/media/templates/media/partials/article_grid.html
+msgid "Pagination des articles"
+msgstr "Article pagination"
+
+#: apps/cms/home_blocks.py apps/navires/templates/navires/escale_list.html
+msgid "Mouvement des navires"
+msgstr "Vessel movements"
+
+#: apps/navires/templates/navires/escale_list.html
+msgid "Trafic maritime"
+msgstr "Maritime traffic"
+
+#: apps/navires/templates/navires/escale_list.html
+msgid ""
+"Suivez les arrivées, les escales à quai et les départs du port de Dakar."
+msgstr ""
+"Follow arrivals, vessels alongside and departures at the Port of Dakar."
+
+#: apps/navires/templates/navires/escale_list.html
+msgid "Filtrer par activité"
+msgstr "Filter by activity"
+
+#: apps/navires/templates/navires/escale_list.html
+msgid "Évolution du trafic"
+msgstr "Traffic trends"
+
+#: apps/navires/templates/navires/escale_list.html
+msgid "Filtrer les escales"
+msgstr "Filter port calls"
+
+#: apps/navires/templates/navires/partials/escale_table.html
+msgid "Liste des escales"
+msgstr "List of port calls"
+
+#: apps/navires/templates/navires/partials/escale_table.html
+msgid "Navire"
+msgstr "Vessel"
+
+#: apps/navires/templates/navires/partials/escale_table.html
+msgid "Pavillon"
+msgstr "Flag"
+
+#: apps/navires/templates/navires/partials/escale_table.html
+msgid "Provenance / destination"
+msgstr "Origin / destination"
+
+#: apps/navires/templates/navires/partials/escale_table.html
+msgid "Quai"
+msgstr "Quay"
+
+#: apps/navires/templates/navires/partials/escale_table.html
+msgid "Arrivée"
+msgstr "Arrival"
+
+#: apps/navires/templates/navires/partials/escale_table.html
+msgid "Départ"
+msgstr "Departure"
+
+#: apps/navires/templates/navires/partials/escale_table.html
+msgid "Aucune escale pour ce filtre."
+msgstr "No port call for this filter."
+
+#: apps/qualite/templates/qualite/page_qse.html
+msgid "Engagements du Port"
+msgstr "Port commitments"
+
+#: apps/qualite/templates/qualite/page_qse.html
+msgid "Référentiels certifiés"
+msgstr "Certified standards"
+
+#: apps/qualite/templates/qualite/page_qse.html
+msgid "Nos certifications"
+msgstr "Our certifications"
+
+#: apps/qualite/templates/qualite/page_qse.html
+msgid "Certification en cours de validité"
+msgstr "Certification currently valid"
+
+#: apps/qualite/templates/qualite/page_qse.html
+msgid "Certification expirée"
+msgstr "Certification expired"
+
+#: apps/cms/home_blocks.py apps/recrutement/templates/recrutement/apply.html
+msgid "Postuler en ligne"
+msgstr "Apply online"
+
+#: apps/recrutement/templates/recrutement/apply.html
+#: apps/recrutement/templates/recrutement/confirmation.html
+msgid "Carrières"
+msgstr "Careers"
+
+#: apps/recrutement/templates/recrutement/apply.html
+msgid "Envoyez votre candidature au Port Autonome de Dakar."
+msgstr "Send your application to the Port of Dakar."
+
+#: apps/recrutement/templates/recrutement/apply.html
+msgid "PDF ou DOCX, 5 Mo maximum."
+msgstr "PDF or DOCX, 5 MB maximum."
+
+#: apps/recrutement/templates/recrutement/apply.html
+msgid "Envoyer ma candidature"
+msgstr "Send my application"
+
+#: apps/recrutement/templates/recrutement/confirmation.html
+msgid "Candidature envoyée"
+msgstr "Application sent"
+
+#: apps/recrutement/templates/recrutement/confirmation.html
+msgid "Votre candidature a été envoyée"
+msgstr "Your application has been sent"
+
+#: apps/recrutement/templates/recrutement/confirmation.html
+msgid ""
+"Notre équipe des ressources humaines reviendra vers vous si votre profil "
+"correspond à une opportunité."
+msgstr ""
+"Our human resources team will get back to you if your profile matches an "
+"opportunity."
+
+#: apps/recrutement/templates/recrutement/recruitment_index_page.html
+msgid "Carrières au Port Autonome de Dakar"
+msgstr "Careers at the Port of Dakar"
+
+#: apps/recrutement/templates/recrutement/recruitment_index_page.html
+msgid "Rejoignez nos équipes"
+msgstr "Join our teams"
+
+#: apps/recrutement/templates/recrutement/recruitment_index_page.html
+msgid "Nos offres"
+msgstr "Our openings"
+
+#: apps/recrutement/templates/recrutement/recruitment_index_page.html
+msgid "Candidatures ouvertes jusqu'au"
+msgstr "Applications open until"
+
+#: apps/recrutement/templates/recrutement/recruitment_index_page.html
+msgid "Postuler"
+msgstr "Apply"
+
+#: apps/recrutement/templates/recrutement/recruitment_index_page.html
+msgid "Aucune offre n'est actuellement ouverte."
+msgstr "No position is currently open."
+
+#: apps/services/templates/services/service_index_page.html
+msgid "Activités du Port Autonome de Dakar"
+msgstr "Activities of the Port of Dakar"
+
+#: apps/services/templates/services/service_index_page.html
+msgid "Nos activités"
+msgstr "Our activities"
+
+#: apps/cms/home_blocks.py
+#: apps/services/templates/services/service_index_page.html
+msgid "En savoir plus"
+msgstr "Learn more"
+
+#: apps/services/templates/services/service_index_page.html
+msgid "Les services seront bientôt disponibles."
+msgstr "Services will be available soon."
+
+#: apps/services/templates/services/service_page.html
+msgid "Service du Port Autonome de Dakar"
+msgstr "Port of Dakar service"
+
+#: apps/cms/home_blocks.py
+msgid "Port Autonome de Dakar"
+msgstr "Port of Dakar"
+
+#: apps/cms/home_blocks.py
+msgid "Le port qui connecte Dakar au monde"
+msgstr "The port connecting Dakar to the world"
+
+#: apps/cms/home_blocks.py
+msgid "Un port, un but, une foi."
+msgstr ""
+
+#: apps/cms/home_blocks.py
+msgid "Le PAD au cœur des JOJ Dakar 2026"
+msgstr "The Port of Dakar at the heart of the Dakar 2026 Youth Olympic Games"
+
+#: apps/cms/home_blocks.py
+msgid "Actualités"
+msgstr "News"
+
+#: apps/cms/home_blocks.py
+msgid "Toutes les actualités"
+msgstr "All news"
+
+#: apps/cms/home_blocks.py
+msgid "Offre de service"
+msgstr "Our services"
+
+#: apps/cms/home_blocks.py
+msgid "Accueil navires"
+msgstr "Vessel reception"
+
+#: apps/cms/home_blocks.py
+msgid "Trafic passagers"
+msgstr "Passenger traffic"
+
+#: apps/cms/home_blocks.py
+msgid "Obtenir un agrément"
+msgstr "Obtain an accreditation"
+
+#: apps/cms/home_blocks.py
+msgid "Marchandises"
+msgstr "Cargo"
+
+#: apps/cms/home_blocks.py
+msgid "Le port en chiffres"
+msgstr "The port in figures"
+
+#: apps/cms/home_blocks.py
+msgid "Hub logistique régional"
+msgstr "Regional logistics hub"
+
+#: apps/cms/home_blocks.py
+msgid "Portail de service"
+msgstr "Service portal"
+
+#: apps/cms/home_blocks.py
+msgid "Se connecter au portail"
+msgstr "Log in to the portal"
+
+#: apps/cms/home_blocks.py
+msgid "Répartition du trafic"
+msgstr "Traffic breakdown"
+
+#: apps/cms/home_blocks.py
+msgid "Note aux usagers"
+msgstr "Notice to port users"
+
+#: apps/cms/home_blocks.py
+msgid "Faire des affaires au port"
+msgstr "Doing business at the port"
+
+#: apps/cms/home_blocks.py
+msgid "News des Affaires au port"
+msgstr "Port business news"
+
+#: apps/cms/home_blocks.py
+msgid "Vous êtes prestataire ? Consultez les avis."
+msgstr "Are you a service provider? Browse the notices."
+
+#: apps/cms/home_blocks.py
+msgid "Rejoignez le port"
+msgstr "Join the port"
+
+#: apps/cms/home_blocks.py
+msgid "Les métiers portuaires"
+msgstr "Port careers"
+
+#: apps/cms/home_blocks.py
+msgid "Appel à candidature"
+msgstr "Call for applications"
+
+#: apps/cms/home_blocks.py
+msgid "Nos partenaires"
+msgstr "Our partners"
+
+#: apps/cms/home_blocks.py
+msgid "Certificats"
+msgstr "Certificates"
+
+#: apps/cms/home_blocks.py
+msgid "Un port au service de vos activités"
+msgstr "A port at the service of your business"
+
+#: apps/cms/home_blocks.py
+msgid "Explorer le Port Autonome de Dakar"
+msgstr "Explore the Port of Dakar"

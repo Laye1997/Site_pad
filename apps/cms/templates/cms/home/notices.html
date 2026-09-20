@@ -1,0 +1,26 @@
+{% load static wagtailcore_tags wagtailimages_tags i18n %}
+<section class="hm-split" aria-labelledby="hm-notices-title">
+  <div class="hm-figures-card">
+    <h2 class="hm-title">{{ value.figures_title }}</h2>
+    {% if value.figures_image %}
+      {% image value.figures_image max-640x640 loading="lazy" alt=value.figures_alt %}
+    {% else %}
+      <img src="{% static 'img/origine/chiffres_cles_2024_of.png' %}" alt="{% translate 'Chiffres clés et répartition du trafic du Port Autonome de Dakar' %}" loading="lazy" width="640" height="640">
+    {% endif %}
+  </div>
+  <div class="hm-panel hm-panel-dark">
+    <h2 id="hm-notices-title" class="hm-title">{{ value.title }}</h2>
+    {% if notices %}
+      <ul class="hm-notices">
+        {% for notice in notices %}
+          <li>
+            <a href="{% pageurl notice %}">{{ notice.title }}</a>
+            <time datetime="{{ notice.publication_date|date:'Y-m-d' }}">{{ notice.publication_date|date:"d/m/Y" }}</time>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>{% translate "Aucune note aux usagers en cours." %}</p>
+    {% endif %}
+  </div>
+</section>

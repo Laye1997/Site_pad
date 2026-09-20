@@ -1,0 +1,17 @@
+{% load wagtailcore_tags i18n %}
+<section class="home-section" aria-labelledby="explore-title">
+  <div class="section-heading">
+    {% if value.eyebrow %}<p class="eyebrow">{{ value.eyebrow }}</p>{% endif %}
+    <h2 id="explore-title">{{ value.title }}</h2>
+  </div>
+  <div class="home-link-grid">
+    {% for featured_page in featured_pages %}
+      <article class="home-link-card">
+        <p class="card-kicker">{% translate "Rubrique du site" %}</p>
+        <h3>{{ featured_page.title }}</h3>
+        {% if featured_page.intro %}<p>{{ featured_page.intro }}</p>{% endif %}
+        <a class="text-link" href="{% pageurl featured_page %}">{% translate "Découvrir" %}<span class="sr-only"> — {{ featured_page.title }}</span> <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></a>
+      </article>
+    {% endfor %}
+  </div>
+</section>

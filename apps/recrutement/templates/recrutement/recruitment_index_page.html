@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n wagtailcore_tags %}
+
+{% block title %}{{ page.seo_title|default:page.title }}{% endblock %}
+
+{% block content %}
+  <section class="hero" aria-labelledby="recruitment-title">
+    <p class="eyebrow">{% translate "Carrières au Port Autonome de Dakar" %}</p>
+    <h1 id="recruitment-title">{{ page.title }}</h1>
+    {% if page.intro %}<p class="hero-intro">{{ page.intro }}</p>{% endif %}
+  </section>
+  <div class="stream prose">{% for block in page.body %}{% include_block block %}{% endfor %}</div>
+  <section class="home-section" aria-labelledby="offers-title">
+    <div class="section-heading">
+      <p class="eyebrow">{% translate "Rejoignez nos équipes" %}</p>
+      <h2 id="offers-title">{% translate "Nos offres" %}</h2>
+    </div>
+    <div class="offer-list">
+      {% for offer in offers %}
+        <article class="offer-card">
+          <p class="card-kicker">{{ offer.get_contract_type_display }} · {{ offer.department }}</p>
+          <h3>{{ offer.title }}</h3>
+          <p>{% translate "Candidatures ouvertes jusqu'au" %} {{ offer.application_deadline|date:"d/m/Y" }}</p>
+          <a class="text-link" href="{% url 'recrutement:apply' %}">{% translate "Postuler" %} <span aria-hidden="true">→</span></a>
+        </article>
+      {% empty %}
+        <p>{% translate "Aucune offre n'est actuellement ouverte." %}</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

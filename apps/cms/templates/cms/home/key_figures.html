@@ -1,0 +1,12 @@
+<section class="key-figures-band" aria-labelledby="key-figures-title">
+  <h2 id="key-figures-title" class="sr-only">{{ value.title }}</h2>
+  <div class="key-figures-grid">
+    {% for figure in value.figures %}
+      <article class="key-figure">
+        <p class="key-figure-value">{{ figure.value }}</p>
+        <p class="key-figure-label">{{ figure.label }}</p>
+        {% if figure.source %}<p class="key-figure-source">{{ figure.source }}</p>{% endif %}
+      </article>
+    {% endfor %}
+  </div>
+</section>

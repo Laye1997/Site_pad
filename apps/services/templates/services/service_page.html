@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+  <article>
+    <header class="hero" aria-labelledby="service-title">
+      <p class="eyebrow">{% translate "Service du Port Autonome de Dakar" %}</p>
+      <h1 id="service-title">{{ page.title }}</h1>
+      <p class="hero-intro">{{ page.summary }}</p>
+    </header>
+
+    {% if page.illustration %}
+      <figure class="service-illustration">
+        {% image page.illustration width-1200 alt=page.illustration_alt %}
+      </figure>
+    {% endif %}
+
+    <div class="stream prose">
+      {% for block in page.body %}
+        {% include_block block %}
+      {% endfor %}
+    </div>
+  </article>
+{% endblock %}
