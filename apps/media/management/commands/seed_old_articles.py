@@ -14,6 +14,7 @@ from django.core.management.base import BaseCommand, CommandError
 from wagtail.images.models import Image
 from wagtail.rich_text import RichText
 
+from apps.media.management.commands.older_articles_data import OLDER
 from apps.media.models import ArticlePage, MediaIndexPage
 
 SOURCE = Path(settings.BASE_DIR) / "static" / "img" / "origine"
@@ -74,6 +75,31 @@ class Command(BaseCommand):
             raise CommandError("Page « Espace média » introuvable : lancez seed_site_structure.")
         self._orientations(index)
         self._colovac(index)
+        for item in OLDER:
+            self._older(index, item)
+
+    def _older(self, index, item):
+        title = item["title"]
+        if ArticlePage.objects.filter(title=title).exists():
+            return
+        body = [_p(text) for text in item["paragraphs"]]
+        if item.get("list"):
+            items = "".join(f"<li>{text}</li>" for text in item["list"])
+            body.append(_p(f"<b>{item['list_title']}</b>"))
+            body.append(("paragraph", RichText(f"<ul>{items}</ul>")))
+        images = [self._image(name, title[:60]) for name, _ in item["photos"]]
+        for image, (_, alt) in zip(images[1:], item["photos"][1:], strict=True):
+            body.append(("image", {"image": image, "caption": "", "alt": alt}))
+        self._create(
+            index,
+            title,
+            item["summary"],
+            item["category"],
+            item["date"],
+            images[0],
+            item["photos"][0][1],
+            body,
+        )
 
     def _orientations(self, index):
         title = "Les orientations annoncées"
