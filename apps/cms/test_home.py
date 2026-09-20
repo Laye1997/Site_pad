@@ -43,34 +43,60 @@ def _article(index, title, category="actualite", day=1):
     return article
 
 
+def _compose(page, *sections):
+    """Enregistre une composition explicite (comme le ferait un rédacteur dans l'éditeur)."""
+    page.sections = HomeSectionsBlock().to_python(
+        [{"type": kind, "value": value} for kind, value in sections]
+    )
+    page.save_revision().publish()
+
+
+NEWS = ("news", {"title": "Actualités", "count": 4, "all_link_label": "Tout"})
+SERVICES = (
+    "service_band",
+    {
+        "services_title": "Offre de service",
+        "services": [
+            {
+                "label": "Marchandises",
+                "icon": "doc",
+                "page": None,
+                "url_path": "nos-services/marchandises",
+            }
+        ],
+        "show_movement": True,
+        "movement_title": "Mouvement des navires",
+    },
+)
+
+
 @pytest.mark.django_db
-def test_default_layout_has_single_h1_and_news_right_after_sponsoring(home):
+def test_default_layout_order_and_removed_sections(home):
     html = _html(home)
 
     assert html.count("<h1") == 1
-    assert html.index('id="joj-title"') < html.index('id="hm-news-title"')
-    assert html.index('id="hm-news-title"') < html.index('id="hm-services-title"')
+    assert html.index('id="joj-title"') < html.index('id="hm-pres-title"')
+    assert html.index('id="hm-pres-title"') < html.index('id="hm-dg-title"')
+    assert html.index('id="hm-dg-title"') < html.index('id="hm-news-title"')
+    for removed in ("hm-services-title", "hm-hub-title", "hm-pro-title", "hm-notices-title"):
+        assert f'id="{removed}"' not in html
+    assert "Faire des affaires au port" not in html
+    assert "Rejoignez le port" not in html
 
 
 @pytest.mark.django_db
 def test_editor_composition_replaces_default_sections(home):
-    home.sections = HomeSectionsBlock().to_python(
-        [
-            {"type": "hero", "value": {"eyebrow": "", "title": "Titre éditeur", "intro": ""}},
-            {
-                "type": "news",
-                "value": {"title": "Fil infos", "count": 2, "all_link_label": "Tout"},
-            },
-        ]
+    _compose(
+        home,
+        ("hero", {"eyebrow": "", "title": "Titre éditeur", "intro": ""}),
+        ("news", {"title": "Fil infos", "count": 2, "all_link_label": "Tout"}),
     )
-    home.save_revision().publish()
 
     html = _html(home)
 
     assert "Titre éditeur" in html
     assert "Fil infos" in html
     assert 'id="joj-title"' not in html
-    assert 'id="hm-services-title"' not in html
 
 
 @pytest.mark.django_db
@@ -79,6 +105,14 @@ def test_news_and_notices_are_split_by_category(home):
     home.add_child(instance=index)
     _article(index, "Nouveau quai inauguré", "actualite", 3)
     _article(index, "Circulaire fret", "note", 4)
+    notices = {
+        "figures_title": "Trafic",
+        "figures_image": None,
+        "figures_alt": "",
+        "title": "Note aux usagers",
+        "count": 5,
+    }
+    _compose(home, NEWS, ("notices", notices))
 
     html = _html(home)
     news_part = html.split('id="hm-news-title"')[1].split("</section>")[0]
@@ -91,7 +125,7 @@ def test_news_and_notices_are_split_by_category(home):
 
 
 @pytest.mark.django_db
-def test_sections_show_live_ships_tender_and_valid_certifications(home):
+def test_optional_sections_show_live_ships_and_tender(home):
     Escale.objects.create(
         navire="MV Aster",
         pavillon="Sénégal",
@@ -106,6 +140,18 @@ def test_sections_show_live_ships_tender_and_valid_certifications(home):
         date_publication=dt.date(2026, 9, 1),
         date_limite=dt.date.today() + dt.timedelta(days=10),
     )
+    business = {"title": "Affaires", "side_title": "News", "side_text": "Avis"}
+    _compose(home, SERVICES, ("business", business))
+
+    html = _html(home)
+
+    assert "MV Aster" in html
+    assert "Acquisition de deux ascenseurs" in html
+    assert 'href="/fr/nos-services/marchandises/"' in html
+
+
+@pytest.mark.django_db
+def test_default_page_shows_only_valid_certifications(home):
     today = dt.date.today()
     for referentiel, days in (("iso9001", 60), ("iso14001", -3)):
         Certification.objects.create(
@@ -118,14 +164,13 @@ def test_sections_show_live_ships_tender_and_valid_certifications(home):
 
     html = _html(home)
 
-    assert "MV Aster" in html
-    assert "Acquisition de deux ascenseurs" in html
     assert "ISO 9001" in html
     assert "ISO 14001" not in html
 
 
 @pytest.mark.django_db
 def test_ship_movement_can_be_hidden_by_feature_flag(home):
+    _compose(home, SERVICES)
     flags = {"consent_banner": True, "public_api": True, "home_ship_movement": False}
     with override_settings(FEATURES=flags):
         html = _html(home)
@@ -135,24 +180,14 @@ def test_ship_movement_can_be_hidden_by_feature_flag(home):
 
 
 @pytest.mark.django_db
-def test_service_links_resolve_django_routes_and_missing_pages(home):
-    html = _html(home)
-
-    assert 'href="/fr/recrutement/postuler/"' in html
-    assert 'href="/fr/nos-services/marchandises/"' in html
-
-
-@pytest.mark.django_db
 def test_seed_home_sections_makes_default_layout_editable_and_is_idempotent(home):
     call_command("seed_home_sections")
     home.refresh_from_db()
     kinds = [block.block_type for block in home.sections]
 
     assert kinds[:5] == ["hero", "sponsoring", "president_vision", "director_word", "news"]
-    home.sections = HomeSectionsBlock().to_python(
-        [{"type": "hero", "value": {"eyebrow": "", "title": "Perso", "intro": ""}}]
-    )
-    home.save_revision().publish()
+    assert "service_band" not in kinds
+    _compose(home, ("hero", {"eyebrow": "", "title": "Perso", "intro": ""}))
     call_command("seed_home_sections")
     home.refresh_from_db()
 
@@ -180,3 +215,26 @@ def test_president_vision_comes_before_director_word(home):
     assert html.index('id="joj-title"') < html.index('id="hm-pres-title"')
     assert html.index('id="hm-pres-title"') < html.index('id="hm-dg-title"')
     assert "/static/img/president.jpg" in html
+
+
+@pytest.mark.django_db
+def test_setup_site_moves_pages_under_home_and_removes_default_welcome_page():
+    from apps.cms.models import StandardPage
+
+    root = Page.objects.get(depth=1)
+    welcome = Page.objects.get(depth=2)
+    section = StandardPage(title="Nous découvrir", slug="nous-decouvrir")
+    welcome.add_child(instance=section)
+    section.save_revision().publish()
+
+    call_command("setup_site", "--host", "10.0.0.1", "--port", "1515")
+    call_command("setup_site", "--host", "10.0.0.1", "--port", "1515")
+
+    home = HomePage.objects.get()
+    site = Site.objects.get(is_default_site=True)
+    assert site.root_page_id == home.pk
+    assert (site.hostname, site.port) == ("10.0.0.1", 1515)
+    assert not Page.objects.filter(pk=welcome.pk).exists()
+    assert home.get_children().filter(slug="nous-decouvrir").exists()
+    assert Page.objects.filter(depth=2).count() == 1
+    assert root.pk

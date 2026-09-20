@@ -2,11 +2,11 @@
 <section class="hm-pres" aria-labelledby="hm-pres-title">
   <div class="hm-pres-top">
     <div class="hm-pres-copy">
-      {% if value.eyebrow %}<p class="eyebrow">{{ value.eyebrow }}</p>{% endif %}
-      <h2 id="hm-pres-title">{{ value.title }}</h2>
-      <div class="hm-pres-intro">{{ value.intro|richtext }}</div>
+      {% if value.eyebrow %}<p class="eyebrow" data-reveal>{{ value.eyebrow }}</p>{% endif %}
+      <h2 id="hm-pres-title" data-reveal-words>{{ value.title }}</h2>
+      <div class="hm-pres-intro" data-reveal>{{ value.intro|richtext }}</div>
     </div>
-    <figure class="hm-pres-photo">
+    <figure class="hm-pres-photo" data-reveal="right">
       {% if value.image %}
         {% image value.image width-900 loading="lazy" alt=value.image_alt %}
       {% else %}
@@ -17,7 +17,7 @@
 
   <ol class="hm-pillars">
     {% for pillar in value.pillars %}
-      <li class="hm-pillar">
+      <li class="hm-pillar" data-reveal>
         <span class="hm-pillar-number" aria-hidden="true">{{ forloop.counter }}</span>
         <h3>{{ pillar.title }}</h3>
         <p>{{ pillar.text }}</p>
@@ -27,8 +27,8 @@
 
   {% if value.quote %}
     <figure class="hm-pres-quote">
-      <blockquote><p>«&nbsp;{{ value.quote }}&nbsp;»</p></blockquote>
-      {% if value.quote_author %}<figcaption>— {{ value.quote_author }}</figcaption>{% endif %}
+      <blockquote><p data-reveal-words>«&nbsp;{{ value.quote }}&nbsp;»</p></blockquote>
+      {% if value.quote_author %}<figcaption data-reveal>— {{ value.quote_author }}</figcaption>{% endif %}
     </figure>
   {% endif %}
 </section>

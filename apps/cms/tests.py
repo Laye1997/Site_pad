@@ -100,7 +100,7 @@ def test_homepage_uses_video_hero_without_duplicate_navires_ctas():
 
     assert '<video class="video-hero-media"' in content
     assert "/static/video/hero-pad.mp4" in content
-    assert content.count("Consulter les escales") == 1
+    assert "Consulter les escales" not in content
 
 
 @pytest.mark.django_db

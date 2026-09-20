@@ -33,3 +33,49 @@
     });
   });
 })();
+
+/* Apparition au défilement (titre mot à mot, blocs en cascade) — désactivée si l'utilisateur
+   réduit les animations ; sans JavaScript, tout reste visible. */
+(() => {
+  const reduce =
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    !("IntersectionObserver" in window);
+
+  document.querySelectorAll("[data-reveal-words]").forEach((title) => {
+    if (reduce) return;
+    const words = title.textContent.trim().split(/\s+/);
+    title.textContent = "";
+    words.forEach((word, index) => {
+      const outer = document.createElement("span");
+      outer.className = "reveal-word";
+      const inner = document.createElement("span");
+      inner.textContent = word;
+      inner.style.transitionDelay = `${index * Math.min(70, 900 / words.length)}ms`;
+      outer.appendChild(inner);
+      title.appendChild(outer);
+      if (index < words.length - 1) title.appendChild(document.createTextNode(" "));
+    });
+  });
+
+  const targets = document.querySelectorAll("[data-reveal], [data-reveal-words]");
+  if (reduce) {
+    targets.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+  document.querySelectorAll(".hm-pillars").forEach((list) => {
+    list.querySelectorAll("[data-reveal]").forEach((item, index) => {
+      item.style.transitionDelay = `${index * 120}ms`;
+    });
+  });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+  );
+  targets.forEach((el) => observer.observe(el));
+})();

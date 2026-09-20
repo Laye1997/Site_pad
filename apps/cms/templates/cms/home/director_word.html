@@ -1,6 +1,6 @@
 {% load static wagtailcore_tags wagtailimages_tags i18n %}
 <section class="hm-dg" aria-labelledby="hm-dg-title">
-  <figure class="hm-dg-photo">
+  <figure class="hm-dg-photo" data-reveal>
     {% if value.image %}
       {% image value.image width-1000 loading="lazy" alt=value.image_alt %}
     {% else %}
@@ -8,8 +8,8 @@
     {% endif %}
   </figure>
   <div class="hm-dg-copy">
-    {% if value.eyebrow %}<p class="eyebrow">{{ value.eyebrow }}</p>{% endif %}
-    <h2 id="hm-dg-title">{{ value.title }}</h2>
-    <div class="hm-dg-text">{{ value.body|richtext }}</div>
+    {% if value.eyebrow %}<p class="eyebrow" data-reveal>{{ value.eyebrow }}</p>{% endif %}
+    <h2 id="hm-dg-title" data-reveal-words>{{ value.title }}</h2>
+    <div class="hm-dg-text" data-reveal>{{ value.body|richtext }}</div>
   </div>
 </section>

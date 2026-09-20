@@ -3,7 +3,7 @@
 from django.core.exceptions import ImproperlyConfigured
 
 from .base import *  # noqa: F401,F403
-from .base import MIDDLEWARE, SECRET_KEY, STORAGES, env
+from .base import MIDDLEWARE, SECRET_KEY, STORAGES, env, env_bool
 
 DEBUG = False
 
@@ -13,15 +13,19 @@ if SECRET_KEY.startswith("dev-insecure") or "change-me" in SECRET_KEY or len(SEC
         "DJANGO_SECRET_KEY doit être définie avec une valeur secrète d'au moins 32 caractères."
     )
 
-# HTTPS / cookies sécurisés
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 31_536_000  # 1 an
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SESSION_COOKIE_SECURE = True
+# HTTPS / cookies sécurisés. DJANGO_HTTPS=false n'est admis que pour une recette provisoire en
+# HTTP (ex. http://IP:port) : à ne JAMAIS utiliser avec des comptes réels ni en production.
+USE_HTTPS = env_bool("DJANGO_HTTPS", True)
+SECURE_SSL_REDIRECT = USE_HTTPS
+SECURE_HSTS_SECONDS = 31_536_000 if USE_HTTPS else 0  # 1 an
+SECURE_HSTS_INCLUDE_SUBDOMAINS = USE_HTTPS
+SECURE_HSTS_PRELOAD = USE_HTTPS
+SESSION_COOKIE_SECURE = USE_HTTPS
 SESSION_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = USE_HTTPS
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# Origines autorisées pour les formulaires (ex. http://IP:6060), séparées par des virgules.
+CSRF_TRUSTED_ORIGINS = [o for o in env("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",") if o]
 
 # Content-Security-Policy (django-csp). Aucun script ni style inline sur le site public :
 # les scripts vivent dans static/js/. L'admin Wagtail, qui en utilise, est exclu de la politique.

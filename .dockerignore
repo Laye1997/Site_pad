@@ -1,0 +1,28 @@
+# Ne jamais embarquer dans l'image : environnement local, secrets, bases et fichiers volumineux.
+.venv/
+venv/
+__pycache__/
+*.pyc
+.git/
+.env
+.env.*
+db.sqlite3
+staticfiles/
+media/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+
+# Sources brutes de l'ancien site et documents (inutiles au runtime)
+img site origine/
+portdakar-documents-pdf/
+*.pdf
+*.mov
+jo.png
+diomaye.*
+alaminou*.jpg
+
+# Vidéos d'origine non compressées (les versions web sont dans static/video/)
+static/*.mp4
+static/*.mov

@@ -453,7 +453,7 @@ def default_home_sections(page):
             "president_vision",
             {
                 "eyebrow": "Cap sur la souveraineté et l'excellence",
-                "title": "La vision du Président Bassirou Diomaye Faye pour le Port de Dakar",
+                "title": "La vision du Président Bassirou Diomaye Diakhar Faye",
                 "intro": PRESIDENT_INTRO_HTML,
                 "pillars": PRESIDENT_PILLARS,
                 "quote": "Faire du secteur maritime le cœur battant d'un Sénégal souverain, "
@@ -477,20 +477,6 @@ def default_home_sections(page):
             "news",
             {"title": _("Actualités"), "count": 4, "all_link_label": _("Toutes les actualités")},
         ),
-        (
-            "service_band",
-            {
-                "services_title": _("Offre de service"),
-                "services": [
-                    _link(_("Accueil navires"), "ship", "nos-services/accueil-navires"),
-                    _link(_("Trafic passagers"), "user", "nos-services/trafic-passagers"),
-                    _link(_("Obtenir un agrément"), "check", "nos-services/entreprises-agreees"),
-                    _link(_("Marchandises"), "doc", "nos-services/marchandises"),
-                ],
-                "show_movement": True,
-                "movement_title": _("Mouvement des navires"),
-            },
-        ),
     ]
     figures = [
         {"value": b.value["value"], "label": b.value["label"], "source": b.value["source"]}
@@ -499,59 +485,6 @@ def default_home_sections(page):
     if figures:
         sections.append(("key_figures", {"title": _("Le port en chiffres"), "figures": figures}))
     sections += [
-        (
-            "hub",
-            {
-                "title": _("Hub logistique régional"),
-                "text": _(
-                    "Le port de Dakar est l'un des rares ports de la côte ouest-africaine où "
-                    "les navires peuvent accéder à tout moment grâce aux conditions nautiques "
-                    "exceptionnelles du site."
-                ),
-                "image": None,
-                "image_alt": "",
-                "button_label": _("En savoir plus"),
-                "page": None,
-                "url_path": "nous-decouvrir/presentation",
-            },
-        ),
-        (
-            "pro_band",
-            {
-                "title": _("Espace Pro"),
-                "lead": _("Portail de service"),
-                "button_label": _("Se connecter au portail"),
-            },
-        ),
-        (
-            "notices",
-            {
-                "figures_title": _("Répartition du trafic"),
-                "figures_image": None,
-                "figures_alt": "",
-                "title": _("Note aux usagers"),
-                "count": 7,
-            },
-        ),
-        (
-            "business",
-            {
-                "title": _("Faire des affaires au port"),
-                "side_title": _("News des Affaires au port"),
-                "side_text": _("Vous êtes prestataire ? Consultez les avis."),
-            },
-        ),
-        (
-            "join",
-            {
-                "title": _("Rejoignez le port"),
-                "items": [
-                    _link(_("Les métiers portuaires"), "ship", "espace-pro-recrutement"),
-                    _link(_("Appel à candidature"), "doc", "espace-pro-recrutement"),
-                    _link(_("Postuler en ligne"), "user", "url:recrutement:apply"),
-                ],
-            },
-        ),
         (
             "partners_certs",
             {"partners_title": _("Nos partenaires"), "certs_title": _("Certificats")},
