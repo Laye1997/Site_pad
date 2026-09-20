@@ -13,6 +13,10 @@
     if (text) text.textContent = paused ? toggle.dataset.labelPlay : toggle.dataset.labelPause;
   };
 
+  document.querySelectorAll("[data-hero-video]").forEach((video) => {
+    if (reduceMotion) video.pause();
+  });
+
   document.querySelectorAll("[data-video-toggle]").forEach((toggle) => {
     const video = toggle.dataset.videoTarget
       ? document.getElementById(toggle.dataset.videoTarget)

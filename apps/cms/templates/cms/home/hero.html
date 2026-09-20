@@ -1,6 +1,6 @@
 {% load static i18n %}
 <section class="video-hero" aria-labelledby="home-title">
-  <video class="video-hero-media" autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="{% static 'video/hero-pad-poster.jpg' %}">
+  <video class="video-hero-media" data-hero-video autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="{% static 'video/hero-pad-poster.jpg' %}">
     <source src="{% static 'video/hero-pad-mobile.mp4' %}" type="video/mp4" media="(max-width: 700px)">
     <source src="{% static 'video/hero-pad.mp4' %}" type="video/mp4">
   </video>
@@ -9,10 +9,5 @@
     {% if value.eyebrow %}<p class="eyebrow">{{ value.eyebrow }}</p>{% endif %}
     <h1 id="home-title">{{ value.title }}</h1>
     {% if value.intro %}<p class="hero-intro">{{ value.intro }}</p>{% endif %}
-    <button class="video-toggle" data-video-toggle type="button" aria-pressed="false"
-            data-label-pause="{% translate 'Mettre la vidéo en pause' %}" data-label-play="{% translate 'Lire la vidéo' %}">
-      <svg class="icon" aria-hidden="true" focusable="false" data-icon><use href="#i-pause"></use></svg>
-      <span class="sr-only">{% translate "Mettre la vidéo en pause" %}</span>
-    </button>
   </div>
 </section>

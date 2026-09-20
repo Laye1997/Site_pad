@@ -138,8 +138,9 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <p class="footer-title">Port Autonome de Dakar</p>
-        <p>{% translate "Votre connexion au monde" %}</p>
+        <a class="footer-brand" href="/{{ LANGUAGE_CODE }}/" aria-label="{% translate 'Accueil du Port Autonome de Dakar' %}">
+          <img src="{% static 'img/logo-pad-color.png' %}" alt="Port Autonome de Dakar — {% translate 'Votre connexion au monde' %}" width="378" height="110" loading="lazy">
+        </a>
       </div>
       <nav aria-label="{% translate 'Informations légales' %}">
         <p class="footer-title">{% translate "Informations" %}</p>

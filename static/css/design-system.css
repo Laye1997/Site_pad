@@ -620,3 +620,8 @@ figcaption { color: var(--ink-2); font-size: .85rem; }
 .js .hm-pres-quote:has(.is-visible)::before { width: 6rem; }
 html:not(.js) .hm-pres-quote::before { width: 6rem; }
 .js .hm-dg-text[data-reveal] { transition-delay: .25s; }
+
+/* Pied de page : logo officiel */
+.footer-brand { display: inline-block; min-height: 0; }
+.footer-brand img { display: block; width: min(300px, 80vw); height: auto; }
+.site-footer .footer-brand { min-height: 0; }
