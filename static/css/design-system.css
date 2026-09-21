@@ -688,3 +688,101 @@ html:not(.js) .hm-pres-quote::before { width: 6rem; }
 .hm-icon-grid-5 > li:nth-child(n+4) { grid-column: span 3; }
 .hm-icon-grid-5 a { min-height: 8.5rem; }
 @media (max-width: 480px) { .hm-icon-grid-5 { grid-template-columns: repeat(2, 1fr); } .hm-icon-grid-5 > li:nth-child(n) { grid-column: span 1; } .hm-icon-grid-5 > li:last-child { grid-column: span 2; } }
+
+/* Mouvement des navires : tableau de bord */
+.fleet-hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 2rem; align-items: end; padding: 3rem 0 1rem; }
+.fleet-hero h1 { margin: .3rem 0 .75rem; font-size: clamp(1.8rem, 4vw, 2.8rem); }
+.fleet-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin: 0; }
+.fleet-kpi { padding: 1rem; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--pad-sea-strong); border-radius: var(--radius); text-align: center; }
+.fleet-kpi-live { background: var(--pad-navy); border-color: var(--pad-navy); border-top-color: var(--pad-sea); color: #fff; }
+.fleet-kpi dt { font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.fleet-kpi dd { margin: .15rem 0 0; font-family: var(--font-head); font-size: 2.2rem; font-weight: 800; line-height: 1.1; }
+.fleet-updated { margin: 0 0 1rem; color: var(--ink-2); font-size: .9rem; }
+.fleet-tabs { display: inline-flex; flex-wrap: wrap; gap: .25rem; padding: .3rem; background: var(--pad-sea-soft); border-radius: 999px; }
+.fleet-tabs a { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; padding: 0 1.15rem; border-radius: 999px; color: var(--pad-navy); font-weight: 700; text-decoration: none; }
+.fleet-tabs a:hover, .fleet-tabs a:focus-visible { background: #fff; }
+.fleet-tabs a[aria-current="page"] { background: var(--pad-navy); color: #fff; }
+.fleet-count { display: inline-grid; place-items: center; min-width: 1.6rem; height: 1.6rem; padding: 0 .4rem; border-radius: 999px; background: rgba(5, 38, 96, .12); font-size: .8rem; }
+.fleet-tabs a[aria-current="page"] .fleet-count { background: var(--pad-sea); color: var(--pad-navy); }
+.fleet-toolbar { display: flex; flex-wrap: wrap; gap: 1rem; align-items: end; margin: 1.25rem 0; }
+.fleet-field { display: grid; gap: .3rem; flex: 1 1 240px; }
+.fleet-field:first-of-type { flex: 2 1 320px; }
+.fleet-field label { color: var(--pad-navy); font-size: .85rem; font-weight: 800; }
+.fleet-field input, .fleet-field select { min-height: 2.75rem; padding: 0 .85rem; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font: inherit; }
+.fleet-toolbar .btn { min-height: 2.75rem; border: 0; cursor: pointer; font: inherit; font-weight: 800; }
+.fleet-result-count { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin: 0 0 .75rem; color: var(--ink-2); font-weight: 700; }
+.fleet-table { min-width: 0; }
+.fleet-table th[scope="row"] { font-weight: 800; color: var(--pad-navy); }
+.fleet-ship { display: block; }
+.fleet-table small { display: block; color: var(--ink-2); font-weight: 400; }
+.fleet-table tbody tr:hover { background: var(--pad-sea-soft); }
+.fleet-empty td { padding: 2rem; color: var(--ink-2); text-align: center; }
+.status-a_quai, .status-attendu, .status-parti { border: 1px solid currentColor; }
+@media (max-width: 900px) {
+  .fleet-hero { grid-template-columns: 1fr; gap: 1rem; }
+}
+@media (max-width: 720px) {
+  .fleet-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+  .fleet-table, .fleet-table tbody, .fleet-table tr, .fleet-table td, .fleet-table th[scope="row"] { display: block; width: 100%; }
+  .fleet-table tr { margin-bottom: 1rem; padding: .5rem 1rem; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--pad-sea-strong); border-radius: var(--radius); }
+  .fleet-table th[scope="row"], .fleet-table td { padding: .4rem 0; border: 0; text-align: left; }
+  .fleet-table td { display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line); }
+  .fleet-table td::before { content: attr(data-label); color: var(--ink-2); font-weight: 700; }
+  .fleet-empty td { display: block; }
+  .fleet-empty td::before { content: none; }
+  .table-wrap.fleet-table-wrap { overflow: visible; background: transparent; border: 0; }
+}
+
+/* Croisières : prochaine escale */
+.cruise-next { padding: 1.25rem 1.5rem; background: var(--pad-navy); border-top: 4px solid var(--pad-sea); border-radius: var(--radius); color: #fff; }
+.cruise-next-label { margin: 0; color: var(--pad-sea); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.cruise-next-ship { margin: .25rem 0; font-family: var(--font-head); font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 800; }
+.cruise-next-meta { margin: 0; color: #dbe6f5; }
+
+/* Mouvement des navires : fond clair, comme l'offre de service (plus de fond bleu) */
+.hm-panel-movement .hm-live { color: var(--ink-2); }
+.hm-panel-movement .hm-live strong { color: var(--pad-sea-strong); }
+.hm-panel-movement .hm-live-date { color: var(--ink-2); opacity: 1; }
+
+/* Rubriques du site : cartes photo (accueil) */
+.rubric-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.25rem; }
+.rubric-card { position: relative; display: flex; align-items: flex-end; min-height: 300px; overflow: hidden; background: var(--pad-navy); border-radius: 16px; color: #fff; text-decoration: none; box-shadow: 0 10px 28px rgba(5, 38, 96, .12); transition: transform .25s ease, box-shadow .25s ease; }
+.rubric-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.rubric-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(5, 38, 96, .95) 0%, rgba(5, 38, 96, .55) 45%, rgba(5, 38, 96, .05) 80%); }
+.rubric-card-body { position: relative; z-index: 1; display: grid; gap: .4rem; width: 100%; padding: 1.25rem; }
+.rubric-card-title { font-family: var(--font-head); font-size: 1.3rem; font-weight: 800; line-height: 1.2; }
+.rubric-card-text { color: #dbe6f5; font-size: .9rem; }
+.rubric-card-more { display: inline-flex; align-items: center; gap: .4rem; min-height: 2rem; color: var(--pad-sea); font-weight: 800; }
+.rubric-card:hover, .rubric-card:focus-visible { transform: translateY(-4px); box-shadow: 0 18px 36px rgba(5, 38, 96, .25); }
+.rubric-card:hover img, .rubric-card:focus-visible img { transform: scale(1.06); }
+.rubric-card:hover .rubric-card-more .icon, .rubric-card:focus-visible .rubric-card-more .icon { transform: translateX(4px); }
+.rubric-card-more .icon { transition: transform .2s ease; }
+.rubric-card:not(.has-photo) { background: linear-gradient(135deg, var(--pad-navy) 0%, #0a3a86 100%); }
+
+/* Modules dynamiques des pages standard */
+.module { margin-top: 2.5rem; }
+.module-empty { padding: 1rem 1.25rem; background: var(--pad-surface, #f3f7fb); border-left: 4px solid var(--pad-sea); border-radius: 8px; }
+.partner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem; padding: 0; list-style: none; }
+.partner-tile a, .partner-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; min-height: 130px; padding: 1rem; background: #fff; border: 1px solid #dbe6f0; border-radius: 12px; color: var(--pad-navy); font-size: .85rem; font-weight: 700; text-align: center; text-decoration: none; }
+.partner-tile a { width: 100%; border: 0; padding: 0; min-height: 0; }
+.partner-tile img { max-width: 100%; height: auto; }
+.figure-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; }
+.figure-tile { padding: 1.25rem; background: var(--pad-navy); border-top: 4px solid var(--pad-sea); border-radius: 12px; color: #fff; }
+.figure-value { margin: 0; color: var(--pad-sea); font-family: var(--font-head); font-size: 2rem; font-weight: 800; }
+.figure-label { margin: .25rem 0 0; font-weight: 700; }
+.figure-source { margin: .25rem 0 0; color: #cfe1ee; font-size: .8rem; }
+.subpage-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; padding: 0; list-style: none; }
+.subpage-card { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 64px; padding: 1rem 1.25rem; background: #fff; border: 1px solid #dbe6f0; border-left: 4px solid var(--pad-sea); border-radius: 10px; color: var(--pad-navy); text-decoration: none; transition: transform .2s, box-shadow .2s; }
+.subpage-card:hover, .subpage-card:focus-visible { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(5, 38, 96, .15); }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+
+/* Croisières : visuel et bilan */
+.cruise-banner { margin: 0 0 1.5rem; overflow: hidden; border-radius: 16px; }
+.cruise-banner img { display: block; width: 100%; max-height: 300px; object-fit: cover; object-position: center 30%; }
+.cruise-bilan { margin: 0 0 2rem; }
+.cruise-bilan h2 { margin: 0 0 .75rem; font-size: 1.3rem; }
+.cruise-bilan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.cruise-bilan-grid li { padding: 1.1rem 1.25rem; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--pad-sea-strong); border-radius: var(--radius); }
+.cruise-bilan-year { margin: 0 0 .4rem; color: var(--pad-navy); font-family: var(--font-head); font-weight: 800; }
+.cruise-bilan-num { margin: 0; color: var(--ink-2); }
+.cruise-bilan-num span { color: var(--pad-sea-strong); font-family: var(--font-head); font-size: 1.5rem; font-weight: 800; }

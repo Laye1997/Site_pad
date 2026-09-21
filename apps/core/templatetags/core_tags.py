@@ -77,7 +77,8 @@ def link_url(context, item):
         return page.url
     path = (item.get("url_path") or "").strip()
     if path.startswith("url:"):
-        return reverse(path[4:])
+        name, _, query = path[4:].partition("?")
+        return reverse(name) + (f"?{query}" if query else "")
     if path.startswith(("/", "http")):
         return path
     return slug_url(context, path or "/")

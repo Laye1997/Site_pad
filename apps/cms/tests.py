@@ -119,3 +119,24 @@ def test_homepage_includes_padjoj2_without_replacing_primary_video():
     assert "/static/video/hero-pad.mp4" in content
     assert "/static/video/joj-pad.mp4" in content
     assert "Le PAD au cœur des JOJ Dakar 2026" in content
+
+
+@pytest.mark.django_db
+def test_standard_page_module_subpages_lists_children(client):
+    """Le module « sous-pages » affiche les enfants publiés de la rubrique."""
+    from wagtail.models import Page, Site
+
+    from apps.cms.models import HomePage, StandardPage
+
+    root = Page.objects.get(depth=1)
+    home = HomePage(title="Accueil", slug="accueil-module")
+    root.add_child(instance=home)
+    Site.objects.update_or_create(
+        is_default_site=True, defaults={"hostname": "testserver", "root_page": home}
+    )
+    rubrique = StandardPage(title="Rubrique", slug="rubrique", module="subpages")
+    home.add_child(instance=rubrique)
+    rubrique.add_child(instance=StandardPage(title="Enfant visible", slug="enfant"))
+    response = client.get(rubrique.url)
+    assert response.status_code == 200
+    assert "Enfant visible" in response.content.decode()

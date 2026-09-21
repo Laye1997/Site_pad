@@ -11,6 +11,7 @@ class AppelOffre(models.Model):
         ("appel_offres", "Appel d'offres"),
         ("avis_attribution", "Avis d'attribution"),
         ("plan_passation", "Plan de passation"),
+        ("manifestation_interet", "Manifestation d'intérêt"),
     ]
     STATUT_CHOICES = [
         ("ouvert", "Ouvert"),

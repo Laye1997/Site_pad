@@ -1,0 +1,32 @@
+{% load i18n %}
+<div aria-live="polite">
+  <p class="fleet-result-count">
+    {% blocktranslate count total=croisieres|length %}{{ total }} escale{% plural %}{{ total }} escales{% endblocktranslate %}
+    {% if recherche %}<a href="?periode={{ periode }}">{% translate "Effacer la recherche" %}</a>{% endif %}
+  </p>
+  <div class="table-wrap fleet-table-wrap">
+    <table class="fleet-table">
+      <caption class="sr-only">{% translate "Calendrier des escales de croisière" %}</caption>
+      <thead>
+        <tr>
+          <th scope="col">{% translate "Date" %}</th>
+          <th scope="col">{% translate "Navire" %}</th>
+          <th scope="col">{% translate "Poste" %}</th>
+          <th scope="col">{% translate "Consignataire" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in croisieres %}
+          <tr>
+            <th scope="row" data-label="{% translate 'Date' %}"><time datetime="{{ c.date|date:'Y-m-d' }}">{{ c.date|date:"d/m/Y" }}</time></th>
+            <td data-label="{% translate 'Navire' %}"><span class="fleet-ship">{{ c.navire }}</span></td>
+            <td data-label="{% translate 'Poste' %}">{{ c.poste|default:"—" }}</td>
+            <td data-label="{% translate 'Consignataire' %}">{{ c.consignataire|default:"—" }}</td>
+          </tr>
+        {% empty %}
+          <tr class="fleet-empty"><td colspan="4">{% translate "Aucune escale de croisière pour cette sélection." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

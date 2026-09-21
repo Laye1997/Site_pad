@@ -175,6 +175,12 @@ class ServiceBandSectionBlock(HomeSectionBlock):
     movement_title = blocks.CharBlock(
         default="Mouvement des navires", max_length=80, label="Titre du mouvement des navires"
     )
+    movement_links = blocks.ListBlock(
+        LinkItemBlock(),
+        required=False,
+        label="Cases du mouvement des navires",
+        help_text="Chemin possible : url:navires:liste?filtre=arrivees (page Navires filtrée).",
+    )
 
     def get_context(self, value, parent_context=None):
         from apps.navires.services import movement_summary
@@ -449,6 +455,43 @@ def library_image_id(static_name: str, title: str):
     return image.pk
 
 
+MOVEMENT_TILES = [
+    # (libellé, chemin, fichier statique, titre médiathèque)
+    ("Heures de marées", "infos-pratiques/marees", "mouvement-maree.jpg", "Côte de Dakar"),
+    (
+        "Croisières",
+        "url:navires:croisieres",
+        "mouvement-croisiere.jpg",
+        "Paquebot à quai au port de Dakar",
+    ),
+    (
+        "Arrivées navires",
+        "url:navires:liste?filtre=arrivees",
+        "origine/dsc_0684_0.jpg",
+        "Navire arrivant au port de Dakar",
+    ),
+    (
+        "Navires à quai",
+        "url:navires:liste?filtre=a_quai",
+        "origine/terminal_a_conteneur2.jpg",
+        "Terminal à conteneurs du port",
+    ),
+    (
+        "Départs navires",
+        "url:navires:liste?filtre=departs",
+        "origine/remorquage_1.jpg",
+        "Navire remorqué au départ du quai",
+    ),
+]
+
+
+def movement_links():
+    return [
+        _link(_(label), "ship", path, library_image_id(file, title))
+        for label, path, file, title in MOVEMENT_TILES
+    ]
+
+
 BALISEUR_TITLE = "Baliseur Samba Laobé Fall"
 BALISEUR_FILE = "baliseur-samba-laobe-fall.jpg"
 GOREE_TITLE = "Vue aérienne de l'île de Gorée"
@@ -545,6 +588,7 @@ def default_home_sections(page):
                 ],
                 "show_movement": True,
                 "movement_title": _("Mouvement des navires"),
+                "movement_links": movement_links(),
             },
         ),
     ]

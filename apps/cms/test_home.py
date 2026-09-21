@@ -148,8 +148,8 @@ def test_optional_sections_show_live_ships_and_tender(home):
 
     html = _html(home)
 
-    assert "<strong>1</strong>" in html.split("hm-live")[1].split("</p>")[0]
-    assert "Attendus" in html
+    assert "hm-live" not in html
+    assert "Attendus" not in html
     assert "Acquisition de deux ascenseurs" in html
     assert 'href="/fr/nos-services/marchandises/"' in html
 
@@ -367,3 +367,71 @@ def test_update_home_services_adds_missing_section_after_news(home):
 
     assert kinds == ["hero", "news", "service_band", "join"]
     assert "Mouvement des navires" in _html(home)
+
+
+@pytest.mark.django_db
+def test_every_internal_link_of_the_home_page_resolves(home):
+    """Aucun lien interne de l'accueil ne doit mener à une 404 (structure complète en place)."""
+    import re
+
+    call_command("seed_site_structure")
+    call_command("seed_home_sections", "--force")
+    call_command("seed_trafic_passagers")
+    call_command("seed_marchandises")
+    call_command("seed_agrements")
+    call_command("update_home_services")
+
+    html = _html(home)
+    links = set(re.findall(r'href="(/fr/[^"#?]*)', html))
+    broken = [link for link in sorted(links) if Client().get(link, follow=True).status_code == 404]
+
+    assert len(links) > 10
+    assert broken == [], f"liens cassés sur l'accueil : {broken}"
+
+
+@pytest.mark.django_db
+def test_editors_get_the_wagtail_userbar_on_the_site_and_visitors_do_not(home, django_user_model):
+    user = django_user_model.objects.create_superuser("editeur", "e@example.org", "x" * 20)
+
+    anonymous = _html(home)
+    client = Client()
+    client.force_login(user, backend="django.contrib.auth.backends.ModelBackend")
+    editor = client.get(home.url).content.decode()
+
+    assert "wagtail-userbar" not in anonymous
+    assert "wagtail-userbar" in editor
+    assert f"/admin/pages/{home.pk}/edit/" in editor
+
+
+@pytest.mark.django_db
+def test_fondation_page_and_section_menu_lists_only_its_own_pages(home):
+    call_command("seed_site_structure")
+    call_command("seed_fondation")
+    call_command("seed_fondation")
+
+    fondation = StandardPage.objects.get(slug="fondation")
+    html = Client().get(fondation.url).content.decode()
+    index = Client().get(fondation.get_parent().url).content.decode()
+
+    assert "Historique de la Fondation" in html
+    assert "SUCCESS" in html
+    sidebar = html.split('class="section-sidebar"')[1].split("</aside>")[0]
+    assert "Engagements" in sidebar
+    assert "Fondation PAD" in sidebar
+    assert "Nous découvrir" not in sidebar
+    assert 'href="/fr/engagements/fondation/"' in index
+
+
+@pytest.mark.django_db
+def test_rubric_cards_on_home_show_photos_and_editor_choice_is_kept(home):
+    Site.objects.filter(is_default_site=True).update(root_page=home)
+    call_command("seed_site_structure")
+    call_command("seed_home_sections", "--force")
+    call_command("update_rubric_photos")
+    call_command("update_rubric_photos")
+
+    html = _html(home)
+    grid = html.split('class="rubric-grid"')[1].split("</section>")[0]
+
+    assert grid.count("rubric-card has-photo") == 7
+    assert "Engagements" in grid

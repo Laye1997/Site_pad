@@ -4,31 +4,56 @@
 {% block title %}{% translate "Mouvement des navires" %}{% endblock %}
 
 {% block content %}
-  <section class="hero" aria-labelledby="navires-title">
-    <p class="eyebrow">{% translate "Trafic maritime" %}</p>
-    <h1 id="navires-title">{% translate "Mouvement des navires" %}</h1>
-    <p class="hero-intro">{% translate "Suivez les arrivées, les escales à quai et les départs du port de Dakar." %}</p>
+  <section class="fleet-hero" aria-labelledby="navires-title">
+    <div>
+      <p class="eyebrow">{% translate "Trafic maritime" %}</p>
+      <h1 id="navires-title">{% translate "Mouvement des navires" %}</h1>
+      <p class="hero-intro">{% translate "Suivez les arrivées, les escales à quai et les départs du port de Dakar." %}</p>
+    </div>
+    <dl class="fleet-kpis">
+      <div class="fleet-kpi"><dt>{% translate "Attendus" %}</dt><dd>{{ counts.attendus }}</dd></div>
+      <div class="fleet-kpi fleet-kpi-live"><dt>{% translate "À quai" %}</dt><dd>{{ counts.a_quai }}</dd></div>
+      <div class="fleet-kpi"><dt>{% translate "Partis" %}</dt><dd>{{ counts.departs }}</dd></div>
+    </dl>
   </section>
+  {% if updated_at %}
+    <p class="fleet-updated">{% translate "Données mises à jour le" %} <time datetime="{{ updated_at|date:'c' }}">{{ updated_at|date:"d/m/Y à H:i" }}</time></p>
+  {% endif %}
 
-  <section aria-labelledby="filtre-title" class="prose">
-    <h2 id="filtre-title">{% translate "Filtrer par activité" %}</h2>
-    <nav class="filter-list" aria-label="{% translate 'Filtrer les escales' %}">
-      {% for key, config in filtres.items %}
-        <a
-          href="?filtre={{ key }}"
-          class="btn btn-secondary"
-          {% if key == filtre_actif %}aria-current="page"{% endif %}
-          hx-get="{% url 'navires:liste' %}?filtre={{ key }}"
-          hx-target="#escale-table-container"
-          hx-push-url="true"
-        >{{ config.label }}</a>
-      {% endfor %}
-    </nav>
-  </section>
+  <nav class="fleet-tabs" aria-label="{% translate 'Filtrer les escales' %}">
+    {% for key, config in filtres.items %}
+      <a
+        href="?filtre={{ key }}{% if recherche %}&amp;q={{ recherche|urlencode }}{% endif %}{% if type_actif %}&amp;type={{ type_actif }}{% endif %}"
+        {% if key == filtre_actif %}aria-current="page"{% endif %}
+        hx-get="{% url 'navires:liste' %}?filtre={{ key }}{% if recherche %}&amp;q={{ recherche|urlencode }}{% endif %}{% if type_actif %}&amp;type={{ type_actif }}{% endif %}"
+        hx-target="#escale-table-container"
+        hx-push-url="true"
+      >{{ config.label }} <span class="fleet-count">{{ config.count }}</span></a>
+    {% endfor %}
+  </nav>
 
-  <section aria-labelledby="tableau-title" class="prose">
-    <h2 id="tableau-title">{% translate "Évolution du trafic" %}</h2>
-    <div id="escale-table-container" aria-live="polite">
+  <form class="fleet-toolbar" action="{% url 'navires:liste' %}" method="get" role="search"
+        hx-get="{% url 'navires:liste' %}" hx-target="#escale-table-container" hx-push-url="true"
+        hx-trigger="input changed delay:300ms from:#fleet-q, change from:#fleet-type, submit">
+    <input type="hidden" name="filtre" value="{{ filtre_actif }}">
+    <div class="fleet-field">
+      <label for="fleet-q">{% translate "Rechercher un navire, un port ou un consignataire" %}</label>
+      <input id="fleet-q" type="search" name="q" value="{{ recherche }}" autocomplete="off" maxlength="80">
+    </div>
+    <div class="fleet-field">
+      <label for="fleet-type">{% translate "Type de navire" %}</label>
+      <select id="fleet-type" name="type">
+        <option value="">{% translate "Tous les types" %}</option>
+        {% for code, label in types %}<option value="{{ code }}"{% if code == type_actif %} selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </div>
+    <button class="btn" type="submit">{% translate "Filtrer" %}</button>
+  </form>
+
+  <section aria-labelledby="tableau-title">
+    <h2 id="tableau-title" class="sr-only">{% translate "Liste des escales" %}</h2>
+    <div id="escale-table-container" aria-live="polite"
+         hx-get="{{ request.get_full_path }}" hx-trigger="every 60s" hx-swap="innerHTML">
       {% include "navires/partials/escale_table.html" %}
     </div>
   </section>

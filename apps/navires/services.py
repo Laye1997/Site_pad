@@ -26,3 +26,12 @@ def list_escales(statut: str | None = None) -> list[Escale]:
     if statut in {code for code, _ in Escale.STATUT_CHOICES}:
         escales = escales.filter(statut=statut)
     return list(escales)
+
+
+def upcoming_cruises(limit: int = 5):
+    """Prochaines escales de croisière (aujourd'hui inclus)."""
+    from django.utils import timezone
+
+    from apps.navires.models import Croisiere
+
+    return list(Croisiere.objects.filter(date__gte=timezone.localdate())[:limit])

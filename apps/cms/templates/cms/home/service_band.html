@@ -19,21 +19,23 @@
     </ul>
   </div>
   {% if movement %}
-    <div class="hm-panel hm-panel-dark">
+    <div class="hm-panel hm-panel-light hm-panel-movement">
       <h2 class="hm-title">{{ value.movement_title }}</h2>
-      <ul class="hm-icon-grid hm-icon-grid-5 hm-icon-grid-dark">
-        <li><a href="{% slug_url 'infos-pratiques/heures-de-marees' %}"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-tide"></use></svg><span>{% translate "Heures de marées" %}</span></a></li>
-        <li><a href="{% slug_url 'infos-pratiques/croisieres' %}"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-cruise"></use></svg><span>{% translate "Croisières" %}</span></a></li>
-        <li><a href="{% url 'navires:liste' %}?filtre=arrivees"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrive"></use></svg><span>{% translate "Arrivées navires" %}</span></a></li>
-        <li><a href="{% url 'navires:liste' %}?filtre=a_quai"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-quay"></use></svg><span>{% translate "Navires à quai" %}</span></a></li>
-        <li><a href="{% url 'navires:liste' %}?filtre=departs"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-depart"></use></svg><span>{% translate "Départs navires" %}</span></a></li>
+      <ul class="hm-icon-grid hm-icon-grid-5">
+        {% for item in value.movement_links %}
+          <li>
+            {% if item.image %}
+              <a class="has-photo" href="{% link_url item %}">
+                {% image item.image fill-640x420 as photo %}
+                <img src="{{ photo.url }}" alt="" width="{{ photo.width }}" height="{{ photo.height }}" loading="lazy">
+                <span>{{ item.label }}</span>
+              </a>
+            {% else %}
+              <a href="{% link_url item %}"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-{{ item.icon }}"></use></svg><span>{{ item.label }}</span></a>
+            {% endif %}
+          </li>
+        {% endfor %}
       </ul>
-      <p class="hm-live">
-        <span>{% translate "Attendus" %} <strong>{{ movement.attendus }}</strong></span>
-        <span>{% translate "À quai" %} <strong>{{ movement.a_quai }}</strong></span>
-        <span>{% translate "Partis" %} <strong>{{ movement.partis }}</strong></span>
-        {% if movement.updated_at %}<span class="hm-live-date">{% translate "Mis à jour le" %} <time datetime="{{ movement.updated_at|date:'c' }}">{{ movement.updated_at|date:"d/m/Y H:i" }}</time></span>{% endif %}
-      </p>
     </div>
   {% endif %}
 </section>

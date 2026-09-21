@@ -91,6 +91,31 @@ class HomePage(SocialMetadataMixin, Page):
 class StandardPage(SocialMetadataMixin, Page):
     """Page institutionnelle générique composée de blocs modulaires."""
 
+    MODULE_CHOICES = [
+        ("", "Aucun"),
+        ("marches:appel_offres", "Liste : appels d'offres"),
+        ("marches:avis_attribution", "Liste : avis d'attribution"),
+        ("marches:plan_passation", "Liste : plan de passation"),
+        ("marches:manifestation_interet", "Liste : manifestations d'intérêt"),
+        ("articles:actualite", "Liste : actualités"),
+        ("articles:communique", "Liste : communiqués de presse"),
+        ("articles:photos", "Liste : photothèque / vidéothèque"),
+        ("partners:strategique", "Partenaires stratégiques"),
+        ("partners:institutionnel", "Partenaires institutionnels"),
+        ("partners:international", "Partenaires internationaux"),
+        ("key_figures", "Chiffres clés de l'accueil"),
+        ("subpages", "Cartes vers les sous-pages"),
+    ]
+
+    module = models.CharField(
+        max_length=40,
+        choices=MODULE_CHOICES,
+        blank=True,
+        default="",
+        verbose_name="Module dynamique",
+        help_text="Affiche automatiquement une liste sous le contenu de la page.",
+    )
+
     body = StreamField(
         ContentStreamBlock(),
         blank=True,
@@ -98,12 +123,18 @@ class StandardPage(SocialMetadataMixin, Page):
     )
 
     content_panels = (
-        Page.content_panels + [FieldPanel("body")] + SocialMetadataMixin.social_metadata_panels
+        Page.content_panels
+        + [FieldPanel("body"), FieldPanel("module")]
+        + SocialMetadataMixin.social_metadata_panels
     )
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        section_page = self.get_parent().specific
+        context.update(self._module_context())
+        parent = self.get_parent().specific
+        # Une page de premier niveau (fille de l'accueil) est elle-même la rubrique : son menu
+        # latéral liste ses sous-pages, pas tout le site.
+        section_page = self if isinstance(parent, HomePage) else parent
         context["section_page"] = section_page
         context["section_children"] = section_page.get_children().live().public().specific()
         context["section_grandchildren"] = {
@@ -111,6 +142,33 @@ class StandardPage(SocialMetadataMixin, Page):
             for child in context["section_children"]
         }
         return context
+
+    def _module_context(self) -> dict:
+        """Données du module choisi (imports locaux : pas de dépendance croisée au chargement)."""
+        kind, _, arg = self.module.partition(":")
+        if kind == "marches":
+            from apps.marches.models import AppelOffre
+
+            return {"module_marches": AppelOffre.objects.filter(type_marche=arg)}
+        if kind == "articles":
+            from apps.media.models import ArticlePage
+
+            return {
+                "module_articles": ArticlePage.objects.live()
+                .public()
+                .filter(category=arg)
+                .order_by("-publication_date")[:12]
+            }
+        if kind == "partners":
+            return {
+                "module_partners": Partner.objects.filter(is_active=True, category=arg),
+            }
+        if kind == "key_figures":
+            home = HomePage.objects.first()
+            return {"module_figures": home.key_figures if home else []}
+        if kind == "subpages":
+            return {"module_subpages": self.get_children().live().public().specific()}
+        return {}
 
     class Meta:
         verbose_name = "Page standard"
@@ -120,7 +178,17 @@ class StandardPage(SocialMetadataMixin, Page):
 class Partner(models.Model):
     """Partenaire affiché sur l'accueil (snippet réutilisable, géré sans développeur)."""
 
+    CATEGORY_CHOICES = [
+        ("", "Non classé"),
+        ("strategique", "Stratégique"),
+        ("institutionnel", "Institutionnel"),
+        ("international", "International"),
+    ]
+
     name = models.CharField(max_length=120, verbose_name="Nom")
+    category = models.CharField(
+        max_length=16, choices=CATEGORY_CHOICES, blank=True, default="", verbose_name="Catégorie"
+    )
     logo = models.ForeignKey(
         "wagtailimages.Image",
         on_delete=models.PROTECT,
@@ -133,6 +201,7 @@ class Partner(models.Model):
 
     panels = [
         FieldPanel("name"),
+        FieldPanel("category"),
         FieldPanel("logo"),
         FieldPanel("url"),
         FieldPanel("position"),

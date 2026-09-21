@@ -67,3 +67,31 @@ class Escale(models.Model):
 
     def __str__(self) -> str:
         return f"{self.navire} — {self.get_statut_display()}"
+
+
+@register_snippet
+class Croisiere(models.Model):
+    """Escale de croisière programmée (calendrier publié sur le site)."""
+
+    date = models.DateField(verbose_name="Date d'escale")
+    navire = models.CharField(max_length=120, verbose_name="Navire")
+    poste = models.CharField(max_length=40, blank=True, verbose_name="Poste à quai")
+    consignataire = models.CharField(max_length=140, blank=True, verbose_name="Consignataire")
+
+    panels = [
+        FieldPanel("date"),
+        FieldPanel("navire"),
+        FieldPanel("poste"),
+        FieldPanel("consignataire"),
+    ]
+
+    class Meta:
+        verbose_name = "Escale de croisière"
+        verbose_name_plural = "Escales de croisière"
+        ordering = ["date", "navire"]
+        constraints = [
+            models.UniqueConstraint(fields=["date", "navire"], name="croisiere_date_navire_unique")
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.navire} — {self.date:%d/%m/%Y}"

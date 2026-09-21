@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags i18n core_tags %}
+{% load static wagtailcore_tags wagtailimages_tags wagtailuserbar i18n core_tags %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:'fr' }}">
 <head>
@@ -53,6 +53,8 @@
   <link rel="icon" href="{% static 'img/logo-pad.svg' %}" type="image/svg+xml">
   <link rel="preload" href="{% static 'fonts/raleway-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% static 'css/design-system.css' %}">
+  <meta name="htmx-config" content='{"includeIndicatorStyles": false, "allowEval": false, "allowScriptTags": false}'>
+  <script src="{% static 'js/htmx.min.js' %}" defer></script>
   <script src="{% static 'js/site.js' %}" defer></script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "GovernmentOrganization", "name": "Port Autonome de Dakar", "url": "{{ request.scheme }}://{{ request.get_host }}/", "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo-pad.svg' %}", "telephone": "+221800801802"}</script>
   {% block extra_head %}{% endblock %}
@@ -190,5 +192,6 @@
     <script src="{% static 'js/consent.js' %}" defer></script>
   {% endif %}
   {% block extra_scripts %}{% endblock %}
+  {% wagtailuserbar "bottom-right" %}
 </body>
 </html>

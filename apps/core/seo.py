@@ -24,7 +24,18 @@ class SocialMetadataMixin(models.Model):
         help_text="Obligatoire lorsqu'une image de partage est sélectionnée.",
     )
 
+    card_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name="Photo de la rubrique",
+        help_text="Photo affichée sur la carte de cette rubrique (accueil). Décorative.",
+    )
+
     social_metadata_panels = [
+        FieldPanel("card_image"),
         FieldPanel("share_image"),
         FieldPanel("share_image_alt"),
     ]

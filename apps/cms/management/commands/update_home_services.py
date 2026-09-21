@@ -4,6 +4,8 @@ Baliseur, Gorée, signature de dossiers d'agrément, chargement de marchandises.
 Ne touche à aucune autre section ni aux autres cases. Idempotent.
 """
 
+import uuid
+
 from django.core.management.base import BaseCommand
 
 from apps.cms.home_blocks import (
@@ -15,6 +17,7 @@ from apps.cms.home_blocks import (
     GOREE_TITLE,
     MARCHANDISES_FILE,
     MARCHANDISES_TITLE,
+    MOVEMENT_TILES,
     HomeSectionsBlock,
     default_home_sections,
     library_image_id,
@@ -72,6 +75,8 @@ class Command(BaseCommand):
                 if not section["value"].get("show_movement"):
                     section["value"]["show_movement"] = True
                     changed = True
+                if self._movement_links(section["value"]):
+                    changed = True
                 services = section["value"]["services"]
                 for pos, label, path, _file, _title in TILES:
                     if pos >= len(services):
@@ -91,3 +96,28 @@ class Command(BaseCommand):
             home.sections = HomeSectionsBlock().to_python(raw)
             home.save_revision().publish()
             self.stdout.write(f"{home.title} : offre de service mise à jour.")
+
+    @staticmethod
+    def _movement_links(value) -> bool:
+        """Cases du mouvement des navires : posées si absentes, sans écraser celles de l'éditeur."""
+        existing = [
+            (entry.get("value", entry) if isinstance(entry, dict) else {})
+            for entry in value.get("movement_links") or []
+        ]
+        if any(item.get("url_path") or item.get("page") for item in existing):
+            return False
+        value["movement_links"] = [
+            {
+                "type": "item",
+                "id": str(uuid.uuid4()),
+                "value": {
+                    "label": label,
+                    "icon": "ship",
+                    "page": None,
+                    "url_path": path,
+                    "image": library_image_id(file, title),
+                },
+            }
+            for label, path, file, title in MOVEMENT_TILES
+        ]
+        return True
