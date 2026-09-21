@@ -55,3 +55,24 @@ def test_media_index_htmx_returns_article_grid(media_index):
     assert response.status_code == 200
     assert "Filtrer l'espace média" not in content
     assert "news-grid" in content
+
+
+@pytest.mark.django_db
+def test_update_notes_images_adds_photos_once(media_index):
+    from django.core.management import call_command
+
+    note = ArticlePage(
+        title="Avis de signature : projet de terminal à conteneurs du Port de Ndayane",
+        summary="Résumé",
+        category="note",
+        publication_date=dt.date(2026, 9, 1),
+    )
+    media_index.add_child(instance=note)
+    note.save_revision().publish()
+
+    call_command("update_notes_images")
+    call_command("update_notes_images")
+    note.refresh_from_db()
+
+    assert note.cover_image_id is not None
+    assert [b.block_type for b in note.body].count("image") == 3
