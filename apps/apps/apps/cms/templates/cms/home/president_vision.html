@@ -1,0 +1,34 @@
+{% load static wagtailcore_tags wagtailimages_tags i18n %}
+<section class="hm-pres" aria-labelledby="hm-pres-title">
+  <div class="hm-pres-top">
+    <div class="hm-pres-copy">
+      {% if value.eyebrow %}<p class="eyebrow" data-reveal>{{ value.eyebrow }}</p>{% endif %}
+      <h2 id="hm-pres-title" data-reveal-words>{{ value.title }}</h2>
+      <div class="hm-pres-intro" data-reveal>{{ value.intro|richtext }}</div>
+    </div>
+    <figure class="hm-pres-photo" data-reveal="right">
+      {% if value.image %}
+        {% image value.image width-900 loading="lazy" alt=value.image_alt %}
+      {% else %}
+        <img src="{% static 'img/president.jpg' %}" alt="{% translate 'Le Président de la République Bassirou Diomaye Faye lors d’une allocution sur le secteur maritime' %}" loading="lazy" width="1200" height="798">
+      {% endif %}
+    </figure>
+  </div>
+
+  <ol class="hm-pillars">
+    {% for pillar in value.pillars %}
+      <li class="hm-pillar" data-reveal>
+        <span class="hm-pillar-number" aria-hidden="true">{{ forloop.counter }}</span>
+        <h3>{{ pillar.title }}</h3>
+        <p>{{ pillar.text }}</p>
+      </li>
+    {% endfor %}
+  </ol>
+
+  {% if value.quote %}
+    <figure class="hm-pres-quote">
+      <blockquote><p data-reveal-words>«&nbsp;{{ value.quote }}&nbsp;»</p></blockquote>
+      {% if value.quote_author %}<figcaption data-reveal>— {{ value.quote_author }}</figcaption>{% endif %}
+    </figure>
+  {% endif %}
+</section>

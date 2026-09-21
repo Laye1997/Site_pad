@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags i18n core_tags %}
+
+{% block title %}{{ page.seo_title|default:page.title }}{% endblock %}
+
+{% block content %}
+  {# L'accueil est composé de sections modifiables dans l'éditeur (voir apps/cms/home_blocks.py). #}
+  {% for block in home_sections %}
+    {% include_block block %}
+  {% endfor %}
+
+  {% if page.body %}
+    <div class="stream home-stream">
+      {% for block in page.body %}
+        {% include_block block %}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="{% static 'js/home.js' %}" defer></script>
+{% endblock %}

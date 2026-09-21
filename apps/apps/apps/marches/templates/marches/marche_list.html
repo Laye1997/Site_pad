@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Marchés publics" %}{% endblock %}
+
+{% block content %}
+  <section class="hero" aria-labelledby="marches-title">
+    <p class="eyebrow">{% translate "Transparence et commande publique" %}</p>
+    <h1 id="marches-title">{% translate "Marchés publics" %}</h1>
+    <p class="hero-intro">{% translate "Consultez les appels d'offres, avis d'attribution et plans de passation du Port Autonome de Dakar." %}</p>
+  </section>
+
+  <section class="prose" aria-labelledby="marches-filter-title">
+    <h2 id="marches-filter-title">{% translate "Filtrer les publications" %}</h2>
+    <nav class="filter-list" aria-label="{% translate 'Filtrer les marchés publics' %}">
+      {% for key, config in filtres.items %}
+        <a class="btn btn-secondary" href="?filtre={{ key }}" {% if key == filtre_actif %}aria-current="page"{% endif %} hx-get="{% url 'marches:liste' %}?filtre={{ key }}" hx-target="#marche-table-container" hx-push-url="true">{{ config.label }}</a>
+      {% endfor %}
+    </nav>
+  </section>
+
+  <section aria-labelledby="marches-table-title">
+    <h2 id="marches-table-title">{% translate "Publications" %}</h2>
+    <div id="marche-table-container" aria-live="polite">
+      {% include "marches/partials/marche_table.html" %}
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,6 @@
+-r base.txt
+# Production
+gunicorn>=23.0
+psycopg[binary]>=3.2
+django-csp>=4.0
+sentry-sdk>=2.14

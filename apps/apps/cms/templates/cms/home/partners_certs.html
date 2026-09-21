@@ -1,0 +1,53 @@
+{% load wagtailimages_tags i18n %}
+<section class="hm-trust" aria-labelledby="hm-certs-title">
+  <div class="hm-trust-head">
+    <p class="eyebrow">{% translate "Qualité, sécurité, environnement" %}</p>
+    <h2 id="hm-certs-title">{{ value.certs_title }}</h2>
+  </div>
+  {% if certifications %}
+    <ul class="hm-cert-cards">
+      {% for certification in certifications %}
+        <li class="hm-cert-card">
+          {% if certification.visual %}
+            {% image certification.visual width-360 as visual %}
+            <img class="hm-cert-visual" src="{{ visual.url }}" alt="{% blocktranslate with name=certification.get_referentiel_display %}Aperçu du certificat {{ name }}{% endblocktranslate %}" width="{{ visual.width }}" height="{{ visual.height }}" loading="lazy">
+          {% endif %}
+          <div class="hm-cert-body">
+            <span class="hm-cert-badge">{% translate "Certificat valide" %}</span>
+            <h3>{{ certification.get_referentiel_display }}</h3>
+            <p>{{ certification.perimetre }}</p>
+            <dl>
+              <div><dt>{% translate "Organisme" %}</dt><dd>{{ certification.organisme }}</dd></div>
+              {% if certification.numero %}<div><dt>N°</dt><dd>{{ certification.numero }}</dd></div>{% endif %}
+              <div><dt>{% translate "Valide jusqu'au" %}</dt><dd><time datetime="{{ certification.date_validite|date:'Y-m-d' }}">{{ certification.date_validite|date:"d/m/Y" }}</time></dd></div>
+            </dl>
+            {% if certification.document %}<a class="btn" href="{{ certification.document.url }}">{% translate "Télécharger le certificat" %}<span class="sr-only"> — {{ certification.get_referentiel_display }}</span></a>{% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="hm-trust-empty">{% translate "Les certifications seront bientôt publiées." %}</p>
+  {% endif %}
+</section>
+
+<section class="hm-partners-band" aria-labelledby="hm-partners-title">
+  <div class="hm-trust-head">
+    <p class="eyebrow">{% translate "Écosystème portuaire" %}</p>
+    <h2 id="hm-partners-title">{{ value.partners_title }}</h2>
+  </div>
+  {% if partners %}
+    <ul class="hm-logo-wall">
+      {% for partner in partners %}
+        <li>
+          {% image partner.logo max-220x110 as logo %}
+          {% if partner.url %}<a href="{{ partner.url }}" rel="noopener" aria-label="{{ partner.name }}">{% endif %}
+          <img src="{{ logo.url }}" alt="{% if not partner.url %}{{ partner.name }}{% endif %}" title="{{ partner.name }}" width="{{ logo.width }}" height="{{ logo.height }}" loading="lazy">
+          {% if partner.url %}</a>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="hm-trust-empty">{% translate "Les partenaires du port seront bientôt présentés ici." %}</p>
+  {% endif %}
+</section>

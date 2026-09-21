@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{% translate "Croisières" %}{% endblock %}
+
+{% block content %}
+  <nav class="breadcrumb" aria-label="{% translate 'Fil d’Ariane' %}">
+    <ol>
+      <li><a href="/{{ LANGUAGE_CODE }}/">{% translate "Accueil" %}</a></li>
+      <li><a href="{% url 'navires:liste' %}">{% translate "Mouvement des navires" %}</a></li>
+      <li aria-current="page">{% translate "Croisières" %}</li>
+    </ol>
+  </nav>
+
+  <section class="fleet-hero" aria-labelledby="cruise-title">
+    <div>
+      <p class="eyebrow">{% translate "Infos pratiques" %}</p>
+      <h1 id="cruise-title">{% translate "Escales de croisière" %}</h1>
+      <p class="hero-intro">{% translate "Le calendrier des paquebots attendus au Port Autonome de Dakar, avec leur poste à quai et leur consignataire." %}</p>
+    </div>
+    {% if prochaine %}
+      <div class="cruise-next">
+        <p class="cruise-next-label">{% translate "Prochaine escale" %}</p>
+        <p class="cruise-next-ship">{{ prochaine.navire }}</p>
+        <p class="cruise-next-meta"><time datetime="{{ prochaine.date|date:'Y-m-d' }}">{{ prochaine.date|date:"l j F Y" }}</time>{% if prochaine.poste %} · {% translate "poste" %} {{ prochaine.poste }}{% endif %}</p>
+      </div>
+    {% endif %}
+  </section>
+
+  <figure class="cruise-banner">
+    <img src="{% static 'img/mouvement-croisiere.jpg' %}" alt="{% translate 'Paquebot de croisière à quai au port de Dakar' %}" width="1000" height="600" loading="eager">
+  </figure>
+
+  <section class="cruise-bilan" aria-labelledby="bilan-title">
+    <h2 id="bilan-title">{% translate "Bilan croisière" %}</h2>
+    <ul class="cruise-bilan-grid">
+      {% for year in bilan %}
+        <li>
+          <p class="cruise-bilan-year">{{ year.annee }}</p>
+          <p class="cruise-bilan-num"><span>+{{ year.navires }}</span> {% translate "navires" %}</p>
+          <p class="cruise-bilan-num"><span>+{{ year.passagers }}</span> {% translate "passagers à l'arrivée de Dakar" %}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <nav class="fleet-tabs" aria-label="{% translate 'Période' %}">
+    <a href="?periode=a_venir{% if recherche %}&amp;q={{ recherche|urlencode }}{% endif %}" {% if periode == "a_venir" %}aria-current="page"{% endif %}
+       hx-get="{% url 'navires:croisieres' %}?periode=a_venir{% if recherche %}&amp;q={{ recherche|urlencode }}{% endif %}" hx-target="#cruise-results" hx-push-url="true">{% translate "À venir" %} <span class="fleet-count">{{ counts.a_venir }}</span></a>
+    <a href="?periode=passees{% if recherche %}&amp;q={{ recherche|urlencode }}{% endif %}" {% if periode == "passees" %}aria-current="page"{% endif %}
+       hx-get="{% url 'navires:croisieres' %}?periode=passees{% if recherche %}&amp;q={{ recherche|urlencode }}{% endif %}" hx-target="#cruise-results" hx-push-url="true">{% translate "Passées" %} <span class="fleet-count">{{ counts.passees }}</span></a>
+  </nav>
+
+  <form class="fleet-toolbar" action="{% url 'navires:croisieres' %}" method="get" role="search"
+        hx-get="{% url 'navires:croisieres' %}" hx-target="#cruise-results" hx-push-url="true"
+        hx-trigger="input changed delay:300ms from:#cruise-q, submit">
+    <input type="hidden" name="periode" value="{{ periode }}">
+    <div class="fleet-field">
+      <label for="cruise-q">{% translate "Rechercher un navire ou un consignataire" %}</label>
+      <input id="cruise-q" type="search" name="q" value="{{ recherche }}" autocomplete="off" maxlength="80">
+    </div>
+    <button class="btn" type="submit">{% translate "Filtrer" %}</button>
+  </form>
+
+  <section aria-labelledby="cruise-list-title">
+    <h2 id="cruise-list-title" class="sr-only">{% translate "Calendrier des escales de croisière" %}</h2>
+    <div id="cruise-results" aria-live="polite">
+      {% include "navires/partials/croisiere_table.html" %}
+    </div>
+  </section>
+{% endblock %}

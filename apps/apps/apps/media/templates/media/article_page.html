@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}{{ page.seo_title|default:page.title }}{% endblock %}
+
+{% block content %}
+  <article class="article-detail">
+    <nav class="breadcrumb" aria-label="{% translate 'Fil d’Ariane' %}">
+      <a href="{{ page.get_parent.url }}">{{ page.get_parent.title }}</a>
+    </nav>
+    <header class="article-head" aria-labelledby="article-title">
+      <p class="news-card-meta">
+        <span class="news-tag news-tag-{{ page.category }}">{{ page.get_category_display }}</span>
+        <time datetime="{{ page.publication_date|date:'Y-m-d' }}">{{ page.publication_date|date:"d F Y" }}</time>
+      </p>
+      <h1 id="article-title">{{ page.title }}</h1>
+      <p class="article-lead">{{ page.summary }}</p>
+    </header>
+    {% if page.cover_image %}
+      <figure class="article-cover">{% image page.cover_image width-1200 alt=page.cover_alt %}</figure>
+    {% endif %}
+    <div class="stream prose">
+      {% for block in page.body %}{% include_block block %}{% endfor %}
+    </div>
+    {% if related %}
+      <aside class="article-related" aria-labelledby="related-title">
+        <h2 id="related-title" class="hm-title hm-title-plain">{% translate "À lire aussi" %}</h2>
+        <div class="news-grid">
+          {% for article in related %}{% include "media/partials/article_card.html" with article=article featured=False %}{% endfor %}
+        </div>
+      </aside>
+    {% endif %}
+  </article>
+{% endblock %}

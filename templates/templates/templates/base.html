@@ -1,0 +1,197 @@
+{% load static wagtailcore_tags wagtailimages_tags wagtailuserbar i18n core_tags %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'fr' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Port Autonome de Dakar{% endblock %} — Port Autonome de Dakar</title>
+  {% translate "Port Autonome de Dakar — hub logistique et maritime d'Afrique de l'Ouest." as default_description %}
+  {% if page %}
+    {% with seo_title=page.seo_title|default:page.title description=page.search_description|default:default_description %}
+      <meta name="description" content="{{ description }}">
+      <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+      <meta property="og:type" content="website">
+      <meta property="og:locale" content="{{ LANGUAGE_CODE }}">
+      <meta property="og:title" content="{{ seo_title }}">
+      <meta property="og:description" content="{{ description }}">
+      <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+      {% if page.share_image %}
+        {% image page.share_image width-1200 as social_image %}
+        <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ social_image.url }}">
+        <meta property="og:image:alt" content="{{ page.share_image_alt }}">
+        <meta name="twitter:card" content="summary_large_image">
+      {% else %}
+        <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-pad.jpg' %}">
+        <meta property="og:image:alt" content="Port Autonome de Dakar">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:type" content="image/jpeg">
+        <meta name="twitter:card" content="summary_large_image">
+      {% endif %}
+      <meta name="twitter:title" content="{{ seo_title }}">
+      <meta name="twitter:description" content="{{ description }}">
+    {% endwith %}
+  {% else %}
+    <meta name="description" content="{{ default_description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="{{ LANGUAGE_CODE }}">
+    <meta property="og:title" content="Port Autonome de Dakar">
+    <meta property="og:description" content="{{ default_description }}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-pad.jpg' %}">
+    <meta property="og:image:alt" content="Port Autonome de Dakar">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:type" content="image/jpeg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Port Autonome de Dakar">
+    <meta name="twitter:description" content="{{ default_description }}">
+  {% endif %}
+  {% for code, label in LANGUAGES %}
+    <link rel="alternate" hreflang="{{ code }}" href="{% absolute_language_url code %}">
+  {% endfor %}
+  <link rel="alternate" hreflang="x-default" href="{{ request.scheme }}://{{ request.get_host }}/fr/">
+  <link rel="icon" href="{% static 'img/logo-pad.svg' %}" type="image/svg+xml">
+  <link rel="preload" href="{% static 'fonts/raleway-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{% static 'css/design-system.css' %}">
+  <meta name="htmx-config" content='{"includeIndicatorStyles": false, "allowEval": false, "allowScriptTags": false}'>
+  <script src="{% static 'js/htmx.min.js' %}" defer></script>
+  <script src="{% static 'js/site.js' %}" defer></script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "GovernmentOrganization", "name": "Port Autonome de Dakar", "url": "{{ request.scheme }}://{{ request.get_host }}/", "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo-pad.svg' %}", "telephone": "+221800801802"}</script>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  {% include "includes/icons.html" %}
+  <a class="skip-link" href="#contenu">{% translate "Aller au contenu principal" %}</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/{{ LANGUAGE_CODE }}/" aria-label="{% translate 'Accueil du Port Autonome de Dakar' %}">
+        <img src="{% static 'img/logo-pad.svg' %}" alt="Port Autonome de Dakar" width="190" height="54">
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav"
+              data-label-open="{% translate 'Ouvrir le menu principal' %}" data-label-close="{% translate 'Fermer le menu principal' %}">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg>
+        <span class="sr-only">{% translate "Ouvrir le menu principal" %}</span>
+      </button>
+      <nav id="primary-nav" class="main-nav" aria-label="{% translate 'Navigation principale' %}">
+        <a href="/{{ LANGUAGE_CODE }}/">{% translate "Accueil" %}</a>
+        <details class="nav-group">
+          <summary>{% translate "Le Port" %}</summary>
+          <div class="nav-menu">
+            {% for menu_page in menu_pages %}
+              {% if menu_page.slug == "nous-decouvrir" or menu_page.slug == "infos-pratiques" or menu_page.slug == "engagements" %}
+                <a href="{% pageurl menu_page %}">{{ menu_page.title }}</a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary>{% translate "Opérations portuaires" %}</summary>
+          <div class="nav-menu">
+            {% for menu_page in menu_pages %}
+              {% if menu_page.slug == "nos-services" %}<a href="{% pageurl menu_page %}">{{ menu_page.title }}</a>{% endif %}
+            {% endfor %}
+            <a href="{% url 'navires:liste' %}">{% translate "Navires" %}</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary>{% translate "Opportunités" %}</summary>
+          <div class="nav-menu">
+            {% for menu_page in menu_pages %}
+              {% if menu_page.slug == "opportunites-affaires" %}<a href="{% pageurl menu_page %}">{{ menu_page.title }}</a>{% endif %}
+            {% endfor %}
+            <a href="{% url 'marches:liste' %}">{% translate "Marchés publics" %}</a>
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary>{% translate "Média" %}</summary>
+          <div class="nav-menu">
+            {% for menu_page in menu_pages %}
+              {% if menu_page.slug == "espace-media" %}<a href="{% pageurl menu_page %}">{{ menu_page.title }}</a>{% endif %}
+            {% endfor %}
+          </div>
+        </details>
+        <details class="nav-group">
+          <summary>{% translate "Services en ligne" %}</summary>
+          <div class="nav-menu">
+            <a href="{% url 'espace_pro:dashboard' %}">{% translate "Espace Pro" %}</a>
+            <a href="{% url 'recrutement:apply' %}">{% translate "Recrutement" %}</a>
+          </div>
+        </details>
+      </nav>
+      <nav class="lang" aria-label="{% translate 'Choix de la langue' %}">
+        {% for code, label in LANGUAGES %}
+          <a href="{% language_url code %}" lang="{{ code }}" hreflang="{{ code }}"{% if code == LANGUAGE_CODE %} aria-current="true"{% endif %}>
+            <span aria-hidden="true">{{ code|upper }}</span><span class="sr-only">{{ label }}</span>
+          </a>
+        {% endfor %}
+      </nav>
+      <div class="header-utilities">
+        <a href="{% url 'recherche' %}" aria-label="{% translate 'Rechercher sur le site' %}">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg>
+        </a>
+        <a href="tel:+221800801802" aria-label="{% translate 'Appeler le numéro vert 800 801 802' %}">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg>
+        </a>
+        <a href="{% slug_url 'infos-pratiques/contacts' %}" aria-label="{% translate 'Voir les contacts et la localisation' %}">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pin"></use></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenu" class="container" tabindex="-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="footer-brand" href="/{{ LANGUAGE_CODE }}/" aria-label="{% translate 'Accueil du Port Autonome de Dakar' %}">
+          <img src="{% static 'img/logo-pad-color.png' %}" alt="Port Autonome de Dakar — {% translate 'Votre connexion au monde' %}" width="378" height="110" loading="lazy">
+        </a>
+      </div>
+      <nav aria-label="{% translate 'Informations légales' %}">
+        <p class="footer-title">{% translate "Informations" %}</p>
+        <ul class="footer-links">
+          {% for footer_page in footer_pages %}
+            <li><a href="{% pageurl footer_page %}">{{ footer_page.title }}</a></li>
+          {% endfor %}
+          <li><a href="{% slug_url 'infos-pratiques/contacts' %}">{% translate "Contacts" %}</a></li>
+          {% if FEATURES.consent_banner %}
+            <li><a href="#consent-banner" data-consent-manage>{% translate "Gérer mes cookies" %}</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+      <div>
+        <p class="footer-title">{% translate "Numéro vert" %}</p>
+        <p><a href="tel:+221800801802">800 801 802</a></p>
+        {% if SOCIAL_LINKS %}
+          <p class="footer-title">{% translate "Suivez-nous" %}</p>
+          <ul class="footer-links footer-social">
+            {% for name, url in SOCIAL_LINKS.items %}
+              <li><a href="{{ url }}" rel="noopener" target="_blank">{{ name }}<span class="sr-only"> ({% translate "nouvelle fenêtre" %})</span></a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+    <div class="container">
+      <p class="footer-legal">© {% now "Y" %} Port Autonome de Dakar</p>
+    </div>
+  </footer>
+
+  {% if FEATURES.consent_banner %}
+    <section id="consent-banner" class="consent-banner" role="region" aria-labelledby="consent-title" hidden>
+      <h2 id="consent-title">{% translate "Vos données, votre choix" %}</h2>
+      <p>{% translate "Ce site n'utilise que les cookies nécessaires à son fonctionnement. Avec votre accord, nous mesurons aussi l'audience de façon anonyme pour améliorer nos services. Aucun traceur n'est déposé avant votre choix." %}</p>
+      <div class="consent-actions">
+        <button type="button" class="btn" data-consent-accept>{% translate "Accepter" %}</button>
+        <button type="button" class="btn btn-secondary" data-consent-refuse>{% translate "Refuser" %}</button>
+      </div>
+    </section>
+    <script src="{% static 'js/consent.js' %}" defer></script>
+  {% endif %}
+  {% block extra_scripts %}{% endblock %}
+  {% wagtailuserbar "bottom-right" %}
+</body>
+</html>

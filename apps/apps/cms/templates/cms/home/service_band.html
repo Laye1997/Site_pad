@@ -1,0 +1,41 @@
+{% load i18n wagtailimages_tags core_tags %}
+<section class="hm-service-band{% if not movement %} hm-service-band-single{% endif %}" aria-labelledby="hm-services-title">
+  <div class="hm-panel hm-panel-light">
+    <h2 id="hm-services-title" class="hm-title">{{ value.services_title }}</h2>
+    <ul class="hm-icon-grid hm-icon-grid-4">
+      {% for item in value.services %}
+        <li>
+          {% if item.image %}
+            <a class="has-photo" href="{% link_url item %}">
+              {% image item.image fill-640x420 as photo %}
+              <img src="{{ photo.url }}" alt="" width="{{ photo.width }}" height="{{ photo.height }}" loading="lazy">
+              <span>{{ item.label }}</span>
+            </a>
+          {% else %}
+            <a href="{% link_url item %}"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-{{ item.icon }}"></use></svg><span>{{ item.label }}</span></a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% if movement %}
+    <div class="hm-panel hm-panel-light hm-panel-movement">
+      <h2 class="hm-title">{{ value.movement_title }}</h2>
+      <ul class="hm-icon-grid hm-icon-grid-5">
+        {% for item in value.movement_links %}
+          <li>
+            {% if item.image %}
+              <a class="has-photo" href="{% link_url item %}">
+                {% image item.image fill-640x420 as photo %}
+                <img src="{{ photo.url }}" alt="" width="{{ photo.width }}" height="{{ photo.height }}" loading="lazy">
+                <span>{{ item.label }}</span>
+              </a>
+            {% else %}
+              <a href="{% link_url item %}"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-{{ item.icon }}"></use></svg><span>{{ item.label }}</span></a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</section>

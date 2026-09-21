@@ -1,0 +1,9 @@
+{% load core_tags %}
+<section class="hm-join" aria-labelledby="hm-join-title">
+  <h2 id="hm-join-title" class="hm-title hm-title-plain">{{ value.title }}</h2>
+  <ul class="hm-join-links">
+    {% for item in value.items %}
+      <li><a href="{% link_url item %}"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-{{ item.icon }}"></use></svg>{{ item.label }}</a></li>
+    {% endfor %}
+  </ul>
+</section>

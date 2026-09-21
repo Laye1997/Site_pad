@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags i18n %}
+
+{% block title %}{% translate "Recherche" %}{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <h1>{% translate "Recherche" %}</h1>
+    <form class="search-page-form" role="search" action="{% url 'recherche' %}" method="get">
+      <label for="search-page-q">{% translate "Rechercher sur le site" %}</label>
+      <div class="search-row">
+        <input id="search-page-q" type="search" name="q" value="{{ query }}" autocomplete="off">
+        <button class="btn" type="submit">{% translate "Rechercher" %}</button>
+      </div>
+    </form>
+  </section>
+  {% if query %}
+    <section aria-labelledby="results-title">
+      <h2 id="results-title">{{ results.paginator.count }} {% translate "résultat(s) pour" %} « {{ query }} »</h2>
+      <ul class="search-results">
+        {% for result in results %}
+          <li>
+            <a href="{% pageurl result %}">{{ result.title }}</a>
+            {% if result.search_description %}<p>{{ result.search_description }}</p>{% endif %}
+          </li>
+        {% empty %}
+          <li>{% translate "Aucun résultat. Essayez d'autres mots-clés." %}</li>
+        {% endfor %}
+      </ul>
+      {% if results.has_other_pages %}
+        <nav class="pagination" aria-label="{% translate 'Pagination des résultats' %}">
+          {% if results.has_previous %}<a class="btn btn-secondary" href="?q={{ query|urlencode }}&page={{ results.previous_page_number }}">{% translate "Précédent" %}</a>{% endif %}
+          <span>{{ results.number }} / {{ results.paginator.num_pages }}</span>
+          {% if results.has_next %}<a class="btn btn-secondary" href="?q={{ query|urlencode }}&page={{ results.next_page_number }}">{% translate "Suivant" %}</a>{% endif %}
+        </nav>
+      {% endif %}
+    </section>
+  {% endif %}
+{% endblock %}

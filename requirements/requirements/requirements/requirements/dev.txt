@@ -1,0 +1,11 @@
+-r base.txt
+django-csp>=4.0
+# Outils de développement et de qualité
+ruff>=0.6
+black>=24.8
+mypy>=1.11
+pytest>=8.3
+pytest-django>=4.9
+coverage>=7.6
+pip-audit>=2.7
+polib>=1.2

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Tableau de bord professionnel" %}{% endblock %}
+
+{% block content %}
+  <section class="hero" aria-labelledby="pro-dashboard-title">
+    <p class="eyebrow">{% translate "Services en ligne" %}</p>
+    <h1 id="pro-dashboard-title">{% translate "Bonjour" %} {{ user.get_full_name|default:user.username }}</h1>
+    <p class="hero-intro">{% translate "Votre espace professionnel est prêt à accueillir les prochaines démarches portuaires." %}</p>
+  </section>
+  <section class="home-section" aria-labelledby="pro-services-title">
+    <h2 id="pro-services-title">{% translate "Vos services" %}</h2>
+    <div class="home-link-grid">
+      <article class="home-link-card"><p class="card-kicker">{% translate "À venir" %}</p><h3>{% translate "Démarches portuaires" %}</h3><p>{% translate "Le raccordement au portail de services sera disponible dans cette rubrique." %}</p></article>
+      <article class="home-link-card"><p class="card-kicker">{% translate "Compte" %}</p><h3>{% translate "Votre profil" %}</h3><p>{{ user.email }}</p></article>
+    </div>
+  </section>
+  <form method="post" action="{% url 'espace_pro:logout' %}">
+    {% csrf_token %}
+    <button class="btn btn-secondary" type="submit">{% translate "Se déconnecter" %}</button>
+  </form>
+{% endblock %}

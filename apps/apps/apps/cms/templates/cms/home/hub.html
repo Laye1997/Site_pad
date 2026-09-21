@@ -1,0 +1,13 @@
+{% load static wagtailimages_tags i18n core_tags %}
+<section class="hm-hub" aria-labelledby="hm-hub-title">
+  <div class="hm-hub-copy">
+    <h2 id="hm-hub-title">{{ value.title }}</h2>
+    <p>{{ value.text }}</p>
+    <a class="btn hm-btn-accent" href="{% link_url value %}">{{ value.button_label }}<span class="sr-only"> — {{ value.title }}</span></a>
+  </div>
+  {% if value.image %}
+    {% image value.image fill-900x500 loading="lazy" alt=value.image_alt %}
+  {% else %}
+    <img src="{% static 'img/origine/banniere-grue.jpg' %}" alt="{% translate 'Portique de quai du Port Autonome de Dakar' %}" loading="lazy" width="900" height="500">
+  {% endif %}
+</section>

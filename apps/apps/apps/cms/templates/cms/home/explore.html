@@ -1,0 +1,22 @@
+{% load wagtailcore_tags wagtailimages_tags i18n %}
+<section class="home-section" aria-labelledby="explore-title">
+  <div class="section-heading">
+    {% if value.eyebrow %}<p class="eyebrow">{{ value.eyebrow }}</p>{% endif %}
+    <h2 id="explore-title">{{ value.title }}</h2>
+  </div>
+  <div class="rubric-grid">
+    {% for featured_page in featured_pages %}
+      <a class="rubric-card{% if featured_page.card_image %} has-photo{% endif %}" href="{% pageurl featured_page %}">
+        {% if featured_page.card_image %}
+          {% image featured_page.card_image fill-720x480 as photo %}
+          <img src="{{ photo.url }}" alt="" width="{{ photo.width }}" height="{{ photo.height }}" loading="lazy">
+        {% endif %}
+        <span class="rubric-card-body">
+          <span class="rubric-card-title">{{ featured_page.title }}</span>
+          {% if featured_page.intro %}<span class="rubric-card-text">{{ featured_page.intro }}</span>{% endif %}
+          <span class="rubric-card-more">{% translate "Découvrir" %} <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></span>
+        </span>
+      </a>
+    {% endfor %}
+  </div>
+</section>

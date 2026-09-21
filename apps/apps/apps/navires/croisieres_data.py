@@ -1,0 +1,45 @@
+"""Calendrier des escales de croisière repris de l'ancien site (portdakar.sn, Infos pratiques).
+
+(jour, mois, année, navire, poste, consignataire). Données publiées par le PAD : à mettre à jour
+directement dans l'administration (Snippets > Escales de croisière).
+"""
+
+CROISIERES = [
+    (21, 11, 2024, "SEVEN SEAS SPLENDOR", "31/32", "R LOGISTICS"),
+    (23, 11, 2024, "AZAMARA QUEST", "31/32", "SOCOPAO"),
+    (24, 11, 2024, "RIVIERA", "21/32", "R LOGISTICS"),
+    (25, 11, 2024, "NORWEGIAN SKY", "31/32", "R LOGISTICS"),
+    (15, 11, 2024, "CORINTHIAN", "213", "OBT LOG"),
+    (31, 12, 2024, "CORINTHIAN", "213", "OBT LOG"),
+    (14, 1, 2025, "CORINTHIAN", "213", "OBT LOG"),
+    (9, 2, 2025, "CORINTHIAN", "213", "OBT LOG"),
+    (16, 2, 2025, "SEABOURN SOJOURN", "31/32", "SOCOPAO"),
+    (16, 2, 2025, "VOLENDAM", "31/32", "SOCOPAO"),
+    (25, 2, 2025, "CORINTHIAN", "213", "OBT LOG"),
+    (8, 3, 2025, "LE DUMONT DURVILLE", "31/32", "OBT LOG"),
+    (8, 3, 2025, "AZAMARA QUEST", "31/32", "SOCOPAO"),
+    (11, 3, 2025, "CORINTHIAN", "213", "OBT LOG"),
+    (28, 3, 2025, "SILVER DAWN", "31/32", "SISA"),
+    (6, 4, 2025, "LYRIAL", "31/32", "OBT LOG"),
+    (15, 4, 2025, "EXPLORIS ONE", "213", "SOCOPAO"),
+    (15, 4, 2025, "LYRIAL", "31/32", "OBT LOG"),
+    (16, 4, 2025, "EXPLORIS ONE", "213", "SOCOPAO"),
+    (20, 4, 2025, "QUEEN ANNE", "31/32", "SOCOPAO"),
+    (25, 4, 2025, "EXPLORIS ONE", "213", "SOCOPAO"),
+    (26, 4, 2025, "MSC MAGNIFICA", "15", "MSC"),
+    (1, 5, 2025, "CRYSTAL SYMPHONY", "31/32", "OMA"),
+    (2, 5, 2025, "SH DIANA", "213", "OMA"),
+    (4, 10, 2025, "ISLAND SKY", "31/32", "SOCOPAO"),
+    (31, 10, 2025, "AZAMARA PURSUIT", "31/32", "SOCOPAO"),
+    (3, 11, 2025, "VOYAGER OF THE SEAS", "31/32", "SISA"),
+    (16, 11, 2025, "LE BELLOT", "31/32", "OBT LOG"),
+    (24, 11, 2025, "LE BELLOT", "31/32", "OBT LOG"),
+    (2, 12, 2025, "LE BELLOT", "31/32", "OBT LOG"),
+    (5, 12, 2025, "AZAMARA JOURNEY", "31/32", "SOCOPAO"),
+    (17, 12, 2025, "CORINTHIAN", "213", "OBT LOG"),
+    (18, 2, 2026, "AZAMARA JOURNEY", "31/32", "SOCOPAO"),
+    (3, 5, 2026, "SILVER WIND", "31/32", "SISA"),
+    (1, 11, 2026, "EUROPA 2", "31/32", "WILHELMSEN"),
+    (2, 2, 2027, "QUEEN MARY 2", "31/32", "SOCOPAO"),
+    (21, 4, 2027, "QUEEN VICTORIA", "31/32", "SOCOPAO"),
+]
