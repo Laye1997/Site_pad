@@ -4,15 +4,17 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     DJANGO_SETTINGS_MODULE=config.settings.prod
 
-WORKDIR /app
+# Le backend (Python) et le frontend (gabarits, CSS, JS, images) restent côte à côte, comme dans le dépôt.
+WORKDIR /app/backend
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential libpq5 && rm -rf /var/lib/apt/lists/*
 
-COPY requirements/ requirements/
+COPY backend/requirements/ requirements/
 RUN pip install --no-cache-dir -r requirements/prod.txt
 
-COPY . .
+COPY backend/ /app/backend/
+COPY frontend/ /app/frontend/
 RUN DJANGO_SECRET_KEY=build-only-secret-key-not-used-at-runtime-0123456789 \
     python manage.py collectstatic --noinput --settings=config.settings.prod
 

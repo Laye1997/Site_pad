@@ -1,12 +1,11 @@
 __pycache__/
 *.py[cod]
 .venv/
-.venv313/
 venv/
 .env
-db.sqlite3
-/media/
-/staticfiles/
+**/db.sqlite3
+/backend/media/
+/backend/staticfiles/
 .coverage
 htmlcov/
 .mypy_cache/
