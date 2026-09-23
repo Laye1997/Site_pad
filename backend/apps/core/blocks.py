@@ -80,6 +80,76 @@ class TableBlock(blocks.StructBlock):
         template = "core/blocks/table.html"
 
 
+class OrgPersonBlock(blocks.StructBlock):
+    image = ImageChooserBlock(required=False, label="Photo")
+    name = blocks.CharBlock(label="Nom")
+    role = blocks.CharBlock(label="Fonction ou direction")
+
+
+class OrgGroupBlock(blocks.StructBlock):
+    title = blocks.CharBlock(label="Titre du groupe", help_text="Ex. : Directions sectorielles.")
+    featured = blocks.BooleanBlock(
+        required=False,
+        label="Mettre en avant",
+        help_text="Cartes plus grandes, pour la direction générale.",
+    )
+    members = blocks.ListBlock(OrgPersonBlock(), label="Personnes")
+
+
+class OrgDirectionBlock(blocks.StructBlock):
+    title = blocks.CharBlock(label="Direction")
+    departments = blocks.ListBlock(
+        blocks.CharBlock(label="Département"), required=False, label="Départements"
+    )
+
+
+class OrgStructureBlock(blocks.StructBlock):
+    """Structure hiérarchique (gouvernance, DG, directions, départements), sans photo.
+
+    Complète le bloc « Organigramme » (trombinoscope avec photos) en montrant l'arborescence
+    complète de l'organisation, telle qu'elle existe même quand aucun nom n'est publié pour un
+    poste. Entièrement modifiable depuis l'admin : ajouter, renommer ou réordonner les unités.
+    """
+
+    governance_title = blocks.CharBlock(label="Organe", default="Conseil d'Administration")
+    governance_branches = blocks.ListBlock(
+        blocks.CharBlock(label="Organe rattaché"),
+        label="Organes rattachés au Conseil d'Administration",
+        default=["Comités spécialisés", "Comité de direction"],
+    )
+    dg_title = blocks.CharBlock(label="Titre", default="Directeur Général")
+    dg_attached = blocks.ListBlock(
+        blocks.CharBlock(label="Unité"),
+        label="Unités rattachées au Directeur Général",
+        default=["Cabinet du DG", "Conseillers techniques"],
+    )
+    dg_cells = blocks.ListBlock(
+        blocks.CharBlock(label="Cellule"), label="Cellules rattachées à la Direction générale"
+    )
+    secretariat_title = blocks.CharBlock(label="Titre", default="Secrétariat Général")
+    secretariat_cells = blocks.ListBlock(
+        blocks.CharBlock(label="Cellule"), label="Cellules du Secrétariat Général"
+    )
+    directions = blocks.ListBlock(OrgDirectionBlock(), label="Directions")
+    regional_title = blocks.CharBlock(label="Ports régionaux", default="Ports régionaux (4)")
+
+    class Meta:
+        icon = "group"
+        label = "Structure de l'organigramme"
+        template = "core/blocks/org_structure.html"
+
+
+class OrgChartBlock(blocks.StructBlock):
+    """Organigramme : groupes de personnes avec photo, nom et fonction, tous modifiables."""
+
+    groups = blocks.ListBlock(OrgGroupBlock(), label="Groupes")
+
+    class Meta:
+        icon = "group"
+        label = "Organigramme"
+        template = "core/blocks/org_chart.html"
+
+
 class ContentStreamBlock(blocks.StreamBlock):
     """Bibliothèque de blocs disponible pour composer une page."""
 
@@ -89,6 +159,8 @@ class ContentStreamBlock(blocks.StreamBlock):
     callout = CalloutBlock()
     cta = CTABlock()
     table = TableBlock()
+    org_chart = OrgChartBlock()
+    org_structure = OrgStructureBlock()
 
     class Meta:
         block_counts: dict[str, Any] = {}

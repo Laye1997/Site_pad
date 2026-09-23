@@ -1,0 +1,22 @@
+{% load wagtailimages_tags i18n %}
+<div class="org-chart">
+  {% for group in value.groups %}
+    <section class="org-group{% if group.featured %} is-featured{% endif %}" aria-labelledby="org-g{{ forloop.counter }}">
+      <h2 id="org-g{{ forloop.counter }}" class="org-group-title">{{ group.title }}</h2>
+      <ul class="org-grid">
+        {% for person in group.members %}
+          <li class="org-card">
+            {% if person.image %}
+              {% image person.image fill-360x420 as photo %}
+              <img src="{{ photo.url }}" alt="" width="{{ photo.width }}" height="{{ photo.height }}" loading="lazy">
+            {% else %}
+              <span class="org-card-empty" aria-hidden="true"><svg class="icon" focusable="false"><use href="#i-user"></use></svg></span>
+            {% endif %}
+            <p class="org-card-name">{{ person.name }}</p>
+            <p class="org-card-role">{{ person.role }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
+</div>

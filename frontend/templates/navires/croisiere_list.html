@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n static %}
 
-{% block title %}{% translate "Croisières" %}{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
 
 {% block content %}
   <nav class="breadcrumb" aria-label="{% translate 'Fil d’Ariane' %}">
@@ -14,9 +14,9 @@
 
   <section class="fleet-hero" aria-labelledby="cruise-title">
     <div>
-      <p class="eyebrow">{% translate "Infos pratiques" %}</p>
-      <h1 id="cruise-title">{% translate "Escales de croisière" %}</h1>
-      <p class="hero-intro">{% translate "Le calendrier des paquebots attendus au Port Autonome de Dakar, avec leur poste à quai et leur consignataire." %}</p>
+      {% if eyebrow %}<p class="eyebrow">{{ eyebrow }}</p>{% endif %}
+      <h1 id="cruise-title">{{ page_title }}</h1>
+      {% if intro %}<p class="hero-intro">{{ intro }}</p>{% endif %}
     </div>
     {% if prochaine %}
       <div class="cruise-next">

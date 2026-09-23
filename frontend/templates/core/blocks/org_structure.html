@@ -1,0 +1,61 @@
+{% load i18n %}
+<div class="org-structure">
+  <section class="org-tier org-tier-governance" aria-labelledby="org-s-gov">
+    <h2 id="org-s-gov" class="org-tier-title">{{ value.governance_title }}</h2>
+    {% if value.governance_branches %}
+      <ul class="org-tier-row">
+        {% for branch in value.governance_branches %}<li class="org-chip">{{ branch }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  </section>
+
+  <section class="org-tier org-tier-dg" aria-labelledby="org-s-dg">
+    <h2 id="org-s-dg" class="org-tier-title org-tier-title-primary">{{ value.dg_title }}</h2>
+    <div class="org-tier-cols">
+      {% if value.dg_attached %}
+        <ul class="org-tier-list">
+          {% for unit in value.dg_attached %}<li class="org-chip">{{ unit }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+      {% if value.dg_cells %}
+        <ul class="org-tier-list">
+          {% for cell in value.dg_cells %}<li class="org-chip org-chip-cell">{{ cell }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </section>
+
+  {% if value.secretariat_title %}
+    <section class="org-tier org-tier-secretariat" aria-labelledby="org-s-sec">
+      <h2 id="org-s-sec" class="org-tier-title">{{ value.secretariat_title }}</h2>
+      {% if value.secretariat_cells %}
+        <ul class="org-tier-row">
+          {% for cell in value.secretariat_cells %}<li class="org-chip org-chip-cell">{{ cell }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    </section>
+  {% endif %}
+
+  {% if value.directions %}
+    <section class="org-tier org-tier-directions" aria-labelledby="org-s-dir">
+      <h2 id="org-s-dir" class="org-tier-title">{% translate "Directions" %}</h2>
+      <ul class="org-direction-grid">
+        {% for direction in value.directions %}
+          <li class="org-direction">
+            <p class="org-direction-title">{{ direction.title }}</p>
+            {% if direction.departments %}
+              <ul class="org-department-list">
+                {% for department in direction.departments %}<li>{{ department }}</li>{% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        {% endfor %}
+        {% if value.regional_title %}
+          <li class="org-direction org-direction-regional">
+            <p class="org-direction-title">{{ value.regional_title }}</p>
+          </li>
+        {% endif %}
+      </ul>
+    </section>
+  {% endif %}
+</div>

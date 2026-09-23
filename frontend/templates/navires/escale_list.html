@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% translate "Mouvement des navires" %}{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
 
 {% block content %}
   <section class="fleet-hero" aria-labelledby="navires-title">
     <div>
-      <p class="eyebrow">{% translate "Trafic maritime" %}</p>
-      <h1 id="navires-title">{% translate "Mouvement des navires" %}</h1>
-      <p class="hero-intro">{% translate "Suivez les arrivées, les escales à quai et les départs du port de Dakar." %}</p>
+      {% if eyebrow %}<p class="eyebrow">{{ eyebrow }}</p>{% endif %}
+      <h1 id="navires-title">{{ page_title }}</h1>
+      {% if intro %}<p class="hero-intro">{{ intro }}</p>{% endif %}
     </div>
     <dl class="fleet-kpis">
       <div class="fleet-kpi"><dt>{% translate "Attendus" %}</dt><dd>{{ counts.attendus }}</dd></div>

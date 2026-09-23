@@ -1,16 +1,7 @@
-"""Authentification et tableau de bord de l'espace professionnel."""
+"""Vues de l'espace professionnel.
 
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-
-
-class ProLoginView(auth_views.LoginView):
-    template_name = "espace_pro/login.html"
-    redirect_authenticated_user = True
-
-
-@login_required
-def dashboard(request):
-    """Tableau de bord minimal réservé aux professionnels authentifiés."""
-    return render(request, "espace_pro/dashboard.html")
+Aucune vue pour l'instant : la page « Espace Pro » (présentation et passerelle vers le portail
+Atlantis) est une page CMS classique, gérée par ``apps.cms`` (voir la commande
+``seed_espace_pro``). Cette app reste réservée à une future intégration SSO avec Atlantis, si le
+port fournit les informations techniques nécessaires (protocole, clé partagée).
+"""

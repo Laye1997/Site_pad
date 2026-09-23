@@ -15,7 +15,6 @@ def robots_txt(request):
         "Disallow: /admin/",
         "Disallow: /django-admin/",
         "Disallow: /api/",
-        "Disallow: /*/espace-pro/",
         f"Sitemap: {request.build_absolute_uri('/sitemap.xml')}",
     ]
     return HttpResponse("\n".join(lines) + "\n", content_type="text/plain; charset=utf-8")

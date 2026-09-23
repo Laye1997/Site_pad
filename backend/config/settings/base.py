@@ -223,9 +223,11 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-LOGIN_URL = "espace_pro:login"
-LOGIN_REDIRECT_URL = "espace_pro:dashboard"
-LOGOUT_REDIRECT_URL = "espace_pro:login"
+# Seule connexion réelle du site : l'admin Wagtail (édition de contenu). L'Espace Pro (usagers du
+# port) est une page CMS qui renvoie vers le portail professionnel Atlantis, pas un compte local.
+LOGIN_URL = "wagtailadmin_login"
+LOGIN_REDIRECT_URL = "wagtailadmin_home"
+LOGOUT_REDIRECT_URL = "wagtailadmin_login"
 
 # --- Wagtail ---------------------------------------------------------------
 WAGTAIL_SITE_NAME = "Port Autonome de Dakar"

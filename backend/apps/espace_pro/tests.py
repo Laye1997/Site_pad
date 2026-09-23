@@ -1,36 +1,26 @@
+"""L'Espace Pro est une page CMS (voir apps.cms.management.commands.seed_espace_pro),
+pas un compte local : ces tests vérifient la passerelle vers le portail Atlantis."""
+
 import pytest
-from django.contrib.auth import get_user_model
+from django.core.management import call_command
 from django.test import Client
 
 
 @pytest.mark.django_db
-def test_professional_dashboard_requires_login():
+def test_espace_pro_page_links_to_atlantis_portal():
+    call_command("seed_site_structure")
+    call_command("seed_espace_pro")
+
     response = Client().get("/fr/espace-pro/")
 
-    assert response.status_code == 302
-    assert "/fr/espace-pro/connexion/" in response.url
-
-
-@pytest.mark.django_db
-def test_professional_user_can_access_dashboard():
-    test_password = "MotDePasse-solide-2026"  # noqa: S105
-    user = get_user_model().objects.create_user(
-        username="professionnel",
-        password=test_password,
-        email="pro@example.com",
-    )
-    client = Client()
-    client.force_login(user)
-
-    response = client.get("/fr/espace-pro/")
-
     assert response.status_code == 200
-    assert "Tableau de bord" in response.content.decode()
+    content = response.content.decode()
+    assert "atlantis.portdakar.sn" in content
+    assert "Procédures et agréments" in content or "procedures-agrements" in content
 
 
 @pytest.mark.django_db
-def test_professional_login_page_is_public():
+def test_old_login_url_no_longer_served():
     response = Client().get("/fr/espace-pro/connexion/")
 
-    assert response.status_code == 200
-    assert "Se connecter" in response.content.decode()
+    assert response.status_code == 404

@@ -501,7 +501,7 @@ CONTENT = {
             h("Espace professionnel"),
             p("Connexion ou création de compte sur le portail de service Atlantis."),
             cta("Se connecter au portail Atlantis", "https://atlantis.portdakar.sn"),
-            cta("Espace pro du site", "/fr/espace-pro/connexion/"),
+            cta("Espace pro du site", "/fr/espace-pro/"),
             h("Carrières"),
             p("Consultez nos offres ci-dessous ou envoyez une candidature spontanée."),
             cta("Candidature spontanée", "/fr/recrutement/postuler/"),

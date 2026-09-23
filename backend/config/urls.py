@@ -29,7 +29,7 @@ urlpatterns += i18n_patterns(
     path("navires/", include("apps.navires.urls")),
     path("marches/", include("apps.marches.urls")),
     path("recrutement/", include("apps.recrutement.urls")),
-    path("espace-pro/", include("apps.espace_pro.urls")),
+    # « Espace Pro » (/espace-pro/) est une page CMS classique, servie par wagtail_urls ci-dessous.
     path("", include(wagtail_urls)),
     prefix_default_language=True,
 )

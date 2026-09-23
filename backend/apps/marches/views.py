@@ -2,6 +2,7 @@
 
 from django.shortcuts import render
 
+from apps.core.models import ListHeaderSettings
 from apps.marches.models import AppelOffre
 
 FILTERS = {
@@ -21,7 +22,11 @@ def marche_list(request):
     if filters:
         queryset = queryset.filter(**filters)
 
+    texts = ListHeaderSettings.for_request(request)
     context = {
+        "eyebrow": texts.marches_eyebrow,
+        "page_title": texts.marches_title,
+        "intro": texts.marches_intro,
         "marches": queryset,
         "filtre_actif": filtre_actif,
         "filtres": FILTERS,

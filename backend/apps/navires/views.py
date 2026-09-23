@@ -3,6 +3,7 @@
 from django.db.models import Count, Max, Q
 from django.shortcuts import render
 
+from apps.core.models import ListHeaderSettings
 from apps.navires.models import Escale
 
 FILTRES = {
@@ -63,7 +64,11 @@ def escale_list(request):
     queryset = queryset.order_by("date_arrivee", "navire")
 
     counts = _counts()
+    texts = ListHeaderSettings.for_request(request)
     context = {
+        "eyebrow": texts.navires_eyebrow,
+        "page_title": texts.navires_title,
+        "intro": texts.navires_intro,
         "escales": queryset,
         "filtre_actif": filtre_actif,
         "filtres": {key: {**config, "count": counts[key]} for key, config in FILTRES.items()},
@@ -104,7 +109,11 @@ def croisiere_list(request):
         )
     queryset = queryset.order_by("date" if periode == "a_venir" else "-date", "navire")
 
+    texts = ListHeaderSettings.for_request(request)
     context = {
+        "eyebrow": texts.croisieres_eyebrow,
+        "page_title": texts.croisieres_title,
+        "intro": texts.croisieres_intro,
         "bilan": BILAN_CROISIERE,
         "croisieres": queryset,
         "periode": periode,

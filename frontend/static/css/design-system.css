@@ -786,3 +786,40 @@ html:not(.js) .hm-pres-quote::before { width: 6rem; }
 .cruise-bilan-year { margin: 0 0 .4rem; color: var(--pad-navy); font-family: var(--font-head); font-weight: 800; }
 .cruise-bilan-num { margin: 0; color: var(--ink-2); }
 .cruise-bilan-num span { color: var(--pad-sea-strong); font-family: var(--font-head); font-size: 1.5rem; font-weight: 800; }
+
+/* Organigramme : groupes de cartes portrait (bloc « Organigramme », éditable dans l'admin) */
+.org-chart { display: grid; gap: 2.25rem; margin: 1.5rem 0; }
+.org-group-title { display: flex; align-items: center; gap: .75rem; margin: 0 0 1rem; color: var(--pad-navy); font-family: var(--font-head); font-size: 1.25rem; }
+.org-group-title::after { content: ""; flex: 1; height: 2px; background: linear-gradient(to right, var(--pad-sea), transparent); }
+.org-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.org-card { display: flex; flex-direction: column; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 2px 8px rgba(5, 38, 96, .06); text-align: center; transition: transform .2s ease, box-shadow .2s ease; }
+.org-card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(5, 38, 96, .16); }
+.org-card img, .org-card-empty { display: block; width: 100%; aspect-ratio: 6 / 7; object-fit: cover; object-position: center 20%; background: var(--pad-sea-soft); }
+.org-card-empty { display: grid; place-items: center; color: var(--pad-sea-strong); }
+.org-card-empty .icon { width: 3rem; height: 3rem; }
+.org-card-name { margin: 0; padding: .8rem .75rem 0; color: var(--pad-navy); font-family: var(--font-head); font-size: .98rem; font-weight: 800; line-height: 1.25; }
+.org-card-role { margin: 0; padding: .25rem .75rem .9rem; color: var(--ink-2); font-size: .85rem; line-height: 1.35; }
+.org-group.is-featured .org-grid { grid-template-columns: minmax(220px, 300px); justify-content: center; }
+.org-group.is-featured .org-card { border-top: 4px solid var(--pad-sea); }
+.org-group.is-featured .org-card-name { font-size: 1.15rem; }
+@media (max-width: 520px) { .org-grid { grid-template-columns: repeat(2, 1fr); } .org-group.is-featured .org-grid { grid-template-columns: minmax(200px, 260px); } }
+@media (prefers-reduced-motion: reduce) { .org-card { transition: none; } .org-card:hover { transform: none; } }
+
+/* Structure de l'organigramme : gouvernance, DG, secrétariat, directions et départements */
+.org-structure { display: grid; gap: 0; margin: 1.5rem 0 2.5rem; }
+.org-tier { position: relative; padding: 1.1rem 0 1.6rem 1.75rem; }
+.org-tier:not(:first-child)::before { content: ""; position: absolute; top: -1rem; left: .4rem; width: 2px; height: calc(100% + 1rem); background: var(--line); }
+.org-tier-title { margin: 0 0 .75rem; color: var(--pad-navy); font-family: var(--font-head); font-size: 1.05rem; font-weight: 800; }
+.org-tier-title-primary { display: inline-flex; padding: .35rem .9rem; background: var(--pad-navy); color: #fff; border-radius: 999px; font-size: 1rem; }
+.org-tier-row, .org-tier-list { display: flex; flex-wrap: wrap; gap: .6rem; margin: 0; padding: 0; list-style: none; }
+.org-tier-cols { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.org-chip { padding: .5rem .9rem; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; color: var(--ink-2); font-size: .88rem; font-weight: 600; }
+.org-chip-cell { border-color: var(--pad-sea); background: var(--pad-sea-soft); color: var(--pad-navy); }
+.org-direction-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.org-direction { padding: .9rem 1rem 1.1rem; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--pad-navy); border-radius: var(--radius); }
+.org-direction-title { margin: 0 0 .5rem; color: var(--pad-navy); font-family: var(--font-head); font-size: .95rem; font-weight: 800; line-height: 1.25; }
+.org-department-list { display: grid; gap: .35rem; margin: 0; padding: 0; list-style: none; }
+.org-department-list li { position: relative; padding-left: .9rem; color: var(--ink-2); font-size: .82rem; line-height: 1.35; }
+.org-department-list li::before { content: ""; position: absolute; left: 0; top: .55em; width: 5px; height: 5px; border-radius: 999px; background: var(--pad-sea-strong); }
+.org-direction-regional { border-top-color: var(--pad-sea-strong); background: var(--pad-sea-soft); }
+@media (max-width: 640px) { .org-tier { padding-left: 1.1rem; } }

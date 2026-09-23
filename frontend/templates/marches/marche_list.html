@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% translate "Marchés publics" %}{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
 
 {% block content %}
   <section class="hero" aria-labelledby="marches-title">
-    <p class="eyebrow">{% translate "Transparence et commande publique" %}</p>
-    <h1 id="marches-title">{% translate "Marchés publics" %}</h1>
-    <p class="hero-intro">{% translate "Consultez les appels d'offres, avis d'attribution et plans de passation du Port Autonome de Dakar." %}</p>
+    {% if eyebrow %}<p class="eyebrow">{{ eyebrow }}</p>{% endif %}
+    <h1 id="marches-title">{{ page_title }}</h1>
+    {% if intro %}<p class="hero-intro">{{ intro }}</p>{% endif %}
   </section>
 
   <section class="prose" aria-labelledby="marches-filter-title">

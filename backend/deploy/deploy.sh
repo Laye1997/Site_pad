@@ -47,7 +47,7 @@ docker compose exec -T web python manage.py migrate --noinput
 docker compose exec -T web python manage.py setup_site --host "${IP}" --port "${PORT}"
 
 # 4. Contenu de départ (sans écraser ce qui existe)
-for cmd in seed_site_structure seed_legal_pages seed_home_sections update_home_services            seed_partners seed_certifications update_notes_images update_rubric_photos            seed_fondation seed_croisieres seed_infos_pratiques seed_trafic_passagers            seed_marchandises seed_agrements update_service_nautique seed_passation_article            seed_old_articles seed_ndayane_article; do
+for cmd in seed_site_structure seed_legal_pages seed_home_sections update_home_services            seed_partners seed_certifications update_notes_images update_rubric_photos            seed_fondation seed_croisieres seed_infos_pratiques seed_trafic_passagers            seed_marchandises seed_agrements update_service_nautique seed_passation_article            seed_old_articles seed_ndayane_article seed_organigramme seed_espace_pro; do
   echo ">> ${cmd}"
   docker compose exec -T web python manage.py "${cmd}" || echo "   (ignoré : ${cmd} a échoué)"
 done

@@ -379,6 +379,7 @@ def test_every_internal_link_of_the_home_page_resolves(home):
     call_command("seed_trafic_passagers")
     call_command("seed_marchandises")
     call_command("seed_agrements")
+    call_command("seed_espace_pro")
     call_command("update_home_services")
 
     html = _html(home)
