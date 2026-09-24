@@ -32,7 +32,7 @@ jobs:
           provenance: false
           sbom: false
           tags: |
-            ghcr.io/laye1997/site_pad:latest
-            ghcr.io/laye1997/site_pad:${{ github.sha }}
+            ghcr.io/laye1997/site-pad:latest
+            ghcr.io/laye1997/site-pad:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
