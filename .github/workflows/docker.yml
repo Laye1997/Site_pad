@@ -101,6 +101,7 @@ jobs:
             curl -s -o /dev/null -w '%{http_code}' -H "Host: $2" "http://localhost:8000$1" || true
           }
           start() {
+            START_T=$(date +%s)
             docker rm -f smoke >/dev/null 2>&1 || true
             docker run -d --name smoke -p 8000:8000 "$@" "$IMAGE" >/dev/null
             for i in $(seq 1 30); do
@@ -127,6 +128,8 @@ jobs:
 
           # Cas C : comme sur l'hébergeur (tables créées et contenu chargé au démarrage)
           start -e DJANGO_SETTINGS_MODULE=config.settings.prod -e DJANGO_SECRET_KEY="$SMOKE_KEY"                 -e DJANGO_HTTPS=false -e DJANGO_ALLOWED_HOSTS='*'                 -e RUN_MIGRATIONS=true -e SEED_ON_START=true
+          # Le port doit répondre vite : c'est ce que teste le contrôle de santé de l'hébergeur.
+          C_PORT_S=$(( $(date +%s) - START_T ))
           C_HOME=000; C_PRO=000
           for i in $(seq 1 90); do
             C_HOME=$(probe /fr/ localhost)
@@ -136,9 +139,10 @@ jobs:
           done
           C_HEALTH=$(probe /healthz/ localhost)
           C_ROOT=$(curl -s -o /dev/null -w '%{http_code}' -H 'Host: localhost' http://localhost:8000/ || true)
-          echo "::notice title=Cas C (migrations + contenu au démarrage)::healthz=$C_HEALTH racine=$C_ROOT accueil=$C_HOME espace-pro=$C_PRO"
+          echo "::notice title=Cas C (migrations + contenu au démarrage)::port_ouvert_en=${C_PORT_S}s healthz=$C_HEALTH racine=$C_ROOT accueil=$C_HOME espace-pro=$C_PRO"
           echo "::notice title=Cas C journaux::$(logs)"
 
           test "$A_HEALTH" = "200"
           test "$C_HEALTH" = "200"
           test "$C_HOME" = "200"
+          test "$C_PORT_S" -le 20
