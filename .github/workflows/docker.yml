@@ -125,4 +125,20 @@ jobs:
           B_HEALTH_DOMAIN=$(probe /healthz/ site-pad.platform-systalink.com)
           echo "::notice title=Cas B (HTTPS=true, hôte strict)::healthz(Host=localhost)=$B_HEALTH_LOCAL healthz(Host=domaine)=$B_HEALTH_DOMAIN"
 
+          # Cas C : comme sur l'hébergeur (tables créées et contenu chargé au démarrage)
+          start -e DJANGO_SETTINGS_MODULE=config.settings.prod -e DJANGO_SECRET_KEY="$SMOKE_KEY"                 -e DJANGO_HTTPS=false -e DJANGO_ALLOWED_HOSTS='*'                 -e RUN_MIGRATIONS=true -e SEED_ON_START=true
+          C_HOME=000; C_PRO=000
+          for i in $(seq 1 90); do
+            C_HOME=$(probe /fr/ localhost)
+            C_PRO=$(probe /fr/espace-pro/ localhost)
+            [ "$C_HOME" = "200" ] && [ "$C_PRO" = "200" ] && break
+            sleep 4
+          done
+          C_HEALTH=$(probe /healthz/ localhost)
+          C_ROOT=$(curl -s -o /dev/null -w '%{http_code}' -H 'Host: localhost' http://localhost:8000/ || true)
+          echo "::notice title=Cas C (migrations + contenu au démarrage)::healthz=$C_HEALTH racine=$C_ROOT accueil=$C_HOME espace-pro=$C_PRO"
+          echo "::notice title=Cas C journaux::$(logs)"
+
           test "$A_HEALTH" = "200"
+          test "$C_HEALTH" = "200"
+          test "$C_HOME" = "200"
