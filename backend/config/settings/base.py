@@ -221,6 +221,9 @@ STORAGES = {
 }
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+# Hébergeurs sans nginx : SERVE_MEDIA=true fait servir /media/ par Django (photos téléversées dans
+# l'admin). Avec nginx (docker-compose), laisser à false : nginx est plus rapide.
+SERVE_MEDIA = env_bool("SERVE_MEDIA", False)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Seule connexion réelle du site : l'admin Wagtail (édition de contenu). L'Espace Pro (usagers du

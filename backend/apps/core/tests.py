@@ -217,3 +217,35 @@ def test_production_refuses_default_or_short_secret_key():
     assert _prod_import(None).returncode != 0
     assert _prod_import("change-me-in-prod").returncode != 0
     assert _prod_import("x" * 40).returncode == 0
+
+
+@pytest.mark.django_db
+def test_media_is_served_by_django_only_when_serve_media_is_enabled(tmp_path, settings):
+    """Sans nginx (hébergeur), SERVE_MEDIA=true rend les photos téléversées accessibles."""
+    import importlib
+
+    from django.test import Client
+    from django.urls import clear_url_caches
+
+    import config.urls
+
+    (tmp_path / "images").mkdir()
+    (tmp_path / "images" / "photo.txt").write_text("contenu", encoding="utf-8")
+    settings.MEDIA_ROOT = tmp_path
+    try:
+        settings.SERVE_MEDIA = False
+        importlib.reload(config.urls)
+        clear_url_caches()
+        assert Client().get("/media/images/photo.txt").status_code == 404
+
+        settings.SERVE_MEDIA = True
+        importlib.reload(config.urls)
+        clear_url_caches()
+        response = Client().get("/media/images/photo.txt")
+        assert response.status_code == 200
+        assert b"".join(response.streaming_content) == b"contenu"
+        assert Client().get("/media/../manage.py").status_code in (400, 404)
+    finally:
+        settings.SERVE_MEDIA = False
+        importlib.reload(config.urls)
+        clear_url_caches()
