@@ -249,3 +249,25 @@ def test_media_is_served_by_django_only_when_serve_media_is_enabled(tmp_path, se
         settings.SERVE_MEDIA = False
         importlib.reload(config.urls)
         clear_url_caches()
+
+
+def test_deploy_and_entrypoint_seed_commands_stay_in_sync():
+    """deploy.sh (serveur avec docker compose) et docker-entrypoint.sh (image seule, ex.
+    Systalink) chargent le même contenu de départ : une commande ajoutée à l'un doit l'être à
+    l'autre, sinon un hébergeur sans docker compose ne reçoit jamais le nouveau contenu."""
+    import re
+
+    deploy_sh = (BASE_DIR / "deploy" / "deploy.sh").read_text(encoding="utf-8")
+    entrypoint_sh = (BASE_DIR / "docker-entrypoint.sh").read_text(encoding="utf-8")
+
+    def commands(text):
+        match = re.search(r"for cmd in(.*?); do", text, re.S)
+        assert match, "liste des commandes introuvable (motif « for cmd in ... ; do »)"
+        return set(match.group(1).replace("\\", "").split())
+
+    deploy_commands = commands(deploy_sh)
+    entrypoint_commands = commands(entrypoint_sh)
+    assert deploy_commands == entrypoint_commands, (
+        f"listes différentes : seulement dans deploy.sh {deploy_commands - entrypoint_commands} ; "
+        f"seulement dans docker-entrypoint.sh {entrypoint_commands - deploy_commands}"
+    )

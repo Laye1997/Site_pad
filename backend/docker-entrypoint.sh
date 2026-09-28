@@ -20,7 +20,8 @@ if [ "${RUN_MIGRATIONS:-false}" = "true" ] || [ "${SEED_ON_START:-false}" = "tru
                  seed_partners seed_certifications update_notes_images update_rubric_photos \
                  seed_fondation seed_croisieres seed_infos_pratiques seed_trafic_passagers \
                  seed_marchandises seed_agrements update_service_nautique seed_passation_article \
-                 seed_old_articles seed_ndayane_article seed_organigramme seed_espace_pro; do
+                 seed_old_articles seed_ndayane_article seed_navire_hopital_chinois \
+                 seed_organigramme seed_espace_pro; do
         echo ">> ${cmd}"
         python manage.py "${cmd}" || echo "   (ignoré : ${cmd} a échoué)"
       done
