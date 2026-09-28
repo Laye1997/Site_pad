@@ -12,6 +12,10 @@ x-app: &app
     DJANGO_CSRF_TRUSTED_ORIGINS: ${DJANGO_CSRF_TRUSTED_ORIGINS:-}
     REDIS_URL: redis://redis:6379/0
     SENTRY_DSN: ${SENTRY_DSN:-}
+    # Assistant virtuel (chatbot) : actif dès que OPENAI_API_KEY est renseignée (voir ADR 0004).
+    OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    ASSISTANT_MODEL: ${ASSISTANT_MODEL:-gpt-4.1-mini}
+    FEATURE_ASSISTANT: ${FEATURE_ASSISTANT:-}
   volumes:
     - media:/app/backend/media
   depends_on:
@@ -41,7 +45,9 @@ services:
 
   web:
     <<: *app
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    # --threads : une réponse de l'assistant (quelques secondes en streaming) n'immobilise pas un
+    # processus entier ; les autres visiteurs continuent d'être servis.
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --threads 4
 
   worker:
     <<: *app

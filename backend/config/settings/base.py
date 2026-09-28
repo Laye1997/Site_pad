@@ -69,6 +69,7 @@ LOCAL_APPS = [
     "apps.recrutement",
     "apps.qualite",
     "apps.api",
+    "apps.assistant",
 ]
 
 THIRD_PARTY_APPS = [
@@ -162,6 +163,27 @@ FEATURES = {
     "consent_banner": env_bool("FEATURE_CONSENT_BANNER", True),
     "public_api": env_bool("FEATURE_PUBLIC_API", True),
     "home_ship_movement": env_bool("FEATURE_HOME_SHIP_MOVEMENT", True),
+    # Assistant virtuel : actif dès qu'une clé d'API est fournie, sauf FEATURE_ASSISTANT=false
+    # (une variable vide, comme en laisse docker-compose, compte comme « non renseignée »).
+    "assistant": (
+        env_bool("FEATURE_ASSISTANT") if env("FEATURE_ASSISTANT") else bool(env("OPENAI_API_KEY"))
+    ),
+}
+
+# --- Assistant virtuel (voir ADR 0004) --------------------------------------
+ASSISTANT = {
+    "API_KEY": env("OPENAI_API_KEY"),
+    "BASE_URL": env("ASSISTANT_BASE_URL", "https://api.openai.com/v1"),
+    "MODEL": env("ASSISTANT_MODEL", "gpt-4.1-mini"),
+    "MAX_TOKENS": int(env("ASSISTANT_MAX_TOKENS", "600")),  # plafonne le coût d'une réponse
+    "TIMEOUT": 30,
+    "TOP_K": 5,  # passages du site transmis au modèle
+    "MAX_HISTORY": 10,  # derniers messages de la conversation transmis au modèle
+    "MAX_INPUT_CHARS": 1000,
+    "RATE_PER_MINUTE": int(env("ASSISTANT_RATE_PER_MINUTE", "8")),  # par adresse IP
+    "RATE_PER_DAY": int(env("ASSISTANT_RATE_PER_DAY", "80")),  # par adresse IP
+    "GLOBAL_PER_DAY": int(env("ASSISTANT_GLOBAL_PER_DAY", "3000")),  # tous visiteurs confondus
+    "FAQ_PATH": BASE_DIR / "data" / "assistant" / "faq.md",
 }
 
 # Réseaux sociaux : renseigner les URL officielles par variable d'environnement (masqués si vides).
