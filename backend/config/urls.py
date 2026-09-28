@@ -22,6 +22,7 @@ urlpatterns = [
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("api/", include("apps.api.urls")),
+    path("assistant/", include("apps.assistant.urls")),
 ]
 
 # URLs traduites (préfixe de langue /fr/ /en/) — pages Wagtail incluses.
