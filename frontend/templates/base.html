@@ -57,15 +57,10 @@
   <meta name="htmx-config" content='{"includeIndicatorStyles": false, "allowEval": false, "allowScriptTags": false}'>
   <script src="{% static 'js/htmx.min.js' %}" defer></script>
   <script src="{% static 'js/site.js' %}" defer></script>
-  <script src="{% static 'js/preloader.js' %}" defer></script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "GovernmentOrganization", "name": "Port Autonome de Dakar", "url": "{{ request.scheme }}://{{ request.get_host }}/", "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo-pad.svg' %}", "telephone": "+221800801802"}</script>
   {% block extra_head %}{% endblock %}
 </head>
 <body>
-  <div id="preloader" class="preloader" hidden aria-hidden="true">
-    <img src="{% static 'img/logo-pad.svg' %}" alt="" width="130" height="37">
-    <span class="preloader-bar"><span></span></span>
-  </div>
   {% include "includes/icons.html" %}
   <a class="skip-link" href="#contenu">{% translate "Aller au contenu principal" %}</a>
   <header class="site-header">

@@ -823,14 +823,3 @@ html:not(.js) .hm-pres-quote::before { width: 6rem; }
 .org-department-list li::before { content: ""; position: absolute; left: 0; top: .55em; width: 5px; height: 5px; border-radius: 999px; background: var(--pad-sea-strong); }
 .org-direction-regional { border-top-color: var(--pad-sea-strong); background: var(--pad-sea-soft); }
 @media (max-width: 640px) { .org-tier { padding-left: 1.1rem; } }
-
-/* Écran de chargement (logo + barre), voir static/js/preloader.js. Masqué par défaut : n'apparaît
-   que si JavaScript ajoute la classe .js à <html> (jamais d'écran bloqué sans JS). */
-.preloader { display: none; }
-.js .preloader { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; background: var(--pad-navy); transition: opacity .35s ease; }
-.preloader img { width: 130px; height: auto; }
-.preloader-bar { display: block; width: 160px; height: 3px; border-radius: 999px; background: rgba(255, 255, 255, .2); overflow: hidden; }
-.preloader-bar span { display: block; width: 40%; height: 100%; border-radius: 999px; background: var(--pad-sea); animation: preloader-slide 1.1s ease-in-out infinite; }
-.preloader.is-hidden { opacity: 0; pointer-events: none; }
-@keyframes preloader-slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
-@media (prefers-reduced-motion: reduce) { .js .preloader { display: none; } }
