@@ -71,6 +71,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # Le tag « d6c96fe... » n'est PAS lié à ce commit précis : c'est celui que l'hébergeur
+      # Systalink a configuré sur le service de recette (webservice/55), dont le tableau de bord
+      # n'offre aucun champ pour changer l'image. Le republier ici, à jour à chaque déploiement,
+      # permet de mettre le service en ligne à jour d'un simple redémarrage (« Nettoyer le cache
+      # du build et déployer »), sans recréer le service ni casser l'association du domaine
+      # personnalisé (voir l'échange du 29/09/2026). À retirer si Systalink permet un jour de
+      # changer l'image directement.
       - uses: docker/build-push-action@v6
         if: steps.secrets.outputs.present == 'true'
         with:
@@ -82,6 +89,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/site-pad:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/site-pad:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/site-pad:d6c96fe303d0931c2074698819f3f8fb8e2f6b17
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
