@@ -275,7 +275,8 @@ class Index:
                 scored.append((score, p))
         scored.sort(key=lambda x: x[0], reverse=True)
 
-        results, per_url = [], {}
+        results: list[Passage] = []
+        per_url: dict[str | None, int] = {}
         for _, p in scored:
             if p.url and per_url.get(p.url, 0) >= per_page:
                 continue
