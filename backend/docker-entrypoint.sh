@@ -3,7 +3,9 @@
 # Le serveur web démarre IMMÉDIATEMENT (le port 8000 répond en quelques secondes : les contrôles
 # de santé des hébergeurs échouent si le port reste fermé pendant les migrations). La préparation
 # de la base se fait en arrière-plan ; /healthz/ répond sans base, le site suit une fois prêt.
-#   RUN_MIGRATIONS=true  : crée/met à jour les tables et règle le site Wagtail
+#   RUN_MIGRATIONS=true  : crée/met à jour les tables, règle le site Wagtail, crée un compte
+#                          administrateur si DJANGO_SUPERUSER_USERNAME/_EMAIL/_PASSWORD sont
+#                          définies (sinon aucun compte n'est créé, cf. apps.core.ensure_superuser)
 #   SEED_ON_START=true   : charge ensuite le contenu de départ (idempotent)
 #   SITE_HOST / SITE_PORT : adresse publique enregistrée dans Wagtail (défaut : localhost:80)
 # La liste ci-dessous reprend celle de deploy/deploy.sh : la garder identique.
@@ -14,6 +16,7 @@ if [ "${RUN_MIGRATIONS:-false}" = "true" ] || [ "${SEED_ON_START:-false}" = "tru
     if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
       python manage.py migrate --noinput
       python manage.py setup_site --host "${SITE_HOST:-localhost}" --port "${SITE_PORT:-80}"
+      python manage.py ensure_superuser
     fi
     if [ "${SEED_ON_START:-false}" = "true" ]; then
       for cmd in seed_site_structure seed_legal_pages seed_home_sections update_home_services \

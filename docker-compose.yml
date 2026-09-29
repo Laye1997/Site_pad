@@ -16,6 +16,11 @@ x-app: &app
     OPENAI_API_KEY: ${OPENAI_API_KEY:-}
     ASSISTANT_MODEL: ${ASSISTANT_MODEL:-gpt-4.1-mini}
     FEATURE_ASSISTANT: ${FEATURE_ASSISTANT:-}
+    # Compte administrateur créé au démarrage si ces trois variables sont renseignées (sinon,
+    # utiliser `docker compose exec web python manage.py createsuperuser`, sans rien définir ici).
+    DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME:-}
+    DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL:-}
+    DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD:-}
   volumes:
     - media:/app/backend/media
   depends_on:

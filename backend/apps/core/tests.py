@@ -271,3 +271,30 @@ def test_deploy_and_entrypoint_seed_commands_stay_in_sync():
         f"listes différentes : seulement dans deploy.sh {deploy_commands - entrypoint_commands} ; "
         f"seulement dans docker-entrypoint.sh {entrypoint_commands - deploy_commands}"
     )
+
+
+@pytest.mark.django_db
+def test_ensure_superuser_does_nothing_without_env_vars(monkeypatch):
+    from django.contrib.auth import get_user_model
+
+    monkeypatch.delenv("DJANGO_SUPERUSER_USERNAME", raising=False)
+    monkeypatch.delenv("DJANGO_SUPERUSER_PASSWORD", raising=False)
+    call_command("ensure_superuser")
+    assert not get_user_model().objects.exists()
+
+
+@pytest.mark.django_db
+def test_ensure_superuser_creates_account_once_from_env_vars(monkeypatch):
+    from django.contrib.auth import get_user_model
+
+    monkeypatch.setenv("DJANGO_SUPERUSER_USERNAME", "admin-test")
+    monkeypatch.setenv("DJANGO_SUPERUSER_EMAIL", "admin-test@example.org")
+    monkeypatch.setenv("DJANGO_SUPERUSER_PASSWORD", "un-mot-de-passe-solide-2026")
+
+    call_command("ensure_superuser")
+    user_model = get_user_model()
+    assert user_model.objects.filter(username="admin-test", is_superuser=True).count() == 1
+
+    # Idempotent : une seconde exécution ne duplique ni ne modifie le compte.
+    call_command("ensure_superuser")
+    assert user_model.objects.filter(username="admin-test").count() == 1
