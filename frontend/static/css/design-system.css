@@ -113,7 +113,7 @@ img { max-width: 100%; height: auto; }
 .joj-video-copy h2 { margin: .4rem 0 .8rem; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; letter-spacing: .01em; text-transform: uppercase; }
 .joj-video-copy p:not(.eyebrow) { max-width: 42ch; color: var(--ink-2); }
 .joj-video-frame { position: relative; justify-self: stretch; overflow: hidden; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; min-width: 0; background-color: var(--ground); border-radius: var(--radius); box-shadow: 0 16px 36px rgba(5, 38, 96, .18); }
-.joj-video-media { display: block; width: 100%; height: 100%; max-width: 100%; object-fit: contain; background-color: var(--ground); }
+.joj-video-media { display: block; width: 100%; height: 100%; max-width: 100%; object-fit: cover; background-color: var(--ground); }
 .key-figures-band { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 2.5rem max(1rem, calc((100vw - var(--container)) / 2 + 1rem)); background: var(--pad-navy); }
 .key-figures-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.5rem; max-width: var(--container); margin: 0 auto; }
 .key-figure { text-align: center; color: #fff; }
@@ -450,8 +450,8 @@ figcaption { color: var(--ink-2); font-size: .85rem; }
 .lang { gap: 0; }
 .lang a { min-width: 2.1rem; font-size: .78rem; }
 
-/* Sponsoring : la vidéo se fond dans le fond de la section */
-.joj-video-frame { background: transparent; border-radius: 0; box-shadow: none; }
+/* Sponsoring : la vidéo se fond dans le fond de la section, coins arrondis */
+.joj-video-frame { background: transparent; border-radius: var(--radius); box-shadow: none; overflow: hidden; }
 .joj-video-media { background: transparent; }
 
 /* Mot du Directeur Général */

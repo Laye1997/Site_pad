@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.db import models
 from django.shortcuts import render
+from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import StreamField
 from wagtail.images.models import Image
@@ -31,14 +32,14 @@ class MediaIndexPage(SocialMetadataMixin, Page):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         category = request.GET.get("categorie", "tous")
-        categories = dict(ArticlePage.CATEGORY_CHOICES)
+        categories = {"tous": _("Tous"), **dict(ArticlePage.CATEGORY_CHOICES)}
         active_category = category if category in categories else "tous"
         articles = ArticlePage.objects.live().public().child_of(self)
         if active_category != "tous":
             articles = articles.filter(category=active_category)
         paginator = Paginator(articles.order_by("-publication_date", "-first_published_at"), 9)
         context["articles"] = paginator.get_page(request.GET.get("page"))
-        context["categories"] = {"tous": "Tous", **categories}
+        context["categories"] = categories
         context["active_category"] = active_category
         return context
 
@@ -56,11 +57,11 @@ class ArticlePage(SocialMetadataMixin, Page):
     """Article, communiqué ou contenu photo publié dans l'espace média."""
 
     CATEGORY_CHOICES = [
-        ("actualite", "Actualité"),
-        ("communique", "Communiqué"),
-        ("note", "Note aux usagers"),
-        ("evenement", "Événement"),
-        ("photos", "Photos et vidéos"),
+        ("actualite", _("Actualité")),
+        ("communique", _("Communiqué")),
+        ("note", _("Note aux usagers")),
+        ("evenement", _("Événement")),
+        ("photos", _("Photos et vidéos")),
     ]
 
     summary = models.CharField(max_length=255, verbose_name="Résumé")

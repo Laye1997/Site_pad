@@ -635,7 +635,7 @@ msgstr "The port connecting Dakar to the world"
 
 #: apps/cms/home_blocks.py
 msgid "Un port, un but, une foi."
-msgstr ""
+msgstr "One port, one goal, one faith."
 
 #: apps/cms/home_blocks.py
 msgid "Le PAD au cœur des JOJ Dakar 2026"
@@ -856,3 +856,273 @@ msgstr "You have sent many questions. Please try again in a few minutes."
 #: apps/assistant
 msgid "L'assistant est momentanément indisponible."
 msgstr "The assistant is temporarily unavailable."
+
+#: templates/media/article_page.html
+msgid "À lire aussi"
+msgstr "Also read"
+
+#: templates/navires/croisiere_list.html templates/media/article_page.html
+msgid "Fil d’Ariane"
+msgstr "Breadcrumb"
+
+#: templates/navires/croisiere_list.html
+msgid "Prochaine escale"
+msgstr "Next port call"
+
+#: templates/navires/croisiere_list.html
+msgid "poste"
+msgstr "berth"
+
+#: templates/navires/croisiere_list.html
+msgid "Bilan croisière"
+msgstr "Cruise summary"
+
+#: templates/navires/croisiere_list.html
+msgid "navires"
+msgstr "vessels"
+
+#: templates/navires/croisiere_list.html
+msgid "passagers à l'arrivée de Dakar"
+msgstr "passengers arriving in Dakar"
+
+#: templates/navires/croisiere_list.html
+msgid "Passées"
+msgstr "Past"
+
+#: templates/navires/croisiere_list.html
+msgid "Rechercher un navire ou un consignataire"
+msgstr "Search a vessel or shipping agent"
+
+#: templates/navires/croisiere_list.html templates/navires/escale_list.html
+msgid "Filtrer"
+msgstr "Filter"
+
+#: templates/navires/croisiere_list.html templates/navires/partials/croisiere_table.html
+msgid "Calendrier des escales de croisière"
+msgstr "Cruise ship calendar"
+
+#: templates/navires/croisiere_list.html
+msgid "Paquebot de croisière à quai au port de Dakar"
+msgstr "Cruise ship alongside at the Port of Dakar"
+
+#: templates/navires/croisiere_list.html
+msgid "Période"
+msgstr "Period"
+
+#: templates/navires/escale_list.html
+msgid "Données mises à jour le"
+msgstr "Data updated on"
+
+#: templates/navires/escale_list.html
+msgid "Rechercher un navire, un port ou un consignataire"
+msgstr "Search a vessel, port or shipping agent"
+
+#: templates/navires/escale_list.html
+msgid "Type de navire"
+msgstr "Vessel type"
+
+#: templates/navires/escale_list.html
+msgid "Tous les types"
+msgstr "All types"
+
+#: templates/services/service_index_page.html
+msgid "Découvrir le service"
+msgstr "Discover the service"
+
+#: templates/services/service_page.html templates/cms/modules/module.html
+msgid "Dans cette rubrique"
+msgstr "In this section"
+
+#: templates/navires/partials/croisiere_table.html
+msgid "Effacer la recherche"
+msgstr "Clear search"
+
+#: templates/navires/partials/croisiere_table.html
+msgid "Date"
+msgstr "Date"
+
+#: templates/navires/partials/croisiere_table.html
+msgid "Poste"
+msgstr "Berth"
+
+#: templates/navires/partials/croisiere_table.html
+msgid "Consignataire"
+msgstr "Shipping agent"
+
+#: templates/navires/partials/croisiere_table.html
+msgid "Aucune escale de croisière pour cette sélection."
+msgstr "No cruise port call for this selection."
+
+#: templates/navires/partials/escale_table.html
+msgid "Effacer les filtres"
+msgstr "Clear filters"
+
+#: templates/navires/partials/escale_table.html
+msgid "vers"
+msgstr "to"
+
+#: templates/core/blocks/org_structure.html
+msgid "Directions"
+msgstr "Directorates"
+
+#: templates/cms/home/partners_certs.html
+msgid "Aperçu du certificat"
+msgstr "Certificate preview"
+
+#: templates/cms/home/president_vision.html
+msgid "Le Président de la République Bassirou Diomaye Faye lors d'une allocution sur le secteur maritime"
+msgstr "President of the Republic Bassirou Diomaye Faye during an address on the maritime sector"
+
+#: templates/cms/modules/module.html
+msgid "Aucune publication n'est ouverte actuellement. Les nouveaux avis apparaîtront ici dès leur mise en ligne ; vous pouvez aussi nous écrire à"
+msgstr "No publication is currently open. New notices will appear here as soon as they go online; you can also write to us at"
+
+#: templates/cms/modules/module.html
+msgid "Voir tous les marchés publics"
+msgstr "View all public tenders"
+
+#: templates/cms/modules/module.html
+msgid "À lire"
+msgstr "Read"
+
+#: templates/cms/modules/module.html
+msgid "Aucun contenu n'est publié dans cette rubrique pour le moment."
+msgstr "No content is published in this section yet."
+
+#: templates/cms/modules/module.html
+msgid "nouvel onglet"
+msgstr "new tab"
+
+#: templates/cms/modules/module.html
+msgid "La liste des partenaires sera bientôt complétée."
+msgstr "The list of partners will be completed soon."
+
+#: templates/cms/modules/module.html
+msgid "Les chiffres clés de l'année seront publiés prochainement. Renseignez-les dans l'admin, sur la page d'accueil (Chiffres clés)."
+msgstr "This year's key figures will be published soon. Add them in the admin, on the home page (Key figures)."
+
+#: templates/media/partials/article_grid.html
+msgid "Page %(number)s sur %(total)s"
+msgstr "Page %(number)s of %(total)s"
+
+#: templates/navires/partials/escale_table.html
+msgid "%(total)s escale"
+msgid_plural "%(total)s escales"
+msgstr[0] "%(total)s port call"
+msgstr[1] "%(total)s port calls"
+
+#: apps/core/models.py
+msgid "Infos pratiques"
+msgstr "Practical Information"
+
+#: apps/core/models.py
+msgid "Escales de croisière"
+msgstr "Cruise port calls"
+
+#: apps/core/models.py
+msgid "Le calendrier des paquebots attendus au Port Autonome de Dakar, avec leur poste à quai et leur consignataire."
+msgstr "The schedule of liners expected at the Port Autonome de Dakar, with their berth and shipping agent."
+
+#: apps/navires/models.py
+msgid "Conteneur"
+msgstr "Container"
+
+#: apps/navires/models.py
+msgid "Cargo"
+msgstr "Cargo"
+
+#: apps/navires/models.py
+msgid "Vrac"
+msgstr "Bulk"
+
+#: apps/navires/models.py
+msgid "Passagers"
+msgstr "Passenger"
+
+#: apps/navires/models.py
+msgid "Attendu"
+msgstr "Expected"
+
+#: apps/navires/models.py
+msgid "Parti"
+msgstr "Departed"
+
+#: apps/marches/models.py apps/marches/views.py
+msgid "Appel d'offres"
+msgstr "Call for tenders"
+
+#: apps/marches/models.py
+msgid "Manifestation d'intérêt"
+msgstr "Expression of interest"
+
+#: apps/marches/models.py
+msgid "Ouvert"
+msgstr "Open"
+
+#: apps/marches/models.py
+msgid "Clôturé"
+msgstr "Closed"
+
+#: apps/marches/models.py
+msgid "Attribué"
+msgstr "Awarded"
+
+#: apps/marches/views.py apps/media/models.py
+msgid "Tous"
+msgstr "All"
+
+#: apps/marches/views.py
+msgid "Ouverts"
+msgstr "Open"
+
+#: apps/marches/views.py
+msgid "Clôturés"
+msgstr "Closed"
+
+#: apps/marches/views.py
+msgid "Attribués"
+msgstr "Awarded"
+
+#: apps/media/models.py
+msgid "Actualité"
+msgstr "News"
+
+#: apps/media/models.py
+msgid "Communiqué"
+msgstr "Press release"
+
+#: apps/media/models.py
+msgid "Note aux usagers"
+msgstr "Notice to port users"
+
+#: apps/media/models.py
+msgid "Événement"
+msgstr "Event"
+
+#: apps/media/models.py
+msgid "Photos et vidéos"
+msgstr "Photos and videos"
+
+#: apps/recrutement/models.py
+msgid "CDI"
+msgstr "Permanent contract (CDI)"
+
+#: apps/recrutement/models.py
+msgid "CDD"
+msgstr "Fixed-term contract (CDD)"
+
+#: apps/recrutement/models.py
+msgid "Stage"
+msgstr "Internship"
+
+#: apps/recrutement/models.py
+msgid "Alternance"
+msgstr "Apprenticeship"
+
+#: apps/recrutement/models.py
+msgid "Ouverte"
+msgstr "Open"
+
+#: apps/recrutement/models.py
+msgid "Clôturée"
+msgstr "Closed"

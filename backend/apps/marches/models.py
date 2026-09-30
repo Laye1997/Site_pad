@@ -1,6 +1,7 @@
 """Marchés publics publiés par le Port Autonome de Dakar."""
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 
@@ -8,15 +9,15 @@ from wagtail.snippets.models import register_snippet
 @register_snippet
 class AppelOffre(models.Model):
     TYPE_CHOICES = [
-        ("appel_offres", "Appel d'offres"),
-        ("avis_attribution", "Avis d'attribution"),
-        ("plan_passation", "Plan de passation"),
-        ("manifestation_interet", "Manifestation d'intérêt"),
+        ("appel_offres", _("Appel d'offres")),
+        ("avis_attribution", _("Avis d'attribution")),
+        ("plan_passation", _("Plan de passation")),
+        ("manifestation_interet", _("Manifestation d'intérêt")),
     ]
     STATUT_CHOICES = [
-        ("ouvert", "Ouvert"),
-        ("cloture", "Clôturé"),
-        ("attribue", "Attribué"),
+        ("ouvert", _("Ouvert")),
+        ("cloture", _("Clôturé")),
+        ("attribue", _("Attribué")),
     ]
 
     objet = models.CharField(max_length=255, verbose_name="Objet")

@@ -1,15 +1,16 @@
 """Vues publiques des marchés publics."""
 
 from django.shortcuts import render
+from django.utils.translation import gettext_lazy as _
 
 from apps.core.models import ListHeaderSettings
 from apps.marches.models import AppelOffre
 
 FILTERS = {
-    "tous": {"label": "Tous", "field": None},
-    "ouverts": {"label": "Ouverts", "field": {"statut": "ouvert"}},
-    "clotures": {"label": "Clôturés", "field": {"statut": "cloture"}},
-    "attribues": {"label": "Attribués", "field": {"statut": "attribue"}},
+    "tous": {"label": _("Tous"), "field": None},
+    "ouverts": {"label": _("Ouverts"), "field": {"statut": "ouvert"}},
+    "clotures": {"label": _("Clôturés"), "field": {"statut": "cloture"}},
+    "attribues": {"label": _("Attribués"), "field": {"statut": "attribue"}},
 }
 
 
@@ -24,9 +25,9 @@ def marche_list(request):
 
     texts = ListHeaderSettings.for_request(request)
     context = {
-        "eyebrow": texts.marches_eyebrow,
-        "page_title": texts.marches_title,
-        "intro": texts.marches_intro,
+        "eyebrow": texts.display("marches_eyebrow"),
+        "page_title": texts.display("marches_title"),
+        "intro": texts.display("marches_intro"),
         "marches": queryset,
         "filtre_actif": filtre_actif,
         "filtres": FILTERS,

@@ -1,6 +1,7 @@
 """Modèles métier du mouvement des navires."""
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 
@@ -10,17 +11,17 @@ class Escale(models.Model):
     """Escale maritime enregistrée dans le port."""
 
     TYPE_CHOICES = [
-        ("conteneur", "Conteneur"),
-        ("cargo", "Cargo"),
-        ("vrac", "Vrac"),
-        ("passagers", "Passagers"),
-        ("croisiere", "Cruise"),
+        ("conteneur", _("Conteneur")),
+        ("cargo", _("Cargo")),
+        ("vrac", _("Vrac")),
+        ("passagers", _("Passagers")),
+        ("croisiere", _("Cruise")),
     ]
 
     STATUT_CHOICES = [
-        ("attendu", "Attendu"),
-        ("a_quai", "À quai"),
-        ("parti", "Parti"),
+        ("attendu", _("Attendu")),
+        ("a_quai", _("À quai")),
+        ("parti", _("Parti")),
     ]
 
     navire = models.CharField(max_length=120, verbose_name="Nom du navire")

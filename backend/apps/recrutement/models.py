@@ -1,6 +1,7 @@
 """Offres et page carrière du Port Autonome de Dakar."""
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import StreamField
 from wagtail.models import Page
@@ -13,12 +14,12 @@ from apps.core.seo import SocialMetadataMixin
 @register_snippet
 class Offre(models.Model):
     CONTRAT_CHOICES = [
-        ("cdi", "CDI"),
-        ("cdd", "CDD"),
-        ("stage", "Stage"),
-        ("alternance", "Alternance"),
+        ("cdi", _("CDI")),
+        ("cdd", _("CDD")),
+        ("stage", _("Stage")),
+        ("alternance", _("Alternance")),
     ]
-    STATUT_CHOICES = [("ouverte", "Ouverte"), ("cloturee", "Clôturée")]
+    STATUT_CHOICES = [("ouverte", _("Ouverte")), ("cloturee", _("Clôturée"))]
 
     title = models.CharField(max_length=180, verbose_name="Intitulé du poste")
     department = models.CharField(max_length=150, verbose_name="Direction / service")

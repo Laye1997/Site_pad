@@ -15,6 +15,8 @@ from wagtail.contrib.redirects.models import Redirect
 from wagtail.models import Page, Site
 
 from apps.cms.models import HomePage, StandardPage
+from apps.core.blocks import ContentStreamBlock
+from apps.core.i18n_content import translate_streamfield_texts
 from apps.navires.models import Escale
 from apps.qualite.models import Certification
 from apps.qualite.tasks import alert_expiring_certifications
@@ -298,3 +300,102 @@ def test_ensure_superuser_creates_account_once_from_env_vars(monkeypatch):
     # Idempotent : une seconde exécution ne duplique ni ne modifie le compte.
     call_command("ensure_superuser")
     assert user_model.objects.filter(username="admin-test").count() == 1
+
+
+def test_translate_streamfield_texts_keeps_structure_and_html():
+    """Le texte est traduit, mais identifiants d'image, URL et balises HTML sont inchangés."""
+    raw = [
+        {"type": "heading", "value": {"text": "Bonjour", "level": "h2"}, "id": "a"},
+        {
+            "type": "paragraph",
+            "value": "<p>Bonjour <b>le monde</b></p>",
+            "id": "b",
+        },
+        {
+            "type": "image",
+            "value": {"image": 42, "caption": "Une légende", "alt": "Texte alternatif"},
+            "id": "c",
+        },
+        {"type": "cta", "value": {"label": "Continuer", "url": "https://example.org"}, "id": "d"},
+        {
+            "type": "org_chart",
+            "value": {
+                "groups": [
+                    {
+                        "type": "item",
+                        "id": "g1",
+                        "value": {
+                            "title": "Direction générale",
+                            "featured": True,
+                            "members": [
+                                {
+                                    "type": "item",
+                                    "id": "m1",
+                                    "value": {
+                                        "image": 7,
+                                        "name": "Amadou Ndiaye",
+                                        "role": "Directeur Général",
+                                    },
+                                }
+                            ],
+                        },
+                    }
+                ]
+            },
+            "id": "e",
+        },
+    ]
+    translations = {
+        "Bonjour": "Hello",
+        "Bonjour ": "Hello ",
+        "le monde": "the world",
+        "Une légende": "A caption",
+        "Texte alternatif": "Alt text",
+        "Continuer": "Continue",
+        "Direction générale": "General Management",
+        "Directeur Général": "Director General",
+    }
+
+    translated = translate_streamfield_texts(raw, translations)
+
+    assert translated[0]["value"] == {"text": "Hello", "level": "h2"}
+    assert translated[1]["value"] == "<p>Hello <b>the world</b></p>"
+    assert translated[2]["value"]["image"] == 42
+    assert translated[2]["value"]["caption"] == "A caption"
+    assert translated[2]["value"]["alt"] == "Alt text"
+    assert translated[3]["value"] == {"label": "Continue", "url": "https://example.org"}
+    # Contenu imbriqué dans des ListBlock (chaque élément est {"type": "item", "value": ...}) :
+    # le titre du groupe et la fonction sont traduits, le nom de la personne ne l'est pas.
+    group = translated[4]["value"]["groups"][0]
+    assert group["value"]["title"] == "General Management"
+    member = group["value"]["members"][0]
+    assert member["value"]["name"] == "Amadou Ndiaye"
+    assert member["value"]["role"] == "Director General"
+    assert member["value"]["image"] == 7
+    # Structure StreamField valide : Wagtail doit pouvoir la relire.
+    ContentStreamBlock().to_python(translated)
+
+
+@pytest.mark.django_db
+def test_seed_translations_creates_published_english_page(site_root, monkeypatch):
+    from apps.core.management.commands import seed_translations
+
+    monkeypatch.setattr(
+        seed_translations,
+        "load_translations",
+        lambda: {"Nos partenaires": "Our partners"},
+    )
+    page = StandardPage(title="Nos partenaires", slug="nos-partenaires")
+    site_root.add_child(instance=page)
+    page.save_revision().publish()
+
+    call_command("seed_translations")
+
+    from wagtail.models import Locale
+
+    en_page = StandardPage.objects.get(
+        translation_key=page.translation_key, locale__language_code="en"
+    )
+    assert en_page.title == "Our partners"
+    assert en_page.live
+    assert Locale.objects.filter(language_code="en").exists()

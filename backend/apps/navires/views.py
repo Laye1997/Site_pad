@@ -2,21 +2,22 @@
 
 from django.db.models import Count, Max, Q
 from django.shortcuts import render
+from django.utils.translation import gettext_lazy as _
 
 from apps.core.models import ListHeaderSettings
 from apps.navires.models import Escale
 
 FILTRES = {
     "arrivees": {
-        "label": "Arrivées",
+        "label": _("Arrivées"),
         "query": Q(statut__in=["attendu", "a_quai"]),
     },
     "a_quai": {
-        "label": "À quai",
+        "label": _("À quai"),
         "query": Q(statut="a_quai"),
     },
     "departs": {
-        "label": "Départs",
+        "label": _("Départs"),
         "query": Q(statut="parti"),
     },
 }
@@ -66,9 +67,9 @@ def escale_list(request):
     counts = _counts()
     texts = ListHeaderSettings.for_request(request)
     context = {
-        "eyebrow": texts.navires_eyebrow,
-        "page_title": texts.navires_title,
-        "intro": texts.navires_intro,
+        "eyebrow": texts.display("navires_eyebrow"),
+        "page_title": texts.display("navires_title"),
+        "intro": texts.display("navires_intro"),
         "escales": queryset,
         "filtre_actif": filtre_actif,
         "filtres": {key: {**config, "count": counts[key]} for key, config in FILTRES.items()},
@@ -111,9 +112,9 @@ def croisiere_list(request):
 
     texts = ListHeaderSettings.for_request(request)
     context = {
-        "eyebrow": texts.croisieres_eyebrow,
-        "page_title": texts.croisieres_title,
-        "intro": texts.croisieres_intro,
+        "eyebrow": texts.display("croisieres_eyebrow"),
+        "page_title": texts.display("croisieres_title"),
+        "intro": texts.display("croisieres_intro"),
         "bilan": BILAN_CROISIERE,
         "croisieres": queryset,
         "periode": periode,
