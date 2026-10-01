@@ -144,7 +144,11 @@ img { max-width: 100%; height: auto; }
 }
 .video-toggle { display: inline-grid; place-items: center; width: 3rem; height: 3rem; margin-top: 1.25rem; border: 1px solid rgba(255, 255, 255, .75); border-radius: 50%; background: rgba(5, 38, 96, .72); color: #fff; cursor: pointer; font-size: 1rem; }
 @media (max-width: 700px) {
-  .video-hero-media { object-fit: cover; }
+  /* `cover` remplit déjà le cadre sans bande vide : le zoom de 1.15 (utile en `contain` pour
+     agrandir la vidéo dans ses marges) ne sert à rien ici et ne ferait que rogner le contenu
+     inutilement. Le fond flouté n'est pas nécessaire non plus (plus de marges à combler). */
+  .video-hero-media { object-fit: cover; transform: none; }
+  .video-hero-bg { display: none; }
 }
 .video-toggle:hover, .video-toggle:focus-visible { background: var(--pad-sea); color: var(--pad-navy); }
 .joj-video-section { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.5fr); gap: 2rem; min-width: 0; max-width: 100%; align-items: center; padding: 4rem 0; }
