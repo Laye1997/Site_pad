@@ -1126,3 +1126,11 @@ msgstr "Open"
 #: apps/recrutement/models.py
 msgid "Clôturée"
 msgstr "Closed"
+
+#: templates/cms/home/hero.html
+msgid "Découvrir le port"
+msgstr "Discover the port"
+
+#: templates/cms/home/hero.html
+msgid "Nous découvrir"
+msgstr "Discover us"
