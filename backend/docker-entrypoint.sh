@@ -19,7 +19,7 @@ if [ "${RUN_MIGRATIONS:-false}" = "true" ] || [ "${SEED_ON_START:-false}" = "tru
       python manage.py ensure_superuser
     fi
     if [ "${SEED_ON_START:-false}" = "true" ]; then
-      for cmd in seed_site_structure seed_legal_pages seed_home_sections update_home_services \
+      for cmd in seed_site_structure fill_empty_pages seed_legal_pages seed_home_sections update_home_services \
                  seed_partners seed_certifications update_notes_images update_rubric_photos \
                  seed_fondation seed_croisieres seed_infos_pratiques seed_trafic_passagers \
                  seed_marchandises seed_agrements update_service_nautique seed_passation_article \
