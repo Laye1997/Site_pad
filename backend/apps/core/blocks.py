@@ -150,12 +150,35 @@ class OrgChartBlock(blocks.StructBlock):
         template = "core/blocks/org_chart.html"
 
 
+class GalleryImageBlock(blocks.StructBlock):
+    image = ImageChooserBlock(label="Photo")
+    alt = blocks.CharBlock(
+        required=True,
+        label="Texte alternatif",
+        help_text="Description de l'image pour l'accessibilité (obligatoire).",
+    )
+    caption = blocks.CharBlock(required=False, label="Légende")
+
+
+class GalleryBlock(blocks.StructBlock):
+    """Galerie de photos en grille (ex. : actions de terrain, tournées, événements)."""
+
+    title = blocks.CharBlock(required=False, label="Titre")
+    images = blocks.ListBlock(GalleryImageBlock(), label="Photos")
+
+    class Meta:
+        icon = "image"
+        label = "Galerie photo"
+        template = "core/blocks/gallery.html"
+
+
 class ContentStreamBlock(blocks.StreamBlock):
     """Bibliothèque de blocs disponible pour composer une page."""
 
     heading = HeadingBlock()
     paragraph = RichTextBlock()
     image = ImageBlock()
+    gallery = GalleryBlock()
     callout = CalloutBlock()
     cta = CTABlock()
     table = TableBlock()

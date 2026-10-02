@@ -1,0 +1,12 @@
+{% load wagtailimages_tags %}
+<section class="photo-gallery">
+  {% if self.title %}<h2>{{ self.title }}</h2>{% endif %}
+  <div class="photo-gallery-grid">
+    {% for item in self.images %}
+      <figure class="photo-gallery-item">
+        {% image item.image fill-480x360 alt=item.alt loading="lazy" %}
+        {% if item.caption %}<figcaption>{{ item.caption }}</figcaption>{% endif %}
+      </figure>
+    {% endfor %}
+  </div>
+</section>

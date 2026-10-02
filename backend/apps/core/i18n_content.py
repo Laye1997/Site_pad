@@ -24,6 +24,7 @@ BLOCK_POLICIES: dict[str, Any] = {
     "heading": {"text": TEXT},
     "paragraph": RICHTEXT,  # RichTextBlock : la valeur du bloc EST le texte
     "image": {"caption": TEXT, "alt": TEXT},
+    "gallery": {"title": TEXT, "images": ("list", {"caption": TEXT, "alt": TEXT})},
     "callout": {"title": TEXT, "body": TEXT},
     "cta": {"label": TEXT},
     "table": {"headers": ("list", TEXT), "rows": ("list", ("list", TEXT))},

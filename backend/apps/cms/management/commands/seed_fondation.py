@@ -6,18 +6,41 @@ Contenu repris de la page portdakar.sn/en/engagement/fondation. Idempotent ; --f
 from django.core.management.base import BaseCommand
 from wagtail.models import Page, Site
 
-from apps.cms.management.commands.seed_trafic_passagers import callout, h, p, ul
+from apps.cms.home_blocks import library_image_id
+from apps.cms.management.commands.seed_trafic_passagers import callout, h, image, p, ul
 from apps.cms.models import StandardPage
 from apps.core.blocks import ContentStreamBlock
 
 NUMERO_VERT = "800 801 802"
 SLUG = "fondation"
+SOLIDARITY_TOUR_COUNT = 27
 
 
 def _ol(items):
     return {
         "type": "paragraph",
         "value": "<ol>" + "".join(f"<li>{i}</li>" for i in items) + "</ol>",
+    }
+
+
+def tournee_solidarite_gallery():
+    images = []
+    for n in range(1, SOLIDARITY_TOUR_COUNT + 1):
+        num = f"{n:02d}"
+        images.append(
+            {
+                "image": library_image_id(
+                    f"fondation/tournee-solidarite/solidarite-{num}.jpg",
+                    f"Tournée de solidarité {num}",
+                ),
+                "alt": f"Tournée de solidarité de la Fondation Port Autonome de Dakar, "
+                f"photo {num}.",
+                "caption": "",
+            }
+        )
+    return {
+        "type": "gallery",
+        "value": {"title": "Tournée de solidarité", "images": images},
     }
 
 
@@ -78,6 +101,74 @@ def fondation():
                 "Modernisation d'un bloc opératoire.",
             ]
         ),
+        image(
+            "fondation/biennale-art-africain.png",
+            "Biennale de l'art africain contemporain",
+            "Stand de la Fondation Port Autonome de Dakar à la 14e Biennale de l'art africain "
+            "contemporain.",
+            "Participation à la 14e Biennale de l'art africain contemporain",
+        ),
+        image(
+            "fondation/formation-femmes-touba.png",
+            "Formation de femmes à Touba",
+            "Une participante tient des légumes lors d'un atelier de transformation de fruits "
+            "et légumes à Touba, organisé avec ONU Femmes.",
+            "Formation de plus de 500 femmes de coopératives à Touba, avec ONU Femmes",
+        ),
+        image(
+            "fondation/concours-general.png",
+            "Concours général",
+            "Remise de prix du concours général, en collaboration avec le ministère de "
+            "l'Éducation nationale.",
+            "Concours général, en collaboration avec le ministère de l'Éducation",
+        ),
+        image(
+            "fondation/ecole-ngohe.png",
+            "Bâtiment scolaire de Ngohé",
+            "Bâtiment de six salles de classe entièrement équipées, offert par la Fondation.",
+            "Don d'un bâtiment de six salles de classe au lycée de Ngohé",
+        ),
+        image(
+            "fondation/journee-environnement.png",
+            "Journée de l'environnement",
+            "Équipe de volontaires de la Fondation lors d'une opération de nettoyage pour la "
+            "Journée mondiale de l'environnement.",
+            "Célébration de la Journée de l'environnement",
+        ),
+        image(
+            "fondation/brigade-podor.png",
+            "Brigade territoriale de Podor",
+            "Bâtiment de la brigade territoriale construite et aménagée dans le département de "
+            "Podor.",
+            "Construction d'une brigade territoriale dans le département de Podor",
+        ),
+        image(
+            "fondation/bouees-recyclees.png",
+            "Jeux pour enfants fabriqués à partir de bouées recyclées",
+            "Aire de jeux pour enfants fabriquée à partir de bouées de signalisation maritime "
+            "hors d'usage, recyclées.",
+            "Bouées recyclées transformées en équipements de jeux pour enfants",
+        ),
+        image(
+            "fondation/campagne-medicale-salemata.png",
+            "Campagne médicale à Salémata",
+            "Rassemblement de la population lors d'une campagne médicale organisée par la "
+            "Fondation à Salémata.",
+            "Campagne médicale et réhabilitation de structures de santé à Salémata",
+        ),
+        image(
+            "fondation/bloc-operatoire.png",
+            "Bloc opératoire modernisé",
+            "Salle du bloc opératoire modernisée grâce à l'appui de la Fondation.",
+            "Modernisation d'un bloc opératoire",
+        ),
+        h("Tournée de solidarité"),
+        p(
+            "À l'occasion des grands événements religieux (Magal, Gamou), la Fondation mène une "
+            "tournée de solidarité auprès des foyers religieux du pays, en signe de soutien et "
+            "de partage."
+        ),
+        tournee_solidarite_gallery(),
         h("Le mot de l'administratrice"),
         p(
             "Madame Diouma TIRERA, administratrice de la Fondation, réaffirme l'engagement de la "
@@ -92,8 +183,8 @@ def fondation():
         ),
         callout(
             "À compléter",
-            "Les photos, les chiffres à jour et les coordonnées propres à la Fondation sont à "
-            "fournir par la Fondation.",
+            "La photo de l'administratrice, les chiffres à jour et les coordonnées propres à "
+            "la Fondation sont à fournir par la Fondation.",
         ),
     ]
 
