@@ -1134,3 +1134,15 @@ msgstr "Discover the port"
 #: templates/cms/home/hero.html
 msgid "Nous découvrir"
 msgstr "Discover us"
+
+#: templates/core/blocks/gallery.html
+msgid "Photo précédente"
+msgstr "Previous photo"
+
+#: templates/core/blocks/gallery.html
+msgid "Photo suivante"
+msgstr "Next photo"
+
+#: templates/core/blocks/gallery.html
+msgid "Galerie de photos"
+msgstr "Photo gallery"

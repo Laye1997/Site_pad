@@ -63,3 +63,70 @@
 
   desktop.addEventListener("change", (event) => setOpen(event.matches));
 })();
+
+/* Galerie photo en carrousel : défilement automatique (une photo à la fois), navigation au
+   clavier/tactile native (scroll-snap), pause au survol/focus et respect du mouvement réduit. */
+(() => {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll("[data-photo-carousel]").forEach((carousel) => {
+    const track = carousel.querySelector("[data-carousel-track]");
+    const items = track ? Array.from(track.children) : [];
+    const status = carousel.querySelector("[data-carousel-status]");
+    const prev = carousel.querySelector("[data-carousel-prev]");
+    const next = carousel.querySelector("[data-carousel-next]");
+    if (!track || items.length < 2) return;
+
+    let index = 0;
+    let timer = null;
+
+    const announce = () => {
+      if (status) status.textContent = `${index + 1} / ${items.length}`;
+    };
+
+    const goTo = (target) => {
+      index = (target + items.length) % items.length;
+      items[index].scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", inline: "start", block: "nearest" });
+      announce();
+    };
+
+    const start = () => {
+      if (reduceMotion || timer) return;
+      timer = window.setInterval(() => goTo(index + 1), 4000);
+    };
+    const stop = () => {
+      window.clearInterval(timer);
+      timer = null;
+    };
+
+    prev?.addEventListener("click", () => {
+      stop();
+      goTo(index - 1);
+    });
+    next?.addEventListener("click", () => {
+      stop();
+      goTo(index + 1);
+    });
+    carousel.addEventListener("mouseenter", stop);
+    carousel.addEventListener("mouseleave", start);
+    carousel.addEventListener("focusin", stop);
+    carousel.addEventListener("focusout", stop);
+
+    let scrollTimeout;
+    track.addEventListener("scroll", () => {
+      stop();
+      window.clearTimeout(scrollTimeout);
+      scrollTimeout = window.setTimeout(() => {
+        const nearest = items.reduce((best, item, i) => {
+          const d = Math.abs(item.offsetLeft - track.scrollLeft);
+          return d < best.d ? { i, d } : best;
+        }, { i: 0, d: Infinity }).i;
+        index = nearest;
+        announce();
+      }, 150);
+    });
+
+    announce();
+    start();
+  });
+})();

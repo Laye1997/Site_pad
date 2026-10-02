@@ -1,12 +1,24 @@
-{% load wagtailimages_tags %}
-<section class="photo-gallery">
+{% load wagtailimages_tags i18n %}
+<section class="photo-gallery" data-photo-carousel>
   {% if self.title %}<h2>{{ self.title }}</h2>{% endif %}
-  <div class="photo-gallery-grid">
-    {% for item in self.images %}
-      <figure class="photo-gallery-item">
-        {% image item.image fill-480x360 alt=item.alt loading="lazy" %}
-        {% if item.caption %}<figcaption>{{ item.caption }}</figcaption>{% endif %}
-      </figure>
-    {% endfor %}
+  <div class="photo-gallery-viewport">
+    <button type="button" class="photo-gallery-nav photo-gallery-prev" data-carousel-prev
+            aria-label="{% translate 'Photo précédente' %}">
+      <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg>
+    </button>
+    <div class="photo-gallery-track" data-carousel-track tabindex="0"
+         aria-label="{% translate 'Galerie de photos' %}">
+      {% for item in self.images %}
+        <figure class="photo-gallery-item">
+          {% image item.image fill-800x600 alt=item.alt loading="lazy" %}
+          {% if item.caption %}<figcaption>{{ item.caption }}</figcaption>{% endif %}
+        </figure>
+      {% endfor %}
+    </div>
+    <button type="button" class="photo-gallery-nav photo-gallery-next" data-carousel-next
+            aria-label="{% translate 'Photo suivante' %}">
+      <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg>
+    </button>
   </div>
+  <p class="photo-gallery-status" data-carousel-status aria-live="polite"></p>
 </section>
