@@ -12,6 +12,7 @@ from django.core.management.base import BaseCommand
 from wagtail.documents.models import Document
 from wagtail.models import Page
 
+from apps.cms.home_blocks import library_image_id
 from apps.cms.models import Partner
 
 PDF_DIR = (
@@ -42,6 +43,13 @@ def callout(title, body):
 
 def cta(label, url):
     return ("cta", {"label": label, "url": url})
+
+
+def image(static_name, title, alt, caption=""):
+    return (
+        "image",
+        {"image": library_image_id(static_name, title), "caption": caption, "alt": alt},
+    )
 
 
 # slug -> (module, corps). Les slugs sont uniques dans l'arborescence.
@@ -125,6 +133,12 @@ CONTENT = {
                 "Port maritime en eaux profondes situé par 14° 40′ de latitude nord et 17° 25′ de "
                 "longitude ouest, Dakar est à l'intersection des grandes routes de la côte "
                 "ouest-africaine."
+            ),
+            image(
+                "plan-port-dakar.jpg",
+                "Plan du port de Dakar",
+                "Plan du port de Dakar : môles, bassins, zones conteneurs, pêche, vrac et "
+                "hydrocarbures.",
             ),
             h("Zone Nord"),
             p(
