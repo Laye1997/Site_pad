@@ -50,6 +50,13 @@ def fondation():
             "La Fondation Port Autonome de Dakar est l'organe d'action sociale du port : elle "
             "conduit des actions en faveur des populations vulnérables du Sénégal."
         ),
+        h("Le mot de l'administratrice"),
+        p(
+            "Madame Diouma TIRERA, administratrice de la Fondation, réaffirme l'engagement de la "
+            "Fondation à réduire les inégalités sociales par des programmes fondés sur les "
+            "valeurs « SUCCESS » : Social, Universalité, Créativité, Conformité, Excellence, "
+            "Satisfaction."
+        ),
         h("Historique de la Fondation"),
         p(
             "La Fondation a été créée en 2018 pour contribuer aux objectifs du Plan Sénégal "
@@ -169,13 +176,6 @@ def fondation():
             "de partage."
         ),
         tournee_solidarite_gallery(),
-        h("Le mot de l'administratrice"),
-        p(
-            "Madame Diouma TIRERA, administratrice de la Fondation, réaffirme l'engagement de la "
-            "Fondation à réduire les inégalités sociales par des programmes fondés sur les "
-            "valeurs « SUCCESS » : Social, Universalité, Créativité, Conformité, Excellence, "
-            "Satisfaction."
-        ),
         callout(
             "Contact",
             f"Numéro vert du Port Autonome de Dakar : {NUMERO_VERT}. Contacts complets : "
