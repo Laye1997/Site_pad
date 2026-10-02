@@ -10,6 +10,7 @@ from django.conf import settings
 from django.core.files import File
 from django.core.management.base import BaseCommand
 from wagtail.documents.models import Document
+from wagtail.images.models import Image
 from wagtail.models import Page
 
 from apps.cms.home_blocks import library_image_id
@@ -46,9 +47,16 @@ def cta(label, url):
 
 
 def image(static_name, title, alt, caption=""):
+    # page.body = [...] (assignation directe, pas du JSON brut) attend une instance Image pour
+    # un ImageChooserBlock, pas un simple identifiant entier : d'où la résolution ci-dessous.
+    image_id = library_image_id(static_name, title)
     return (
         "image",
-        {"image": library_image_id(static_name, title), "caption": caption, "alt": alt},
+        {
+            "image": Image.objects.get(pk=image_id) if image_id else None,
+            "caption": caption,
+            "alt": alt,
+        },
     )
 
 
