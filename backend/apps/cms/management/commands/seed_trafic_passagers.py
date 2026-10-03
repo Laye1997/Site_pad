@@ -38,6 +38,10 @@ def callout(title, body):
     return {"type": "callout", "value": {"title": title, "body": body}}
 
 
+def cta(label, url):
+    return {"type": "cta", "value": {"label": label, "url": url}}
+
+
 def image(static_name, title, alt, caption=""):
     return {
         "type": "image",
@@ -169,6 +173,7 @@ def dakar_goree():
                 "à disposition, la desserte de l'île de Gorée, dans les conditions de sécurité "
                 "requises."
             ),
+            cta("Réserver un billet en ligne", "https://dakargoree.sn/"),
             h("Objectifs"),
             ul(
                 [
