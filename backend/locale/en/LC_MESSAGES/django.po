@@ -1146,15 +1146,3 @@ msgstr "Next photo"
 #: templates/core/blocks/gallery.html
 msgid "Galerie de photos"
 msgstr "Photo gallery"
-
-#: templates/base.html
-msgid "Octobre Rose"
-msgstr "Breast Cancer Awareness Month"
-
-#: templates/base.html
-msgid "Octobre Rose : le Port Autonome de Dakar se mobilise pour la sensibilisation au dépistage du cancer du sein."
-msgstr "Breast Cancer Awareness Month: the Port Autonome de Dakar supports awareness of breast cancer screening."
-
-#: templates/base.html
-msgid "Fermer ce message"
-msgstr "Close this message"

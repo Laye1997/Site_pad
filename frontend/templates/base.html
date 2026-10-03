@@ -63,13 +63,6 @@
 <body>
   {% include "includes/icons.html" %}
   <a class="skip-link" href="#contenu">{% translate "Aller au contenu principal" %}</a>
-  <div id="campaign-banner" class="campaign-banner" role="region" aria-label="{% translate 'Octobre Rose' %}" hidden>
-    <p>
-      <img src="{% static 'img/campagnes/logo-octobre-rose.png' %}" alt="" width="28" height="28" loading="lazy">
-      {% translate "Octobre Rose : le Port Autonome de Dakar se mobilise pour la sensibilisation au dépistage du cancer du sein." %}
-    </p>
-    <button type="button" data-campaign-dismiss aria-label="{% translate 'Fermer ce message' %}">&times;</button>
-  </div>
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="/{{ LANGUAGE_CODE }}/" aria-label="{% translate 'Accueil du Port Autonome de Dakar' %}">

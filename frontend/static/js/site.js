@@ -130,27 +130,3 @@
     start();
   });
 })();
-
-/* Bandeau de campagne (ex. Octobre Rose) : fermeture mémorisée, pas de traceur. */
-(() => {
-  const KEY = "pad_campaign_dismissed";
-  const banner = document.getElementById("campaign-banner");
-  if (!banner) return;
-
-  let dismissed = false;
-  try {
-    dismissed = localStorage.getItem(KEY) === "1";
-  } catch (error) {
-    dismissed = false;
-  }
-  if (!dismissed) banner.hidden = false;
-
-  banner.querySelector("[data-campaign-dismiss]").addEventListener("click", () => {
-    banner.hidden = true;
-    try {
-      localStorage.setItem(KEY, "1");
-    } catch (error) {
-      /* stockage indisponible (navigation privée) : le bandeau reviendra à la prochaine page */
-    }
-  });
-})();

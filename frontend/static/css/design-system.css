@@ -61,7 +61,7 @@ img { max-width: 100%; height: auto; }
 /* En-tête */
 .site-header { background: var(--pad-navy); color: #fff; }
 .header-inner { display: flex; flex-wrap: nowrap; justify-content: space-between; align-items: center; gap: .75rem; min-width: 0; padding: .7rem 1rem; }
-.brand { position: relative; display: inline-flex; color: #fff; text-decoration: none; font-family: var(--font-head); font-weight: 800; }
+.brand { display: inline-flex; color: #fff; text-decoration: none; font-family: var(--font-head); font-weight: 800; }
 .brand img { display: block; width: min(190px, 46vw); height: auto; }
 .main-nav { display: flex; flex: 1 1 auto; align-items: center; justify-content: flex-end; gap: .85rem; min-width: 0; margin-left: auto; white-space: nowrap; }
 .main-nav[hidden] { display: none; }
@@ -416,14 +416,6 @@ figcaption { color: var(--ink-2); font-size: .85rem; }
 .footer-links { display: grid; gap: .1rem; margin: 0; padding: 0; list-style: none; }
 .footer-links a, .site-footer a { display: inline-flex; align-items: center; min-height: 2.75rem; color: var(--pad-navy); font-weight: 700; }
 .footer-legal { padding-top: 1rem; border-top: 1px solid rgba(5, 38, 96, .3); font-size: .9rem; }
-
-/* Bandeau de campagne (ex. Octobre Rose) : bande fine en tête de page, fermable. */
-.campaign-banner { display: flex; align-items: center; justify-content: center; gap: 1rem; position: relative; padding: .6rem 3rem .6rem 1rem; background: linear-gradient(90deg, #d6336c, #ff6fa5); color: #fff; text-align: center; }
-.campaign-banner[hidden] { display: none; }
-.campaign-banner p { display: flex; align-items: center; justify-content: center; gap: .6rem; margin: 0; max-width: 72ch; font-size: .9rem; font-weight: 600; }
-.campaign-banner img { flex: none; border-radius: 50%; background: #fff; }
-.campaign-banner button { position: absolute; top: 50%; right: .75rem; transform: translateY(-50%); width: 1.75rem; height: 1.75rem; border: none; border-radius: 50%; background: rgba(255, 255, 255, .25); color: #fff; font-size: 1.2rem; line-height: 1; cursor: pointer; }
-.campaign-banner button:hover, .campaign-banner button:focus-visible { background: rgba(255, 255, 255, .4); }
 
 /* Bandeau de consentement */
 .consent-banner { position: fixed; right: 1rem; bottom: 1rem; left: 1rem; z-index: 200; max-width: 640px; margin-left: auto; padding: 1.25rem; background: var(--surface); border: 2px solid var(--pad-navy); border-radius: var(--radius); box-shadow: 0 16px 36px rgba(5, 38, 96, .3); }
