@@ -2,9 +2,11 @@ import datetime as dt
 
 import pytest
 from django.test import Client
-from wagtail.models import Page, Site
+from django.utils import translation
+from wagtail.models import Locale, Page, Site
 
 from apps.media.models import ArticlePage, MediaIndexPage
+from apps.media.services import latest_articles
 
 
 @pytest.fixture
@@ -76,3 +78,20 @@ def test_update_notes_images_adds_photos_once(media_index):
 
     assert note.cover_image_id is not None
     assert [b.block_type for b in note.body].count("image") == 3
+
+
+@pytest.mark.django_db
+def test_latest_articles_does_not_mix_locales(media_index):
+    """Un article traduit en anglais ne doit pas doubler la liste affichée en français."""
+    article = ArticlePage.objects.filter(locale=Locale.get_default()).first()
+    en_locale, _ = Locale.objects.get_or_create(language_code="en")
+    translated = article.copy_for_translation(en_locale, copy_parents=True)
+    translated.save_revision().publish()
+
+    translation.activate("fr")
+    fr_titles = [a.title for a in latest_articles(limit=20)]
+    translation.activate("en")
+    en_titles = [a.title for a in latest_articles(limit=20)]
+
+    assert fr_titles.count(article.title) == 1
+    assert en_titles.count(article.title) == 1

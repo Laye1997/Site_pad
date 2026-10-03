@@ -24,11 +24,11 @@ def search(request):
     """Recherche plein texte dans les pages publiées (moteur Wagtail, résultats paginés)."""
     from django.core.paginator import Paginator
     from django.shortcuts import render
-    from wagtail.models import Page
+    from wagtail.models import Locale, Page
 
     query = request.GET.get("q", "").strip()[:100]
     results = Page.objects.none()
     if query:
-        results = Page.objects.live().public().search(query)
+        results = Page.objects.live().public().filter(locale=Locale.get_active()).search(query)
     page = Paginator(results, 10).get_page(request.GET.get("page"))
     return render(request, "search.html", {"query": query, "results": page})

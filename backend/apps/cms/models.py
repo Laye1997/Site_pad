@@ -4,7 +4,7 @@ from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import StreamField
-from wagtail.models import Page
+from wagtail.models import Locale, Page
 from wagtail.snippets.models import register_snippet
 
 from apps.cms.home_blocks import HomeSectionsBlock, default_home_sections
@@ -156,7 +156,7 @@ class StandardPage(SocialMetadataMixin, Page):
             return {
                 "module_articles": ArticlePage.objects.live()
                 .public()
-                .filter(category=arg)
+                .filter(locale=Locale.get_active(), category=arg)
                 .order_by("-publication_date")[:12]
             }
         if kind == "partners":

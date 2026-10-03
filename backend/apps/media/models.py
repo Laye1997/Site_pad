@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import StreamField
 from wagtail.images.models import Image
-from wagtail.models import Page
+from wagtail.models import Locale, Page
 
 from apps.core.blocks import ContentStreamBlock
 from apps.core.seo import SocialMetadataMixin
@@ -96,6 +96,7 @@ class ArticlePage(SocialMetadataMixin, Page):
         context["related"] = list(
             ArticlePage.objects.live()
             .public()
+            .filter(locale=Locale.get_active())
             .exclude(pk=self.pk)
             .exclude(category="note")
             .order_by("-publication_date")[:3]

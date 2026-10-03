@@ -1,5 +1,7 @@
 """Service applicatif de l'espace média (interface stable pour les autres apps)."""
 
+from wagtail.models import Locale
+
 from apps.media.models import ArticlePage
 
 
@@ -8,7 +10,7 @@ def latest_articles(limit: int = 3, category: str | None = None, exclude: list[s
 
     `category` restreint à une catégorie ; `exclude` en écarte (ex. les notes aux usagers).
     """
-    articles = ArticlePage.objects.live().public()
+    articles = ArticlePage.objects.live().public().filter(locale=Locale.get_active())
     if category:
         articles = articles.filter(category=category)
     if exclude:
